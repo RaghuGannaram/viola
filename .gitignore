@@ -1,0 +1,54 @@
+# ----------------------------
+# ⚙️ Node & pnpm
+# ----------------------------
+node_modules/
+.pnpm/
+.pnpm-debug.log
+.env
+.env.local
+.env.*.local
+
+# ----------------------------
+# ⚡ Turbo cache
+# ----------------------------
+.turbo/
+.cache/
+*.tsbuildinfo
+
+# ----------------------------
+# 🏗️ Build outputs
+# ----------------------------
+dist/
+build/
+.svelte-kit/
+.vite/
+*.js
+*.js.map
+*.cjs
+*.mjs
+
+# ----------------------------
+# 🧪 Tests and coverage
+# ----------------------------
+coverage/
+test-results/
+*.log
+
+# ----------------------------
+# 💻 System & Editor
+# ----------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ----------------------------
+# 🔧 Misc
+# ----------------------------
+*.local
+*.log
+*.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

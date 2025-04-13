@@ -1,0 +1,36 @@
+{
+    "name": "viola",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "turbo run dev",
+        "build": "turbo run build",
+        "lint": "turbo run lint",
+        "test": "turbo run test",
+        "typecheck": "turbo run typecheck"
+    },
+    "keywords": [
+        "music"
+    ],
+    "author": {
+        "name": "Raghu Gannaram",
+        "email": "mail@raghugannaram.com",
+        "url": "https://raghugannaram.com"
+    },
+    "license": "MIT",
+    "homepage": "https://viola.raghugannaram.com",
+    "bugs": {
+        "url": "https://raghugannaram.com",
+        "email": "mail@raghugannaram.com"
+    },
+    "packageManager": "pnpm@10.8.0",
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "esbuild"
+        ]
+    },
+    "devDependencies": {
+        "turbo": "^2.5.0"
+    }
+}
