@@ -22,7 +22,6 @@ dist/
 build/
 .svelte-kit/
 .vite/
-*.js
 *.js.map
 *.cjs
 *.mjs
