@@ -1,8 +1,29 @@
 {
-    "name": "api-server",
+    "name": "api",
     "version": "1.0.0",
     "description": "Viola API server",
     "private": true,
+    "license": "MIT",
+    "author": {
+        "name": "Raghu Gannaram",
+        "email": "mail@raghugannaram.com",
+        "url": "https://raghugannaram.com"
+    },
+    "keywords": [
+        "utility",
+        "typescript",
+        "viola",
+        "shared"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/raghugannaram/viola.git",
+        "directory": "./apps/api"
+    },
+    "bugs": {
+        "url": "https://github.com/raghugannaram/viola.git/issues",
+        "email": "mail@raghugannaram.com"
+    },
     "type": "module",
     "main": "dist/server.js",
     "scripts": {

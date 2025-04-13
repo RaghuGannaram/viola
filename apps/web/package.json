@@ -1,9 +1,31 @@
 {
-	"name": "web-player",
+	"name": "web",
 	"version": "0.0.1",
-    "description": "Viola web player",
+	"description": "Viola Web player",
 	"private": true,
+	"license": "MIT",
+	"author": {
+		"name": "Raghu Gannaram",
+		"email": "mail@raghugannaram.com",
+		"url": "https://raghugannaram.com"
+	},
+	"keywords": [
+		"utility",
+		"typescript",
+		"viola",
+		"shared"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/raghugannaram/viola.git",
+		"directory": "./apps/web"
+	},
+	"bugs": {
+		"url": "https://github.com/raghugannaram/viola.git/issues",
+		"email": "mail@raghugannaram.com"
+	},
 	"type": "module",
+    "main": "dist/index.js",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -43,5 +65,9 @@
 		"typescript-eslint": "^8.20.0",
 		"vite": "^6.2.5",
 		"vitest": "^3.0.0"
+	},
+	"engines": {
+		"node": ">=20.10.0",
+		"npm": ">=10.2.3"
 	}
 }

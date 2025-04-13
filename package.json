@@ -1,7 +1,28 @@
 {
     "name": "viola",
     "version": "1.0.0",
-    "description": "",
+    "description": "A music player that plays music from your local files and streams it to your devices.",
+    "private": true,
+    "license": "MIT",
+    "author": {
+        "name": "Raghu Gannaram",
+        "email": "mail@raghugannaram.com",
+        "url": "https://raghugannaram.com"
+    },
+    "keywords": [
+        "music"
+    ],
+    "homepage": "https://viola.raghugannaram.com",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/raghugannaram/viola.git",
+        "directory": "./"
+    },
+    "bugs": {
+        "url": "https://github.com/raghugannaram/viola.git/issues",
+        "email": "mail@raghugannaram.com"
+    },
+    "type": "module",
     "main": "index.js",
     "scripts": {
         "dev": "turbo run dev",
@@ -9,20 +30,6 @@
         "lint": "turbo run lint",
         "test": "turbo run test",
         "typecheck": "turbo run typecheck"
-    },
-    "keywords": [
-        "music"
-    ],
-    "author": {
-        "name": "Raghu Gannaram",
-        "email": "mail@raghugannaram.com",
-        "url": "https://raghugannaram.com"
-    },
-    "license": "MIT",
-    "homepage": "https://viola.raghugannaram.com",
-    "bugs": {
-        "url": "https://raghugannaram.com",
-        "email": "mail@raghugannaram.com"
     },
     "packageManager": "pnpm@10.8.0",
     "pnpm": {
@@ -32,5 +39,9 @@
     },
     "devDependencies": {
         "turbo": "^2.5.0"
+    },
+    "engines": {
+        "node": ">=20.10.0",
+        "npm": ">=10.2.3"
     }
 }

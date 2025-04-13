@@ -12,7 +12,7 @@ importers:
         specifier: ^2.5.0
         version: 2.5.0
 
-  apps/api-server:
+  apps/api:
     dependencies:
       chalk:
         specifier: ^5.3.0
@@ -70,7 +70,7 @@ importers:
         specifier: ^5.4.5
         version: 5.8.3
 
-  apps/web-player:
+  apps/web:
     devDependencies:
       '@eslint/compat':
         specifier: ^1.2.5
