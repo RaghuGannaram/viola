@@ -1,62 +1,61 @@
 {
-    "name": "api",
-    "version": "1.0.0",
-    "description": "Viola API server",
-    "private": true,
-    "license": "MIT",
-    "author": {
-        "name": "Raghu Gannaram",
-        "email": "mail@raghugannaram.com",
-        "url": "https://raghugannaram.com"
-    },
-    "keywords": [
-        "utility",
-        "typescript",
-        "viola",
-        "shared"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/raghugannaram/viola.git",
-        "directory": "./apps/api"
-    },
-    "bugs": {
-        "url": "https://github.com/raghugannaram/viola.git/issues",
-        "email": "mail@raghugannaram.com"
-    },
-    "type": "module",
-    "main": "dist/server.js",
-    "scripts": {
-        "start": "cross-env NODE_ENV=production tsx src/server.ts",
-        "dev": "cross-env NODE_ENV=development tsx watch src/server.ts",
-        "build": "tsc && npm run copy-static-assets",
-        "copy-static-assets": "cp -r src/public dist"
-    },
-    "dependencies": {
-        "chalk": "^5.3.0",
-        "cookie-parser": "^1.4.6",
-        "cors": "^2.8.5",
-        "cross-env": "^7.0.3",
-        "dotenv": "^16.4.5",
-        "express": "^4.19.2",
-        "helmet": "^7.1.0",
-        "morgan": "^1.10.0",
-        "winston": "^3.13.0"
-    },
-    "devDependencies": {
-        "@types/body-parser": "^1.19.5",
-        "@types/cookie-parser": "^1.4.7",
-        "@types/cors": "^2.8.17",
-        "@types/express": "^4.17.21",
-        "@types/morgan": "^1.9.9",
-        "@types/node": "^20.12.8",
-        "@typescript-eslint/parser": "^7.8.0",
-        "tsx": "^4.9.1",
-        "typescript": "^5.4.5"
-    },
-    "engines": {
-        "node": ">=20.10.0",
-        "npm": ">=10.2.3"
-    },
-    "packageManager": "pnpm@10.8.0"
+	"name": "api",
+	"version": "1.0.0",
+	"description": "Viola API server",
+	"private": true,
+	"license": "MIT",
+	"author": {
+		"name": "Raghu Gannaram",
+		"email": "mail@raghugannaram.com",
+		"url": "https://raghugannaram.com"
+	},
+	"keywords": [
+		"utility",
+		"typescript",
+		"viola",
+		"shared"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/raghugannaram/viola.git",
+		"directory": "./apps/api"
+	},
+	"bugs": {
+		"url": "https://github.com/raghugannaram/viola.git/issues",
+		"email": "mail@raghugannaram.com"
+	},
+	"type": "module",
+	"main": "dist/server.js",
+	"scripts": {
+		"start": "cross-env NODE_ENV=production tsx src/server.ts",
+		"dev": "cross-env NODE_ENV=development tsx watch src/server.ts",
+		"build": "tsc && npm run copy-static-assets",
+		"copy-static-assets": "cp -r src/public dist"
+	},
+	"dependencies": {
+		"chalk": "^5.3.0",
+		"cookie-parser": "^1.4.6",
+		"cors": "^2.8.5",
+		"cross-env": "^7.0.3",
+		"dotenv": "^16.4.5",
+		"express": "^4.19.2",
+		"helmet": "^7.1.0",
+		"morgan": "^1.10.0",
+		"winston": "^3.13.0"
+	},
+	"devDependencies": {
+		"@types/body-parser": "^1.19.5",
+		"@types/cookie-parser": "^1.4.7",
+		"@types/cors": "^2.8.17",
+		"@types/express": "^4.17.21",
+		"@types/morgan": "^1.9.9",
+		"@types/node": "^20.12.8",
+		"tsx": "^4.9.1",
+		"typescript": "^5.4.5"
+	},
+	"engines": {
+		"node": ">=20.10.0",
+		"npm": ">=10.2.3"
+	},
+	"packageManager": "pnpm@10.8.0"
 }
