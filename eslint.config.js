@@ -43,6 +43,7 @@ export default defineConfig([
 		languageOptions: {
 			parser: tseslint.parser,
 			parserOptions: {
+				projectService: true,
 				project: ["./tsconfig.base.json"], // detects tsconfig at root; adjust if needed
 				sourceType: "module",
 			},
