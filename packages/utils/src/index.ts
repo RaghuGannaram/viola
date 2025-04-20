@@ -1,3 +1,3 @@
-import { add } from "@src/helper";
+import { add } from "@src/math";
 
 console.log(add(1, 2)); // 3
