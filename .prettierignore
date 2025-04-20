@@ -1,0 +1,56 @@
+#------------------------------------------------------------------------------
+# Dependency directories
+#------------------------------------------------------------------------------
+node_modules
+.pnpm
+.yarn
+
+#------------------------------------------------------------------------------
+# Framework‑generated or build outputs
+#------------------------------------------------------------------------------
+# SvelteKit SSR / client bundles
+.svelte-kit
+# Vite / Rollup / tsc builds (apps or packages)
+dist
+build
+public/build
+packages/*/dist
+apps/*/dist
+# Turbo / Nx cache
+.turbo
+# Playwright HTML reports
+playwright-report
+# Other test coverage
+coverage
+
+#------------------------------------------------------------------------------
+# Static assets that shouldn’t be re‑formatted
+#------------------------------------------------------------------------------
+public/vendor
+static
+**/*.min.*          # already minified (e.g. *.min.css / *.min.js)
+**/*.svg            # generated or third-party SVGs
+!src/**/*.svg       # …but keep inline SVG components in source folders
+
+#------------------------------------------------------------------------------
+# Environment & lockfiles – usually not pretty‑printed
+#------------------------------------------------------------------------------
+.env
+.env.*              # .env.local, .env.production, etc.
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+#------------------------------------------------------------------------------
+# IDE / OS cruft
+#------------------------------------------------------------------------------
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+#------------------------------------------------------------------------------
+# TypeScript build artefacts
+#------------------------------------------------------------------------------#
+**/*.d.ts
+*.tsbuildinfo
