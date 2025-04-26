@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"composite": true,
 		"allowJs": true,
-		"checkJs": true
+		"checkJs": true,
+		"types": ["@sveltejs/kit"]
 	},
 	"include": ["src"],
 	"exclude": ["node_modules", "dist"]
