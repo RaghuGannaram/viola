@@ -39,22 +39,22 @@
 		/>
 
 		<div class="space-y-3 text-center md:text-left">
-			<h1 class="text-3xl font-bold text-green-400 flex items-center gap-3">
-				<Icon name="mdi:album" size={24} />
-				{albumName}
-			</h1>
-			<p class="text-sm text-neutral-400">
+			<div class="flex items-center gap-2 text-3xl font-bold text-green-400">
+				<Icon name="mdi:music-box-multiple-outline" size={24} className="mt-1" />
+				<h1>{albumName}</h1>
+			</div>
+			<div class="text-sm text-neutral-400 flex items-center gap-2">
 				<Icon name="mdi:account-music-outline" size={24} />
 				Artists:
 				<span class="text-neutral-300 ml-1">
 					{[...new Set(albumTracks.map((t) => t.artist ?? "Unknown"))].join(", ")}
 				</span>
-			</p>
-			<p class="text-sm text-neutral-400">
+			</div>
+			<div class="text-sm text-neutral-400 flex items-center gap-2">
 				<Icon name="mdi:music-note-outline" size={24} />
 				{albumTracks.length}
 				{albumTracks.length === 1 ? "track" : "tracks"}
-			</p>
+			</div>
 		</div>
 	</section>
 
