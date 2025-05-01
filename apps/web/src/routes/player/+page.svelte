@@ -122,8 +122,8 @@
 		</div>
 
 		<!-- Track Info -->
-		<div class="text-center space-y-2">
-			<h1 class="text-3xl font-bold text-green-400 truncate">{$currentTrack.title}</h1>
+		<div class="text-center space-y-2 w-full">
+			<h1 class="text-3xl font-bold text-green-400">{$currentTrack.title}</h1>
 			<p class="text-sm text-neutral-400 truncate">{$currentTrack.artist} — {$currentTrack.album}</p>
 		</div>
 
@@ -165,29 +165,28 @@
 			</button>
 		</div>
 
-		<!-- Volume Control -->
-		<div class="flex items-center gap-4 w-full max-w-md mt-6">
-			<button onclick={muteHandler} class="text-neutral-400 hover:text-primary transition">
-				<div class="w-6 h-6 flex items-center justify-center">
-					{#if mute}
-						<Icon name="mdi:volume-mute" size={24} />
-					{:else}
-						<Icon name="mdi:volume-high" size={24} />
-					{/if}
-				</div>
-			</button>
-			<input type="range" min="0" max="1" step="0.01" bind:value={volume} oninput={volumeHandler} class="form-range flex-1 accent-green-400 mb-1" />
-		</div>
-		<!-- Go to Album Button -->
-		{#if $currentTrack?.album}
-			<div class=" mt-4">
-				<button class="btn btn-outline flex items-center gap-2 px-4 py-2 text-sm hover:text-green-400 hover:border-green-400 transition" onclick={navigateToAlbum}>
-					<Icon name="f7:music-albums" size={20} />
-					<span>Go to Album</span>
-					<Icon name="fluent:arrow-up-right-20-regular" size={20} className="mt-1 ml-1" />
+		<div class="flex items-center w-full max-w-md justify-between mt-6">
+			<!-- Volume Control -->
+			<!-- Volume control: show slider only on hover -->
+			<div class="  flex items-center w-full gap-2">
+				<!-- Volume Button -->
+				<button onclick={muteHandler} class="group-hover:text-green-400 transition">
+					<div class="w-6 h-6 flex items-center justify-center">
+						<Icon name={mute ? "mdi:volume-mute" : "mdi:volume-high"} size={24} />
+					</div>
 				</button>
+
+				<!-- Slider (only visible on hover) -->
+				<input type="range" min="0" max="1" step="0.01" bind:value={volume} oninput={volumeHandler} class="form-range flex-1 accent-green-400" />
 			</div>
-		{/if}
+
+			<!-- Go to Album Button -->
+			{#if $currentTrack?.album}
+				<button class="btn btn-outline pr-0 ml-8 mb-1 text-sm hover:text-green-400 hover:border-green-400 transition" onclick={navigateToAlbum}>
+					<Icon name="f7:music-albums" size={20} />
+				</button>
+			{/if}
+		</div>
 
 		<audio
 			bind:this={audioElement}
