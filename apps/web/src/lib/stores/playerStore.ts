@@ -1,22 +1,22 @@
 import { writable } from "svelte/store";
-import type { ITrack } from "$lib/types";
 import { browser } from "$app/environment";
+import type { ITrack } from "$lib/types";
 
-let savedTrack;
+function loadInitialTrack(): ITrack | null {
+	if (!browser) return null;
+	const stored = localStorage.getItem("currentTrack");
+	return stored ? JSON.parse(stored) : null;
+}
+
+export const currentTrack = writable<ITrack | null>(loadInitialTrack());
 
 if (browser) {
-	savedTrack = localStorage.getItem("currentTrack");
-}
-const initialTrack: ITrack | null = savedTrack ? JSON.parse(savedTrack) : null;
-
-export const currentTrack = writable<ITrack | null>(initialTrack);
-
-currentTrack.subscribe((track) => {
-	if (browser) {
+	currentTrack.subscribe((track) => {
 		if (track) {
-			localStorage.setItem("currentTrack", JSON.stringify(track));
+			const { blob, ...rest } = track;
+			localStorage.setItem("currentTrack", JSON.stringify(rest));
 		} else {
 			localStorage.removeItem("currentTrack");
 		}
-	}
-});
+	});
+}

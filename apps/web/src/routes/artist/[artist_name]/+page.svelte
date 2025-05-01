@@ -74,7 +74,7 @@
 								<Icon name="mdi:music-note" size={20} />
 								<p class="text-base font-medium text-neutral-100 truncate">{track.title}</p>
 							</div>
-							<button class="btn btn-sm btn-primary flex items-center gap-1 px-3 py-1.5" on:click={() => playTrack(track)}>
+							<button class="btn btn-sm btn-primary flex items-center gap-1 px-3 py-1.5" onclick={() => playTrack(track)}>
 								<Icon name="mdi:play" size={20} />
 								<span class="text-sm">Play</span>
 							</button>
