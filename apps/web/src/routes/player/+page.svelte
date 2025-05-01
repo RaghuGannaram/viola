@@ -15,6 +15,7 @@
 </style>
 
 <script lang="ts">
+	import { get } from "svelte/store";
 	import { goto } from "$app/navigation";
 	import { currentTrack } from "$lib/stores/playerStore";
 	import { trackList } from "$lib/stores/trackStore";
@@ -31,7 +32,6 @@
 
 	$effect(() => {
 		if (audioElement && $currentTrack) {
-			console.log("Current Track:", $currentTrack);
 			audioElement.src = $currentTrack.url;
 			audioElement.load();
 		}
@@ -54,6 +54,31 @@
 			audioElement.loop = repeat;
 		}
 	});
+
+	async function syncCurrentTrack() {
+		console.log("viola-log: Syncing current track...");
+		if (!$currentTrack) return;
+
+		let attempts = 0;
+		const maxAttempts = 10;
+		const delay = 10;
+
+		while (attempts < maxAttempts) {
+			console.log("viola-log: Attempting to sync current track...", attempts);
+			const allTracks = get(trackList);
+			const match = allTracks.find((t) => t.id === $currentTrack.id);
+			if (match) {
+				console.log("viola-log: Track found in trackList:", match);
+				currentTrack.set(match);
+				return;
+			}
+
+			await new Promise((res) => setTimeout(res, delay));
+			attempts++;
+		}
+
+		console.warn("syncCurrentTrack: Track not found in trackList after retries.");
+	}
 
 	function formatTime(sec: number) {
 		const m = Math.floor(sec / 60);
@@ -81,6 +106,21 @@
 		mute = !mute;
 	}
 
+	function shuffleHandler() {
+		shuffle = !shuffle;
+	}
+
+	function repeatHandler() {
+		repeat = !repeat;
+	}
+
+	function navigateToAlbum() {
+		if ($currentTrack) {
+			const albumName = $currentTrack.album ?? "Unknown Album";
+			goto(`/album/${encodeURIComponent(albumName)}`);
+		}
+	}
+
 	function trackEndHandler() {
 		if (repeat) {
 			audioElement!.currentTime = 0;
@@ -98,18 +138,35 @@
 		}
 	}
 
-	function shuffleHandler() {
-		shuffle = !shuffle;
-	}
-
-	function repeatHandler() {
-		repeat = !repeat;
-	}
-
-	function navigateToAlbum() {
-		if ($currentTrack) {
-			const albumName = $currentTrack.album ?? "Unknown Album";
-			goto(`/album/${encodeURIComponent(albumName)}`);
+	function trackErrorHandler(event: Event) {
+		const audioEl = event.target as HTMLAudioElement;
+		const error = audioEl.error;
+		if (error) {
+			console.error("viola-error: Audio error code: ", error.code);
+			switch (error.code) {
+				case MediaError.MEDIA_ERR_ABORTED:
+					console.error("viola-error: You aborted the audio playback.\n error: ", error);
+					break;
+				case MediaError.MEDIA_ERR_NETWORK:
+					console.error("viola-error: A network error occurred while fetching the audio.\n error: ", error);
+					break;
+				case MediaError.MEDIA_ERR_DECODE:
+					console.error(
+						"viola-error: The audio playback was aborted due to a corruption problem or because the media used features your browser did not support. \n error: ",
+						error,
+					);
+					break;
+				case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+					console.error(
+						"viola-error: The audio could not be loaded, either because the server or network failed or because the format is not supported. \n error: ",
+						error,
+					);
+					break;
+				default:
+					console.error("viola-error: An unknown error occurred. \n error: ", error);
+					break;
+			}
+			syncCurrentTrack();
 		}
 	}
 </script>
@@ -192,12 +249,13 @@
 			bind:this={audioElement}
 			class="hidden"
 			onloadedmetadata={() => {
-				trackDuration = audioElement!.duration;
+				trackDuration = audioElement?.duration ?? 0;
 			}}
 			ontimeupdate={() => {
-				trackProgress = audioElement!.currentTime;
+				trackProgress = audioElement?.currentTime ?? 0;
 			}}
 			onended={trackEndHandler}
+			onerror={trackErrorHandler}
 		></audio>
 	{:else}
 		<p class="text-neutral-400">No track selected. Please pick a track from the Library.</p>
