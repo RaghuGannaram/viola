@@ -20,18 +20,25 @@
 	import Icon from "$lib/components/Icon/index.svelte";
 
 	let audioElement: HTMLAudioElement | null = $state(null);
-	let play = $state(false);
+	let play = $state(true);
 	let trackDuration = $state(0);
 	let trackProgress = $state(0);
-	let volume = $state(0.8);
+	let volume = $state(0.2);
 	let mute = $state(false);
 	let shuffle = $state(false);
 	let repeat = $state(false);
 
 	$effect(() => {
 		if (audioElement && $currentTrack) {
+			console.log("Current Track:", $currentTrack);
 			audioElement.src = $currentTrack.url;
 			audioElement.load();
+		}
+	});
+
+	$effect(() => {
+		if (audioElement && $currentTrack) {
+			play ? audioElement?.play() : audioElement?.pause();
 		}
 	});
 
@@ -56,7 +63,6 @@
 	}
 
 	function playPauseHandler() {
-		play ? audioElement!.pause() : audioElement!.play();
 		play = !play;
 	}
 
@@ -70,7 +76,7 @@
 	}
 
 	function muteHandler() {
-		volume = !mute ? 0 : 0.8;
+		volume = !mute ? 0 : 0.2;
 		mute = !mute;
 	}
 
@@ -133,11 +139,13 @@
 			</button>
 
 			<button class="btn btn-circle btn-primary btn-xl mb-2" onclick={playPauseHandler}>
-				{#if play}
-					<Icon name="mdi:pause" size={32} />
-				{:else}
-					<Icon name="mdi:play" size={32} />
-				{/if}
+				<div class="w-8 h-8 flex items-center justify-center">
+					{#if play}
+						<Icon name="mdi:pause" size={32} />
+					{:else}
+						<Icon name="mdi:play" size={32} />
+					{/if}
+				</div>
 			</button>
 
 			<button class="btn btn-circle btn-lg btn-outline" disabled>
@@ -152,11 +160,13 @@
 		<!-- Volume Control -->
 		<div class="flex items-center gap-4 w-full max-w-md mt-6">
 			<button onclick={muteHandler} class="text-neutral-400 hover:text-primary transition">
-				{#if mute}
-					<Icon name="mdi:volume-mute" size={24} />
-				{:else}
-					<Icon name="mdi:volume-high" size={24} />
-				{/if}
+				<div class="w-8 h-8 flex items-center justify-center">
+					{#if mute}
+						<Icon name="mdi:volume-mute" size={24} />
+					{:else}
+						<Icon name="mdi:volume-high" size={24} />
+					{/if}
+				</div>
 			</button>
 			<input type="range" min="0" max="1" step="0.01" bind:value={volume} oninput={volumeHandler} class="form-range flex-1 accent-green-400 mb-1" />
 		</div>
