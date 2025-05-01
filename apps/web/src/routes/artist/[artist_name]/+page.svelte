@@ -11,7 +11,7 @@
 	let artistTracks: ITrack[] = $state([]);
 
 	$effect(() => {
-		artistTracks = $trackList.filter((t) => (t.artist ?? "Unknown Artist") === artistName);
+		artistTracks = $trackList.filter((t) => (t.artist ?? "Unknown Artist").includes(artistName));
 	});
 
 	function playTrack(track: ITrack) {

@@ -34,8 +34,11 @@
 	function groupBy(items: ITrack[], fn: (t: ITrack) => string): Record<string, ITrack[]> {
 		return items.reduce(
 			(acc, t) => {
-				const key = fn(t) || "Unknown";
-				(acc[key] ||= []).push(t);
+				const rawKey = fn(t) || "Unknown";
+				const keys = rawKey.split(",").map((k) => k.trim());
+				for (const key of keys) {
+					(acc[key] ||= []).push(t);
+				}
 				return acc;
 			},
 			{} as Record<string, ITrack[]>,
