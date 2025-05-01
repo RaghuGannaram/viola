@@ -80,22 +80,24 @@
 				<h2 class="text-2xl font-bold mb-6 text-green-400">Albums</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each Object.entries(groupBy(tracks, (t) => t.album ?? "Unknown Album")).sort((a, b) => a[0].localeCompare(b[0])) as [album, list]}
-						<div class="flex bg-neutral-800 rounded-lg overflow-hidden">
-							<img
-								src={list[0]?.coverImage}
-								alt={album}
-								class="h-20 w-20 object-cover"
-								onerror={(event) => {
-									const target = event.currentTarget as HTMLImageElement;
-									target.src = defaultAlbumImage;
-								}}
-							/>
+						<a href={`/album/${encodeURIComponent(album)}`} class="flex bg-neutral-800 rounded-lg overflow-hidden">
+							<div class="flex bg-neutral-800 rounded-lg overflow-hidden">
+								<img
+									src={list[0]?.coverImage}
+									alt={album}
+									class="h-20 w-20 object-cover"
+									onerror={(event) => {
+										const target = event.currentTarget as HTMLImageElement;
+										target.src = defaultAlbumImage;
+									}}
+								/>
 
-							<div class="p-4">
-								<h3 class="text-sm font-semibold truncate">{album}</h3>
-								<p class="text-sm text-neutral-400">{list.length} {list.length > 1 ? "tracks" : "track"}</p>
+								<div class="p-4">
+									<h3 class="text-sm font-semibold truncate">{album}</h3>
+									<p class="text-sm text-neutral-400">{list.length} {list.length > 1 ? "tracks" : "track"}</p>
+								</div>
 							</div>
-						</div>
+						</a>
 					{/each}
 				</div>
 			</Tabs.Panel>
@@ -103,23 +105,25 @@
 			<!-- Artists -->
 			<Tabs.Panel {...{ value: "artists" } as any}>
 				<h2 class="text-2xl font-bold mb-6 text-green-400">Artists</h2>
-				<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each Object.entries(groupBy(tracks, (t) => t.artist ?? "Unknown Artist")).sort((a, b) => a[0].localeCompare(b[0])) as [artist, list]}
-						<div class="flex bg-neutral-800 rounded-lg overflow-hidden p-4">
-							<img
-								src={defaultArtistImage}
-								alt={artist}
-								class="h-20 w-20 object-cover"
-								onerror={(event) => {
-									const target = event.currentTarget as HTMLImageElement;
-									target.src = defaultArtistImage;
-								}}
-							/>
-							<div class="pl-4">
-								<h3 class="text-sm font-semibold truncate">{artist}</h3>
-								<p class="text-sm text-neutral-400">{list.length} {list.length > 1 ? "tracks" : "track"}</p>
+						<a href={`/artist/${encodeURIComponent(artist)}`} class="flex bg-neutral-800 rounded-lg overflow-hidden">
+							<div class="flex bg-neutral-800 rounded-lg overflow-hidden p-4">
+								<img
+									src={defaultArtistImage}
+									alt={artist}
+									class="h-20 w-20 object-cover"
+									onerror={(event) => {
+										const target = event.currentTarget as HTMLImageElement;
+										target.src = defaultArtistImage;
+									}}
+								/>
+								<div class="pl-4">
+									<h3 class="text-sm font-semibold truncate">{artist}</h3>
+									<p class="text-sm text-neutral-400">{list.length} {list.length > 1 ? "tracks" : "track"}</p>
+								</div>
 							</div>
-						</div>
+						</a>
 					{/each}
 				</div>
 			</Tabs.Panel>
