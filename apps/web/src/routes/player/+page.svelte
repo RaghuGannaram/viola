@@ -15,6 +15,7 @@
 </style>
 
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import { currentTrack } from "$lib/stores/playerStore";
 	import { trackList } from "$lib/stores/trackStore";
 	import Icon from "$lib/components/Icon/index.svelte";
@@ -104,6 +105,13 @@
 	function repeatHandler() {
 		repeat = !repeat;
 	}
+
+	function navigateToAlbum() {
+		if ($currentTrack) {
+			const albumName = $currentTrack.album ?? "Unknown Album";
+			goto(`/album/${encodeURIComponent(albumName)}`);
+		}
+	}
 </script>
 
 <main class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-neutral-900 to-black text-neutral-100 p-6 gap-8">
@@ -129,8 +137,8 @@
 		</div>
 
 		<!-- Playback Controls -->
-		<div class="flex items-center gap-6 mt-6">
-			<button class="btn btn-circle btn-outline {shuffle ? 'text-green-400' : ''}" onclick={shuffleHandler}>
+		<div class="flex justify-between items-center w-full max-w-md mt-6">
+			<button class="btn btn-circle btn-outline pl-0 {shuffle ? 'text-green-400' : ''}" onclick={shuffleHandler}>
 				<Icon name="mdi:shuffle" size={24} />
 			</button>
 
@@ -138,7 +146,7 @@
 				<Icon name="mdi:skip-previous" size={28} />
 			</button>
 
-			<button class="btn btn-circle btn-primary btn-xl mb-2" onclick={playPauseHandler}>
+			<button class="btn btn-circle btn-primary btn-xl" onclick={playPauseHandler}>
 				<div class="w-8 h-8 flex items-center justify-center">
 					{#if play}
 						<Icon name="mdi:pause" size={32} />
@@ -152,7 +160,7 @@
 				<Icon name="mdi:skip-next" size={28} />
 			</button>
 
-			<button class="btn btn-circle btn-outline {repeat ? 'text-green-400' : ''}" onclick={repeatHandler}>
+			<button class="btn btn-circle btn-outline pr-0 {repeat ? 'text-green-400' : ''}" onclick={repeatHandler}>
 				<Icon name="mdi:repeat" size={24} />
 			</button>
 		</div>
@@ -160,7 +168,7 @@
 		<!-- Volume Control -->
 		<div class="flex items-center gap-4 w-full max-w-md mt-6">
 			<button onclick={muteHandler} class="text-neutral-400 hover:text-primary transition">
-				<div class="w-8 h-8 flex items-center justify-center">
+				<div class="w-6 h-6 flex items-center justify-center">
 					{#if mute}
 						<Icon name="mdi:volume-mute" size={24} />
 					{:else}
@@ -170,6 +178,16 @@
 			</button>
 			<input type="range" min="0" max="1" step="0.01" bind:value={volume} oninput={volumeHandler} class="form-range flex-1 accent-green-400 mb-1" />
 		</div>
+		<!-- Go to Album Button -->
+		{#if $currentTrack?.album}
+			<div class=" mt-4">
+				<button class="btn btn-outline flex items-center gap-2 px-4 py-2 text-sm hover:text-green-400 hover:border-green-400 transition" onclick={navigateToAlbum}>
+					<Icon name="f7:music-albums" size={20} />
+					<span>Go to Album</span>
+					<Icon name="fluent:arrow-up-right-20-regular" size={20} className="mt-1 ml-1" />
+				</button>
+			</div>
+		{/if}
 
 		<audio
 			bind:this={audioElement}
