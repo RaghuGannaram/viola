@@ -19,8 +19,8 @@ declare module NodeJS {
         ACCESS_TOKEN_VALIDITY: string;
         REFRESH_TOKEN_VALIDITY: string;
         REFRESH_TOKEN_MAX_AGE: string;
-        FRONTEND_DEV_URL: string;
-        FRONTEND_PROD_URL: string;
+        API_GATEWAY_DEV_URL: string;
+        API_GATEWAY_PROD_URL: string;
         NODE_ENV: "development" | "production";
         PORT: string;
         LOG_LEVEL: string;

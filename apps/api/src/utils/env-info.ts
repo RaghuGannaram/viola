@@ -65,11 +65,11 @@ export function getJWTInfo(): {
 	};
 }
 
-export function getFrontendURL(): string {
-	const frontednDevURL = process.env["FRONTEND_DEV_URL"];
-	const frontendProdURL = process.env["FRONTEND_PROD_URL"];
+export function getAPIGatewayURL(): string {
+	const apiGatewayDevURL = process.env["API_GATEWAY_DEV_URL"];
+	const apiGatewayProdURL = process.env["API_GATEWAY_PROD_URL"];
 
-	return process.env["NODE_ENV"] === "production" ? frontendProdURL : frontednDevURL;
+	return process.env["NODE_ENV"] === "production" ? apiGatewayProdURL : apiGatewayDevURL;
 }
 
 export function getCurrentEnv(): "development" | "production" {
