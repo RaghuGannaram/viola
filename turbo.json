@@ -21,11 +21,6 @@
 		"typecheck": {
 			"outputs": [],
 			"dependsOn": ["^typecheck"]
-		},
-		"postgres:init": {
-			"cache": false,
-			"outputs": [],
-			"dependsOn": []
 		}
 	},
 	"globalDependencies": [".env", "tsconfig.base.json"]
