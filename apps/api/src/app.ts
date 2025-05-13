@@ -12,7 +12,7 @@ import logger from "./configs/logger.config";
 
 import "@src/configs/session.config";
 import "@src/configs/mongo.config";
-import "@src/configs/postgres.config";
+import "@src/configs/prisma.config";
 
 const app: express.Application = express();
 
