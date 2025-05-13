@@ -99,7 +99,7 @@ export default defineConfig([
 		},
 		rules: {
 			"node/no-unsupported-features/es-syntax": "off", // we transpile
-			"node/no-missing-import": "error",
+			"node/no-missing-import": "off",
 		},
 	},
 

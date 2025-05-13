@@ -1,27 +1,32 @@
 {
-    "$schema": "https://turborepo.org/schema.json",
-    "tasks": {
-        "dev": {
-            "cache": false,
-            "dependsOn": ["^dev"],
-            "outputs": []
-        },
-        "build": {
-            "dependsOn": ["^build"],
-            "outputs": ["dist/**", ".svelte-kit/**", "build/**"]
-        },
-        "lint": {
-            "outputs": ["eslint-results/**", "eslint-stats/**"],
-            "dependsOn": ["^lint"]
-        },
-        "test": {
-            "outputs": ["coverage/**", "test-results/**"],
-            "dependsOn": ["^test"]
-        },
-        "typecheck": {
-            "outputs": [],
-            "dependsOn": ["^typecheck"]
-        }
-    },
-    "globalDependencies": [".env", "tsconfig.base.json"]
+	"$schema": "https://turborepo.org/schema.json",
+	"tasks": {
+		"dev": {
+			"cache": false,
+			"dependsOn": ["^dev"],
+			"outputs": []
+		},
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**", ".svelte-kit/**", "build/**"]
+		},
+		"lint": {
+			"outputs": ["eslint-results/**", "eslint-stats/**"],
+			"dependsOn": ["^lint"]
+		},
+		"test": {
+			"outputs": ["coverage/**", "test-results/**"],
+			"dependsOn": ["^test"]
+		},
+		"typecheck": {
+			"outputs": [],
+			"dependsOn": ["^typecheck"]
+		},
+		"postgres:init": {
+			"cache": false,
+			"outputs": [],
+			"dependsOn": []
+		}
+	},
+	"globalDependencies": [".env", "tsconfig.base.json"]
 }

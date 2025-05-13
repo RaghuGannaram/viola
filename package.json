@@ -30,7 +30,8 @@
 		"lint": "turbo run lint",
 		"test": "turbo run test",
 		"typecheck": "turbo run typecheck",
-		"prepare": "husky"
+		"prepare": "husky",
+		"db:init": "turbo run postgres:init --filter=api --no-cache"
 	},
 	"packageManager": "pnpm@10.8.0",
 	"pnpm": {
