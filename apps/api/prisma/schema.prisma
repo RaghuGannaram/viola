@@ -21,7 +21,7 @@ model User {
     passwordHash  String?
     authProvider  String           @default("local")
     providerId    String?
-    avatarUrl     String?
+    avatarUrl     String?          @default("defaultAvatar.png")
     isVerified    Boolean          @default(false)
     isPremium     Boolean          @default(false)
     settings      Json             @default("{}")
