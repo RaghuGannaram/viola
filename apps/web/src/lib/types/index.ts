@@ -9,3 +9,5 @@ export interface ITrack {
 	coverImage?: string;
 	lyrics?: string;
 }
+
+export * from "./auth.types";
