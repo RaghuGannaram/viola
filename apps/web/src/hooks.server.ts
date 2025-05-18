@@ -1,6 +1,4 @@
-// src/hooks.server.ts
-
-import { authService } from "$lib/services/http";
+import { createAuthService } from "$lib/services/http";
 import { setParsedCookieFromBackend } from "$lib/utils";
 import { isValidJwt } from "$lib/utils/jwt";
 
@@ -26,6 +24,7 @@ export async function handle({ event, resolve }) {
 
 	if (refreshToken) {
 		try {
+			const authService = createAuthService(event);
 			const session = await authService.refresh(refreshToken);
 
 			event.locals.accessToken = session.accessToken;
