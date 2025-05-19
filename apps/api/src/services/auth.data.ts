@@ -23,10 +23,7 @@ const createUserRecord = catchAsyncDataError(async function (registrationData: I
 			data: {
 				email: registrationData.email,
 				username: registrationData.username,
-				passwordHash: registrationData.password,
-				authProvider: "local",
-				isVerified: false,
-				isPremium: false,
+				password: registrationData.password,
 			},
 		});
 	} catch (error) {
@@ -57,7 +54,7 @@ const validateUserRecord = catchAsyncDataError(async function (userCredentials: 
 	let verified: boolean = false;
 
 	try {
-		verified = await bcrypt.compare(password, user.passwordHash ?? "");
+		verified = await bcrypt.compare(password, user.password);
 	} catch (error) {
 		processCryptoError(error);
 	}

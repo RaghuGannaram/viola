@@ -2,7 +2,7 @@ import logger from "@src/configs/logger.config";
 import authDataService from "@src/services/auth.data";
 import awsDataService from "@src/services/aws.data";
 import tokenDataService from "@src/services/token.data";
-import type { IRegistration, ILogin, ITokenPayload } from "@src/types";
+import type { IRegistration, ILogin, ITokenPayload, ISettings } from "@src/types";
 import hideSensitiveInfo from "@src/utils";
 import { catchAsyncBusinessError } from "@src/utils/application-errors";
 
@@ -17,13 +17,21 @@ const createUser = catchAsyncBusinessError(async function (registrationData: IRe
 
 	const payload: ITokenPayload = {
 		id: user.id,
-		username: user.username,
 		email: user.email,
+		username: user.username,
+		authProvider: user.authProvider,
+		avatarUrl: user.avatarUrl,
+		verified: user.verified,
+		premium: user.premium,
+		role: user.role,
+		settings: user.settings as ISettings,
+		createdAt: user.createdAt instanceof Date ? user.createdAt.toISOString() : user.createdAt,
+		lastLoginAt: user.lastLoginAt instanceof Date ? user.lastLoginAt.toISOString() : "",
 	};
 
 	const [accessToken, refreshToken] = await Promise.all([tokenDataService.issueAccessToken(payload), tokenDataService.issueRefreshToken(payload)]);
 
-	const safeResponse = hideSensitiveInfo(user, "passwordHash");
+	const safeResponse = hideSensitiveInfo(user, "password");
 
 	return { data: safeResponse, accessToken, refreshToken };
 });
@@ -39,13 +47,21 @@ const validateUser = catchAsyncBusinessError(async function (userCredentials: IL
 
 	const payload: ITokenPayload = {
 		id: user.id,
-		username: user.username,
 		email: user.email,
+		username: user.username,
+		authProvider: user.authProvider,
+		avatarUrl: user.avatarUrl,
+		verified: user.verified,
+		premium: user.premium,
+		role: user.role,
+		settings: user.settings as ISettings,
+		createdAt: user.createdAt instanceof Date ? user.createdAt.toISOString() : user.createdAt,
+		lastLoginAt: user.lastLoginAt instanceof Date ? user.lastLoginAt.toISOString() : "",
 	};
 
 	const [accessToken, refreshToken] = await Promise.all([tokenDataService.issueAccessToken(payload), tokenDataService.issueRefreshToken(payload)]);
 
-	const safeResponse = hideSensitiveInfo(user, "passwordHash");
+	const safeResponse = hideSensitiveInfo(user, "password");
 
 	return { data: safeResponse, accessToken, refreshToken };
 });

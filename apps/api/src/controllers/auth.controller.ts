@@ -53,7 +53,7 @@ const login: IController = catchAsyncError(async function (req: Request, res: Re
 		httpOnly: true,
 		secure: currentEnv === "production",
 		sameSite: "strict",
-		path: "/api/v1/auth/",
+		path: "/api/v1/auth/*",
 		expires: expires,
 	});
 
