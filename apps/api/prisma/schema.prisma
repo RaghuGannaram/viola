@@ -18,12 +18,13 @@ model User {
     id            String           @id @default(uuid()) @db.Uuid
     email         String           @unique
     username      String           @unique
-    passwordHash  String?
-    authProvider  String           @default("local")
+    password  String
+    authProvider  String           @default("viola")
     providerId    String?
-    avatarUrl     String?          @default("defaultAvatar.png")
-    isVerified    Boolean          @default(false)
-    isPremium     Boolean          @default(false)
+    avatarUrl     String           @default("defaultAvatar.png")
+    verified      Boolean          @default(false)
+    premium       Boolean          @default(false)
+    role          String           @default("member")
     settings      Json             @default("{}")
     createdAt     DateTime         @default(now()) @db.Timestamptz(6)
     lastLoginAt   DateTime?        @db.Timestamptz(6)
