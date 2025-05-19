@@ -13,8 +13,16 @@ const issueAccessToken = catchAsyncDataError(async (user: ITokenPayload) => {
 
 	const payload = {
 		id: user.id,
-		username: user.username,
 		email: user.email,
+		username: user.username,
+		authProvider: user.authProvider,
+		avatarUrl: user.avatarUrl,
+		verified: user.verified,
+		premium: user.premium,
+		role: user.role,
+		settings: user.settings,
+		createdAt: user.createdAt,
+		lastLoginAt: user.lastLoginAt,
 		type: "access",
 	};
 
@@ -40,8 +48,16 @@ const issueRefreshToken = catchAsyncDataError(async (user: ITokenPayload) => {
 
 	const payload = {
 		id: user.id,
-		username: user.username,
 		email: user.email,
+		username: user.username,
+		authProvider: user.authProvider,
+		avatarUrl: user.avatarUrl,
+		verified: user.verified,
+		premium: user.premium,
+		role: user.role,
+		settings: user.settings,
+		createdAt: user.createdAt,
+		lastLoginAt: user.lastLoginAt,
 		type: "refresh",
 	};
 
