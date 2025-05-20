@@ -19,14 +19,6 @@ export const actions: Actions = {
 				password: password.toString(),
 			});
 
-			event.cookies.set("profile", JSON.stringify(result.profile), {
-				httpOnly: false,
-				secure: true,
-				sameSite: "Strict",
-				path: "/",
-				maxAge: 60 * 60 * 24 * 7,
-			});
-
 			event.cookies.set("accessToken", result.accessToken, {
 				httpOnly: true,
 				secure: true,

@@ -1,22 +1,19 @@
 import { createAuthService } from "$lib/services/http";
+import { type IProfile } from "$lib/types";
 import { setParsedCookieFromBackend } from "$lib/utils";
-import { isValidJwt } from "$lib/utils/jwt";
+import { isValidJwt, decodeJwt } from "$lib/utils/jwt";
 
 export async function handle({ event, resolve }) {
 	if (event.url.pathname.startsWith("/.well-known/")) {
 		return new Response(null, { status: 204 });
 	}
-
-	const profile = event.cookies.get("profile");
-
-	if (profile) {
-		event.locals.profile = JSON.parse(profile);
-	}
-
 	const accessToken = event.cookies.get("accessToken");
 
 	if (accessToken && isValidJwt(accessToken)) {
+		const decoded = decodeJwt(accessToken);
+
 		event.locals.accessToken = accessToken;
+		event.locals.profile = decoded?.["profile"] as IProfile;
 		return resolve(event);
 	}
 

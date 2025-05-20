@@ -1,14 +1,24 @@
-// 📁 src/lib/types/user.types.ts
+export enum AccessLevel {
+	PUBLIC = "PUBLIC",
+	PRIVATE = "PRIVATE",
+	PROTECTED = "PROTECTED",
+}
+
+export enum UserRole {
+	GUEST = "GUEST",
+	MEMBER = "MEMBER",
+	ARTIST = "ARTIST",
+}
 
 export interface IProfile {
 	id: string;
 	email: string;
 	username: string;
 	authProvider: string;
-	providerId?: string;
 	avatarUrl: string;
-	isVerified: boolean;
-	isPremium: boolean;
+	verified: boolean;
+	premium: boolean;
+	role: UserRole;
 	settings: Record<string, any>;
 	createdAt: string;
 	lastLoginAt?: string;

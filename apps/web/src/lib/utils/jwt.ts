@@ -24,4 +24,4 @@ function isValidJwt(token: string): boolean {
 	return decoded["exp"] && decoded["exp"] > currentTime;
 }
 
-export { isValidJwt };
+export { isValidJwt, decodeJwt };
