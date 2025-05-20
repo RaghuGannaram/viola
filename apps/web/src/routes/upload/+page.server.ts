@@ -4,5 +4,9 @@ import { enforceAccess } from "$lib/utils/auth.js";
 export const load = async (event) => {
 	const profile = event.locals.profile;
 
-	enforceAccess(profile, AccessLevel.PRIVATE);
+	enforceAccess({
+		profile,
+		requiredAccessLevel: AccessLevel.PRIVATE,
+		redirectPath: "/upload",
+	});
 };

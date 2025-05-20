@@ -4,5 +4,8 @@ import { enforceAccess } from "$lib/utils/auth.js";
 export const load = async (event) => {
 	const profile = event.locals.profile;
 
-	enforceAccess(profile, AccessLevel.PUBLIC);
+	enforceAccess({
+		profile,
+		requiredAccessLevel: AccessLevel.PUBLIC,
+	});
 };

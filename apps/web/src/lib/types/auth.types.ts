@@ -10,6 +10,13 @@ export enum UserRole {
 	ARTIST = "ARTIST",
 }
 
+export interface IEnforceAccessProps {
+	profile: IProfile | null;
+	requiredAccessLevel: AccessLevel;
+	redirectPath?: string;
+	ownerId?: string;
+}
+
 export interface IProfile {
 	id: string;
 	email: string;

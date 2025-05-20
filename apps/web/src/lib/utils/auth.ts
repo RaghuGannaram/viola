@@ -1,5 +1,5 @@
 import { redirect, error } from "@sveltejs/kit";
-import { AccessLevel, UserRole, type IProfile } from "$lib/types/auth.types";
+import { AccessLevel, UserRole, type IProfile, type IEnforceAccessProps } from "$lib/types/auth.types";
 
 export function getUserRole(user: IProfile | null, ownerId?: string): UserRole {
 	if (!user) {
@@ -13,8 +13,8 @@ export function getUserRole(user: IProfile | null, ownerId?: string): UserRole {
 	return UserRole.ARTIST;
 }
 
-export function enforceAccess(user: IProfile | null, requiredAccessLevel: AccessLevel, ownerId?: string): void {
-	const userRole = getUserRole(user, ownerId);
+export function enforceAccess(props: IEnforceAccessProps): void {
+	const userRole = getUserRole(props.profile, props.ownerId);
 
 	const accessMatrix: Record<AccessLevel, UserRole[]> = {
 		[AccessLevel.PUBLIC]: [UserRole.GUEST, UserRole.MEMBER, UserRole.ARTIST],
@@ -22,11 +22,11 @@ export function enforceAccess(user: IProfile | null, requiredAccessLevel: Access
 		[AccessLevel.PROTECTED]: [UserRole.ARTIST],
 	};
 
-	const permittedRoles = accessMatrix[requiredAccessLevel];
+	const permittedRoles = accessMatrix[props.requiredAccessLevel];
 
 	if (!permittedRoles.includes(userRole)) {
-		if (!user) {
-			throw redirect(302, "/login");
+		if (!props.profile) {
+			throw redirect(302, `/login?redirect=${props.redirectPath}`);
 		}
 
 		throw error(403, "Access Denied");

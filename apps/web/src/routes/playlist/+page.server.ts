@@ -7,6 +7,6 @@ export const load = async (event) => {
 	enforceAccess({
 		profile,
 		requiredAccessLevel: AccessLevel.PRIVATE,
-		redirectPath: "/settings",
+		redirectPath: "/playlist",
 	});
 };
