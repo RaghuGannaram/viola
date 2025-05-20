@@ -1,6 +1,6 @@
 import logger from "@src/configs/logger.config";
 import sessionStore from "@src/configs/session.config";
-import type { ITokenPayload } from "@src/types";
+import type { ITokenPayload, IAuthUser } from "@src/types";
 import { DataError, DataErrors, catchAsyncDataError, processTokenError, processCacheError } from "@src/utils/application-errors";
 import { getJWTInfo } from "@src/utils/env-info";
 import JWT from "jsonwebtoken";
@@ -8,34 +8,24 @@ import ms from "ms";
 
 const { accessTokenSecret, refreshTokenSecret, accessTokenValidity, refreshTokenValidity, refreshTokenMaxAge } = getJWTInfo();
 
-const issueAccessToken = catchAsyncDataError(async (user: ITokenPayload) => {
-	logger.debug(`token.service: issuing access token for user: %o`, user);
+const issueAccessToken = catchAsyncDataError(async (profile: IAuthUser) => {
+	logger.debug(`token.service: issuing access token for user: %o`, profile);
 
 	const payload = {
-		id: user.id,
-		email: user.email,
-		username: user.username,
-		authProvider: user.authProvider,
-		avatarUrl: user.avatarUrl,
-		verified: user.verified,
-		premium: user.premium,
-		role: user.role,
-		settings: user.settings,
-		createdAt: user.createdAt,
-		lastLoginAt: user.lastLoginAt,
 		type: "access",
+		profile,
 	};
 
 	const options = {
 		expiresIn: ms(accessTokenValidity) / 1000,
 		issuer: "viola.raghugannaram.com",
-		audience: user.id,
+		audience: profile.id,
 	};
 
 	const token = JWT.sign(payload, accessTokenSecret, options);
 
 	try {
-		await sessionStore.set(`access:${user.id}`, token, ms(accessTokenValidity) / 1000);
+		await sessionStore.set(`access:${profile.id}`, token, ms(accessTokenValidity) / 1000);
 	} catch (error) {
 		processCacheError(error);
 	}
@@ -43,34 +33,24 @@ const issueAccessToken = catchAsyncDataError(async (user: ITokenPayload) => {
 	return token;
 });
 
-const issueRefreshToken = catchAsyncDataError(async (user: ITokenPayload) => {
-	logger.debug(`token.service: issuing refresh token for user: %o`, user);
+const issueRefreshToken = catchAsyncDataError(async (profile: IAuthUser) => {
+	logger.debug(`token.service: issuing refresh token for user: %o`, profile);
 
 	const payload = {
-		id: user.id,
-		email: user.email,
-		username: user.username,
-		authProvider: user.authProvider,
-		avatarUrl: user.avatarUrl,
-		verified: user.verified,
-		premium: user.premium,
-		role: user.role,
-		settings: user.settings,
-		createdAt: user.createdAt,
-		lastLoginAt: user.lastLoginAt,
 		type: "refresh",
+		profile,
 	};
 
 	const options = {
 		expiresIn: ms(refreshTokenValidity) / 1000,
 		issuer: "viola.raghugannaram.com",
-		audience: user.id,
+		audience: profile.id,
 	};
 
 	const token = JWT.sign(payload, refreshTokenSecret, options);
 
 	try {
-		await sessionStore.set(`refresh:${user.id}`, token, ms(refreshTokenValidity) / 1000);
+		await sessionStore.set(`refresh:${profile.id}`, token, ms(refreshTokenValidity) / 1000);
 	} catch (error) {
 		processCacheError(error);
 	}
@@ -91,7 +71,7 @@ const validateAccessToken = catchAsyncDataError(async (accessToken: string) => {
 
 	let storedAccessToken: string | null = null;
 	try {
-		storedAccessToken = await sessionStore.get(`access:${decoded.id}`);
+		storedAccessToken = await sessionStore.get(`access:${decoded.profile.id}`);
 	} catch (error) {
 		processCacheError(error);
 	}
@@ -116,7 +96,7 @@ const validateRefreshToken = catchAsyncDataError(async (refreshToken: string) =>
 
 	let storedRefreshToken: string | null = null;
 	try {
-		storedRefreshToken = await sessionStore.get(`refresh:${decoded.id}`);
+		storedRefreshToken = await sessionStore.get(`refresh:${decoded.profile.id}`);
 	} catch (error) {
 		processCacheError(error);
 	}

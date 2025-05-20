@@ -2,7 +2,7 @@ import logger from "@src/configs/logger.config";
 import authDataService from "@src/services/auth.data";
 import awsDataService from "@src/services/aws.data";
 import tokenDataService from "@src/services/token.data";
-import type { IRegistration, ILogin, ITokenPayload, ISettings } from "@src/types";
+import type { IRegistration, ILogin, IAuthUser, ISettings } from "@src/types";
 import hideSensitiveInfo from "@src/utils";
 import { catchAsyncBusinessError } from "@src/utils/application-errors";
 
@@ -15,7 +15,7 @@ const createUser = catchAsyncBusinessError(async function (registrationData: IRe
 		user.avatarUrl = await awsDataService.getFile(user.avatarUrl);
 	}
 
-	const payload: ITokenPayload = {
+	const profile: IAuthUser = {
 		id: user.id,
 		email: user.email,
 		username: user.username,
@@ -29,7 +29,7 @@ const createUser = catchAsyncBusinessError(async function (registrationData: IRe
 		lastLoginAt: user.lastLoginAt instanceof Date ? user.lastLoginAt.toISOString() : "",
 	};
 
-	const [accessToken, refreshToken] = await Promise.all([tokenDataService.issueAccessToken(payload), tokenDataService.issueRefreshToken(payload)]);
+	const [accessToken, refreshToken] = await Promise.all([tokenDataService.issueAccessToken(profile), tokenDataService.issueRefreshToken(profile)]);
 
 	const safeResponse = hideSensitiveInfo(user, "password");
 
@@ -45,7 +45,7 @@ const validateUser = catchAsyncBusinessError(async function (userCredentials: IL
 		user.avatarUrl = await awsDataService.getFile(user.avatarUrl);
 	}
 
-	const payload: ITokenPayload = {
+	const profile: IAuthUser = {
 		id: user.id,
 		email: user.email,
 		username: user.username,
@@ -59,7 +59,7 @@ const validateUser = catchAsyncBusinessError(async function (userCredentials: IL
 		lastLoginAt: user.lastLoginAt instanceof Date ? user.lastLoginAt.toISOString() : "",
 	};
 
-	const [accessToken, refreshToken] = await Promise.all([tokenDataService.issueAccessToken(payload), tokenDataService.issueRefreshToken(payload)]);
+	const [accessToken, refreshToken] = await Promise.all([tokenDataService.issueAccessToken(profile), tokenDataService.issueRefreshToken(profile)]);
 
 	const safeResponse = hideSensitiveInfo(user, "password");
 
@@ -71,7 +71,7 @@ const refreshUserTokens = catchAsyncBusinessError(async function (refreshToken: 
 
 	const user = await tokenDataService.validateRefreshToken(refreshToken);
 
-	const [newAccessToken, newRefreshToken] = await Promise.all([tokenDataService.issueAccessToken(user), tokenDataService.issueRefreshToken(user)]);
+	const [newAccessToken, newRefreshToken] = await Promise.all([tokenDataService.issueAccessToken(user.profile), tokenDataService.issueRefreshToken(user.profile)]);
 
 	return { newAccessToken, newRefreshToken };
 });
@@ -81,7 +81,7 @@ const clearUserTokens = catchAsyncBusinessError(async function (refreshToken: st
 
 	const user = await tokenDataService.validateRefreshToken(refreshToken);
 
-	await tokenDataService.deleteUserTokens(user.id);
+	await tokenDataService.deleteUserTokens(user.profile.id);
 
 	return;
 });
