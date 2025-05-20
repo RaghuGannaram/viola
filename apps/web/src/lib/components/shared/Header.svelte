@@ -1,8 +1,25 @@
 <script lang="ts">
 	import { page } from "$app/state";
 	import { navigationItems } from "$lib/constants";
+	import { profile } from "$lib/stores/authStore.js";
+	import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
+	import proxyClient from "$lib/services/http/proxy/client";
 
 	let currentPath = $derived(page.url.pathname);
+
+	async function logoutHandler() {
+		try {
+			const response = await proxyClient.delete(PROXY_ENDPOINTS.AUTH.LOGOUT);
+			if (response.status !== 200) {
+				throw new Error("Logout failed");
+			}
+
+			console.log("Logout successful", response.data);
+			profile.set(null);
+		} catch (error) {
+			console.error("Logout failed", error);
+		}
+	}
 </script>
 
 <header class="flex items-center justify-between bg-neutral-800 text-neutral-100 px-6 py-4 shadow-sm">
@@ -40,5 +57,8 @@
 		>
 			<span class="text-sm font-medium">JD</span>
 		</button>
+		{#if $profile}
+			<button onclick={logoutHandler}>Logout</button>
+		{/if}
 	</div>
 </header>
