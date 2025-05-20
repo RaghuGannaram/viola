@@ -1,5 +1,5 @@
 import type { RequestEvent } from "@sveltejs/kit";
-import { createBackendClient } from "./backend/client";
+import { createBackendClient } from "$lib/services/http/backend/client";
 
 function createProxyService(event: RequestEvent) {
 	const client = createBackendClient(event);
