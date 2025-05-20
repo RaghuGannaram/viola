@@ -1,6 +1,6 @@
 import type { RequestEvent } from "@sveltejs/kit";
-import { createBackendClient } from "./backend/client";
-import { BACKEND_ENDPOINTS } from "./shared/endpoints";
+import { createBackendClient } from "$lib/services/http/backend/client";
+import { BACKEND_ENDPOINTS } from "$lib/services/http/shared/endpoints";
 import type { ILoginRequest, IRegisterRequest, ILogoutResponse, IAuthResponse, IRefreshResponse } from "$lib/types";
 
 function createAuthService(event: RequestEvent) {
@@ -23,8 +23,8 @@ function createAuthService(event: RequestEvent) {
 			};
 		},
 
-		async refresh(refreshToken: string): Promise<IRefreshResponse> {
-			const res = await client.post(BACKEND_ENDPOINTS.AUTH.REFRESH, {}, { headers: { Cookie: `refreshToken=${refreshToken}` } });
+		async refresh(): Promise<IRefreshResponse> {
+			const res = await client.post(BACKEND_ENDPOINTS.AUTH.REFRESH, {});
 
 			return {
 				...res.data,
@@ -33,7 +33,7 @@ function createAuthService(event: RequestEvent) {
 		},
 
 		async logout(): Promise<ILogoutResponse> {
-			const res = await client.post(BACKEND_ENDPOINTS.AUTH.LOGOUT);
+			const res = await client.delete(BACKEND_ENDPOINTS.AUTH.LOGOUT);
 			return res.data;
 		},
 	};

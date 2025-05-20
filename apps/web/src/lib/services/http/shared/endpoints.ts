@@ -1,3 +1,12 @@
+const PROXY_ENDPOINTS = {
+	AUTH: {
+		REGISTER: "/auth/register",
+		LOGIN: "/auth/login",
+		REFRESH: "/auth/refresh-token",
+		LOGOUT: "/auth/logout",
+	},
+};
+
 const BACKEND_ENDPOINTS = {
 	AUTH: {
 		REGISTER: "/auth/register",
@@ -7,4 +16,4 @@ const BACKEND_ENDPOINTS = {
 	},
 };
 
-export { BACKEND_ENDPOINTS };
+export { PROXY_ENDPOINTS, BACKEND_ENDPOINTS };

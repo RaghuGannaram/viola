@@ -22,7 +22,7 @@ export async function handle({ event, resolve }) {
 	if (refreshToken) {
 		try {
 			const authService = createAuthService(event);
-			const session = await authService.refresh(refreshToken);
+			const session = await authService.refresh();
 
 			event.locals.accessToken = session.accessToken;
 
