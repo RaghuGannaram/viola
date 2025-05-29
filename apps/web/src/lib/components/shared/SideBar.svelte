@@ -1,38 +1,20 @@
 <script lang="ts">
-	import { page } from "$app/stores";
-	import { derived } from "svelte/store";
+	import { page } from "$app/state";
+	import { navigationItems } from "$lib/constants";
+	import Icon from "$lib/components/Icon/index.svelte";
 
-	// Derive the current path for active link styling
-	const activePath = derived(page, ($page) => $page.url.pathname);
-
-	const links = [
-		{ href: "/library", label: "Library" },
-		{ href: "/search", label: "Search" },
-		{ href: "/playlists", label: "Playlists" },
-		{ href: "/player", label: "Player" },
-		{ href: "/upload", label: "Upload" },
-		{ href: "/settings", label: "Settings" },
-	];
+	let { customCalss } = $props();
+	let currentPath = $derived(page.url.pathname);
 </script>
 
-<aside class="hidden sm:flex flex-col w-64 h-screen bg-base-200 p-4">
-	<!-- Brand Logo / Title -->
-	<div class="mb-8">
-		<a href="/" class="text-3xl font-bold text-primary">Viola</a>
-	</div>
-
-	<!-- Navigation Links -->
-	<nav class="flex-1 space-y-1">
-		{#each links as { href, label }}
-			<a {href} class="btn btn-ghost w-full justify-start {$activePath === href ? 'bg-base-300' : ''}">
-				{label}
+<aside class={`hidden sm:flex h-auto p-4 border-r border-neutral-600/50 ${customCalss}`}>
+	<nav class="flex flex-col space-y-4">
+		{#each navigationItems as item}
+			<a href={item.href} class="flex gap-1 py-1 {currentPath === item.href ? 'text-primary-200' : 'text-primary-300/50'} hover:text-primary-200">
+				<div class="flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-800 hover:bg-neutral-600 transition">
+					<Icon name={item.icon ?? ""} size={24} />
+				</div>
 			</a>
 		{/each}
 	</nav>
-
-	<!-- Footer Links -->
-	<div class="mt-auto space-y-1 pt-4 border-t border-base-300">
-		<a href="/terms" class="text-sm text-neutral-500 hover:underline">Terms</a>
-		<a href="/privacy" class="text-sm text-neutral-500 hover:underline">Privacy</a>
-	</div>
 </aside>
