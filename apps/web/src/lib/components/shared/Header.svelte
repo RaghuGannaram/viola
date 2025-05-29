@@ -1,11 +1,22 @@
 <script lang="ts">
-	import { page } from "$app/state";
-	import { navigationItems } from "$lib/constants";
 	import { profile } from "$lib/stores/authStore.js";
 	import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
 	import proxyClient from "$lib/services/http/proxy/client";
+	import Icon from "$lib/components/Icon/index.svelte";
 
-	let currentPath = $derived(page.url.pathname);
+	let showMenu = $state(false);
+	let menuRef: HTMLDivElement | null = $state(null);
+	let activeSearch = $state(false);
+
+	function toggleMenu() {
+		showMenu = !showMenu;
+	}
+
+	function handleClickOutside(event: MouseEvent) {
+		if (menuRef && !menuRef.contains(event.target as Node)) {
+			showMenu = false;
+		}
+	}
 
 	async function logoutHandler() {
 		try {
@@ -20,45 +31,58 @@
 			console.error("Logout failed", error);
 		}
 	}
+
+	$effect(() => {
+		document.addEventListener("click", handleClickOutside);
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	});
 </script>
 
-<header class="flex items-center justify-between bg-neutral-800 text-neutral-100 px-6 py-4 shadow-sm">
-	<div class="flex items-center space-x-8">
-		<a href="/" class="text-2xl font-extrabold text-green-400 hover:text-green-500"> Viola </a>
-		<nav class="hidden md:flex space-x-2">
-			{#each navigationItems as item}
-				<a
-					href={item.href}
-					class="px-3 py-2 rounded-lg transition-colors {currentPath === item.href
-						? 'bg-neutral-700 text-white'
-						: 'text-neutral-300 hover:bg-neutral-700 hover:text-white'}"
-				>
-					{item.name}
-				</a>
-			{/each}
-		</nav>
+<header class="flex justify-between items-center py-2 pt-4 gap-4 md:gap-16 lg:gap-48">
+	<div class="w-[80px] flex items-center justify-center">
+		<a href="/" class="text-3xl font-bold text-primary-500">V</a>
 	</div>
 
-	<div class="flex items-center space-x-4">
-		<div class="relative">
-			<input
-				type="search"
-				placeholder="Search tracks…"
-				class="bg-neutral-700 text-neutral-200 placeholder-neutral-400 pl-3 pr-10 py-2 rounded-lg
-                 focus:outline-none focus:ring-2 focus:ring-green-400 transition w-64"
-			/>
-			<span class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-neutral-500"> 🔍 </span>
-		</div>
+	<div class="relative flex-1">
+		<input
+			type="text"
+			placeholder="Search tracks…"
+			onfocus={() => (activeSearch = true)}
+			onblur={() => (activeSearch = false)}
+			class="w-full pl-4 py-2 rounded-4xl border border-neutral-600/50 text-neutral-200 placeholder-neutral-300/50 focus:placeholder-neutral-200 focus:outline-none transition"
+		/>
+		<span class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-neutral-500">
+			<Icon name="mdi:search" size={25} className={activeSearch ? "text-primary-200 transition" : "text-primary-300/50 transition"} />
+		</span>
+	</div>
 
-		<button
-			class="w-8 h-8 rounded-full bg-neutral-600 flex items-center justify-center
-               hover:bg-neutral-500 transition"
-			aria-label="User menu"
-		>
-			<span class="text-sm font-medium">JD</span>
-		</button>
-		{#if $profile}
-			<button onclick={logoutHandler}>Logout</button>
-		{/if}
+	<div class="flex justify-center items-center pr-4">
+		<div class="flex justify-between items-center bg-neutral-800/50 rounded-full px-4 py-1 gap-4">
+			<button class="flex justify-center items-center" aria-label="Settings">
+				<Icon name="mdi:cog" size={22} className="text-primary-300/50 hover:text-primary-200" />
+			</button>
+			<button class="flex justify-center items-center" aria-label="Notifications">
+				<Icon name="mdi:bell-notification" size={22} className="text-primary-300/50 hover:text-primary-200" />
+			</button>
+		</div>
+		<div bind:this={menuRef} class="relative ml-4">
+			<button class="w-12 h-12 rounded-full flex justify-center items-center" aria-label="User menu" onclick={toggleMenu}>
+				<Icon name="mdi:account-circle" size={35} className="text-primary-300/70 hover:text-primary-200" />
+			</button>
+			{#if showMenu}
+				<div class=" absolute right-0 mt-2 w-48 bg-neutral-800/50 rounded-lg shadow-2xl">
+					<ul class="py-2">
+						<li>
+							<a href="/profile" class="block px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700/50">Profile</a>
+						</li>
+						<li>
+							<button onclick={logoutHandler} class="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700/50">Logout</button>
+						</li>
+					</ul>
+				</div>
+			{/if}
+		</div>
 	</div>
 </header>
