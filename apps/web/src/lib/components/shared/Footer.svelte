@@ -1,117 +1,88 @@
 <script lang="ts">
-	// import Icon from "@iconify/svelte";
+	import Icon from "$lib/components/Icon/index.svelte";
 	const year = new Date().getFullYear();
 </script>
 
-<footer class="border-t border-neutral-700 bg-neutral-900 text-neutral-400">
-	<div class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
-		<!-- About / Logo -->
-		<div class="space-y-4">
-			<h2 class="text-xl font-bold text-neutral-100 flex items-center gap-2">
-				<!-- <Icon icon="mdi:music-circle" class="w-7 h-7 text-primary" /> -->
-				Viola Music
-			</h2>
-			<p class="text-sm">Bringing you the world’s best independent and major‐label tracks. Stream anywhere, anytime.</p>
-			<div class="flex space-x-4 mt-4">
-				<a href="https://twitter.com" aria-label="Twitter" class="hover:text-neutral-200 transition">
-					<!-- <Icon icon="mdi:twitter" class="w-5 h-5" /> -->
+<footer class="m-0 p-0">
+	<section class="px-14 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+		<section class="space-y-4">
+			<h2 class="h2 text-xl font-bold text-surface-200">Viola Music Pvt. Ltd.</h2>
+			<p class="text-sm text-surface-400">A world of music, from indie gems to iconic hits — always with you, wherever you are..</p>
+			<div class="flex space-x-8 mt-8">
+				<a href="https://twitter.com" aria-label="Twitter" class="hover:text-surface-100 transition">
+					<Icon name="mdi:twitter" />
 				</a>
-				<a href="https://facebook.com" aria-label="Facebook" class="hover:text-neutral-200 transition">
-					<!-- <Icon icon="mdi:facebook" class="w-5 h-5" /> -->
+				<a href="https://facebook.com" aria-label="Facebook" class="hover:text-surface-100 transition">
+					<Icon name="mdi:facebook" />
 				</a>
-				<a href="https://instagram.com" aria-label="Instagram" class="hover:text-neutral-200 transition">
-					<!-- <Icon icon="mdi:instagram" class="w-5 h-5" /> -->
+				<a href="https://instagram.com" aria-label="Instagram" class="hover:text-surface-100 transition">
+					<Icon name="mdi:instagram" />
 				</a>
 			</div>
-		</div>
+		</section>
 
-		<!-- Products -->
-		<div>
-			<h3 class="text-lg font-semibold text-neutral-100 mb-3 flex items-center gap-2">
-				<!-- <Icon icon="tabler:apps" class="w-5 h-5" /> -->
-				Products
-			</h3>
-			<ul class="space-y-2 text-sm">
-				<li class="flex items-center gap-2">
-					<!-- <Icon icon="tabler:library" class="w-4 h-4" /> -->
-					<a href="/library" class="hover:text-neutral-200 transition">Library</a>
-				</li>
-				<li class="flex items-center gap-2">
-					<!-- <Icon icon="tabler:player-play" class="w-4 h-4" /> -->
-					<a href="/player" class="hover:text-neutral-200 transition">Player</a>
-				</li>
-				<li class="flex items-center gap-2">
-					<!-- <Icon icon="tabler:upload" class="w-4 h-4" /> -->
-					<a href="/upload" class="hover:text-neutral-200 transition">Upload</a>
-				</li>
-				<li class="flex items-center gap-2">
-					<!-- <Icon icon="tabler:settings" class="w-4 h-4" /> -->
-					<a href="/settings" class="hover:text-neutral-200 transition">Settings</a>
-				</li>
-			</ul>
-		</div>
+		<section class="flex justify-around">
+			<div>
+				<h3 class="text-lg font-semibold text-surface-200 mb-3">Compliance</h3>
+				<ul class="text-sm space-y-3 text-surface-400">
+					<li class="flex items-center gap-2">
+						<Icon name="icon-park-solid:balance-two" size={20} />
+						<a href="/terms" class="hover:text-surface-200 transition">Terms</a>
+					</li>
+					<li class="flex items-center gap-2">
+						<Icon name="ic:baseline-privacy-tip" size={20} />
+						<a href="/privacy" class="hover:text-surface-200 transition">Privacy</a>
+					</li>
+					<li class="flex items-center gap-2">
+						<Icon name="mdi-security" size={20} />
+						<a href="/security" class="hover:text-surface-200 transition">Security</a>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h3 class="text-lg font-semibold text-surface-200 mb-3">Support</h3>
+				<ul class="text-sm space-y-3 text-surface-400">
+					<li class="flex items-center gap-2">
+						<Icon name="mdi:faq" size={20} />
+						<a href="/faq" class="hover:text-surface-200 transition">FAQ</a>
+					</li>
+					<li class="flex items-center gap-2">
+						<Icon name="mdi:message" size={20} />
+						<a href="/contact" class="hover:text-surface-200 transition">Contact</a>
+					</li>
+					<li class="flex items-center gap-2">
+						<Icon name="mdi:report" size={20} />
+						<a href="/report" class="hover:text-surface-200 transition">Report an Issue</a>
+					</li>
+				</ul>
+			</div>
+		</section>
 
-		<!-- Resources -->
-		<div>
-			<h3 class="text-lg font-semibold text-neutral-100 mb-3 flex items-center gap-2">
-				<!-- <Icon icon="tabler:books" class="w-5 h-5" /> -->
-				Resources
+		<section class="bg-surface-900 rounded-xl pl-6 pt-4 pr-4 pb-7">
+			<h3 class=" flex items-center gap-4 text-lg font-semibold text-surface-200">
+				<Icon name="mdi:mail" />
+				<span>Never miss a beat</span>
 			</h3>
-			<ul class="space-y-2 text-sm">
-				<li class="flex items-center gap-2">
-					<!-- <Icon icon="tabler:help-circle" class="w-4 h-4" /> -->
-					<a href="/help" class="hover:text-neutral-200 transition">Help Center</a>
-				</li>
-				<li class="flex items-center gap-2">
-					<!-- <Icon icon="tabler:news" class="w-4 h-4" /> -->
-					<a href="/blog" class="hover:text-neutral-200 transition">Blog</a>
-				</li>
-				<li class="flex items-center gap-2">
-					<!-- <Icon icon="tabler:code" class="w-4 h-4" /> -->
-					<a href="/developers" class="hover:text-neutral-200 transition">API Docs</a>
-				</li>
-				<li class="flex items-center gap-2">
-					<!-- <Icon icon="tabler:handshake" class="w-4 h-4" /> -->
-					<a href="/partners" class="hover:text-neutral-200 transition">Partners</a>
-				</li>
-			</ul>
-		</div>
+			<p class="text-sm text-surface-400 pt-1">Subscribe to our newsletter for the latest releases and exclusive offers!</p>
 
-		<!-- Newsletter -->
-		<div>
-			<h3 class="text-lg font-semibold text-neutral-100 mb-3 flex items-center gap-2">
-				<!-- <Icon icon="tabler:mail-opened" class="w-5 h-5" /> -->
-				Stay in the loop
-			</h3>
-			<p class="text-sm mb-4">Subscribe to our newsletter for the latest releases and offers.</p>
-			<form class="flex flex-col sm:flex-row gap-2">
-				<input type="email" placeholder="Your email" required class="form-input flex-1 placeholder-neutral-500 bg-neutral-800 text-neutral-100" />
-				<button type="submit" class="btn btn-primary w-full sm:w-auto flex items-center gap-2 justify-center">
-					<!-- <Icon icon="tabler:send" class="w-4 h-4" /> -->
-					Subscribe
+			<form class="flex flex-col sm:flex-row gap-3 mt-6">
+				<input
+					type="email"
+					required
+					placeholder="Your email"
+					class="w-full pl-2 border-b border-surface-800 text-surface-100 placeholder-surface-500 outline-none focus:border-surface-500"
+				/>
+				<button type="submit" class="btn btn-primary">
+					<Icon name="mdi:send" />
 				</button>
 			</form>
-		</div>
-	</div>
+		</section>
+	</section>
 
-	<!-- Bottom bar -->
-	<div class="border-t border-neutral-700 bg-neutral-900 text-neutral-500">
-		<div class="container mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between text-sm">
-			<div class="flex items-center gap-2">
-				<!-- <Icon icon="mdi:copyright" class="w-4 h-4" /> -->
-				<div>© {year} Viola Music. All rights reserved.</div>
-			</div>
-			<div class="flex flex-wrap gap-4">
-				<a href="/terms" class="hover:text-neutral-200 transition flex items-center gap-1">
-					<!-- <Icon icon="tabler:scale" class="w-4 h-4" /> Terms -->
-				</a>
-				<a href="/privacy" class="hover:text-neutral-200 transition flex items-center gap-1">
-					<!-- <Icon icon="tabler:shield-lock" class="w-4 h-4" /> Privacy -->
-				</a>
-				<a href="/cookie" class="hover:text-neutral-200 transition flex items-center gap-1">
-					<!-- <Icon icon="tabler:cookies" class="w-4 h-4" /> Cookies -->
-				</a>
-			</div>
+	<section class="flex justify-center items-center bg-surface-900/40 pt-3 pb-2">
+		<div class="text-xs font-medium flex justify-center items-center gap-2 text-surface-400">
+			<Icon name="tabler:copyright-filled" size={20} />
+			<span>{year} Viola Music Pvt. Ltd. All rights reserved.</span>
 		</div>
-	</div>
+	</section>
 </footer>
