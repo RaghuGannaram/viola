@@ -1,3 +1,11 @@
+<style>
+	.iconify-icon-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+</style>
+
 <script lang="ts">
 	import "iconify-icon";
 
@@ -12,4 +20,6 @@
 	}>();
 </script>
 
-<iconify-icon icon={name} width={size} height={size} class={className}></iconify-icon>
+<div style="width: {size}px; height: {size}px;" class="iconify-icon-container">
+	<iconify-icon icon={name} width={size} height={size} class={className}></iconify-icon>
+</div>
