@@ -34,7 +34,7 @@ export const actions: Actions = {
 			return fail(400, { error: "Invalid credentials or server error." });
 		}
 
-		const redirectTo = event.url.searchParams.get("redirectPath") || "/";
+		const redirectTo = event.url.searchParams.get("redirect") || "/";
 
 		throw redirect(302, redirectTo);
 	},
