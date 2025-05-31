@@ -13,13 +13,13 @@
 	});
 </script>
 
-<div class="flex flex-col min-h-screen bg-gradient-to-br from-neutral-950/50 to-neutral-900/50 text-surface-50">
+<div class="flex flex-col min-h-screen bg-gradient-to-br from-surface-900/50 to-surface-950/50 text-surface-800-200">
 	<Header />
 
 	<div class="flex flex-1 overflow-hidden">
 		<SideBar customCalss="w-[100%] md:w-[80px]" />
 
-		<main class="w-[100%] md:w-[80%] overflow-y-auto">
+		<main class="w-[100%] md:w-[80%] min-h-screen overflow-y-auto">
 			{@render children()}
 		</main>
 	</div>
