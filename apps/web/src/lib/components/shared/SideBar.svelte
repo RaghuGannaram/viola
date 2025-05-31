@@ -7,11 +7,11 @@
 	let currentPath = $derived(page.url.pathname);
 </script>
 
-<aside class={`hidden sm:flex h-auto p-4 border-r border-neutral-600/50 ${customCalss}`}>
+<aside class={`hidden sm:flex h-auto p-4 border-r border-surface-600/50 ${customCalss}`}>
 	<nav class="flex flex-col space-y-4">
 		{#each navigationItems as item}
 			<a href={item.href} class="flex gap-1 py-1 {currentPath === item.href ? 'text-primary-200' : 'text-primary-300/50'} hover:text-primary-200">
-				<div class="flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-800 hover:bg-neutral-600 transition">
+				<div class="flex items-center justify-center w-12 h-12 rounded-xl bg-surface-800 hover:bg-surface-600 transition">
 					<Icon name={item.icon ?? ""} size={24} />
 				</div>
 			</a>
