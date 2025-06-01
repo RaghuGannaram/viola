@@ -3,6 +3,7 @@
 	import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
 	import proxyClient from "$lib/services/http/proxy/client";
 	import Icon from "$lib/components/Icon/index.svelte";
+	import LightSwitch from "$lib/components/LightSwitch.svelte";
 
 	let showMenu = $state(false);
 	let menuRef: HTMLDivElement | null = $state(null);
@@ -59,7 +60,10 @@
 	</div>
 
 	<div class="flex justify-center items-center pr-4">
-		<div class="flex justify-between items-center bg-neutral-800/50 rounded-full px-4 py-1 gap-4">
+		<div class="flex justify-between items-center bg-surface-200-800/50 rounded-full px-4 py-1.5 gap-4">
+			<button class="flex justify-center items-center" aria-label="Toggle light/dark mode">
+				<LightSwitch />
+			</button>
 			<button class="flex justify-center items-center" aria-label="Settings">
 				<Icon name="mdi:cog" size={22} className="text-primary-300/50 hover:text-primary-200" />
 			</button>

@@ -13,13 +13,18 @@
 	});
 </script>
 
-<div class="flex flex-col min-h-screen bg-gradient-to-br from-surface-900/50 to-surface-950/50 text-surface-800-200">
+<div
+	class="flex flex-col min-h-screen
+        bg-gradient-to-br
+        from-surface-50/50 to-surface-100/50
+		dark:from-surface-900/50 dark:to-surface-950/50 text-surface-800-200"
+>
 	<Header />
 
-	<div class="flex flex-1 overflow-hidden">
-		<SideBar customCalss="w-[100%] md:w-[80px]" />
+	<div class="flex flex-1 w-full">
+		<SideBar customCalss="w-[80px]" />
 
-		<main class="w-[100%] md:w-[80%] min-h-screen overflow-y-auto">
+		<main class="flex-1 min-h-screen overflow-y-auto">
 			{@render children()}
 		</main>
 	</div>
