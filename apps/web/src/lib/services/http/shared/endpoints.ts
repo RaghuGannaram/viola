@@ -5,6 +5,10 @@ const PROXY_ENDPOINTS = {
 		REFRESH: "/auth/refresh-token",
 		LOGOUT: "/auth/logout",
 	},
+	AUDIO: {
+		PRESIGN: "/audio/presign",
+		UPLOAD: "/audio/upload",
+	},
 };
 
 const BACKEND_ENDPOINTS = {
@@ -13,6 +17,10 @@ const BACKEND_ENDPOINTS = {
 		LOGIN: "/auth/login",
 		REFRESH: "/auth/refresh-token",
 		LOGOUT: "/auth/logout",
+	},
+	AUDIO: {
+		PRESIGN: "/audio/presign",
+		UPLOAD: "/audio/upload",
 	},
 };
 
