@@ -1,38 +1,31 @@
 import { parseBlob } from "music-metadata";
-import { type ITrack } from "$lib/types";
+import type { ITrackMetadata } from "$lib/types";
 
-function toDataUrl(buffer: ArrayBuffer, format: string): string {
-	let binary = "";
-	const bytes = new Uint8Array(buffer);
-	for (let i = 0; i < bytes.byteLength; i++) {
-		binary += String.fromCharCode(bytes[i] ?? 0);
-	}
-	const base64 = window.btoa(binary);
-	return `data:${format};base64,${base64}`;
-}
+export async function extractMetadata(file: Blob): Promise<ITrackMetadata> {
+	let title = "Unknown Title";
+	let artist = "Unknown Artist";
+	let album = "Unknown Album";
+	let lyrics = "";
+	let artworkBlob: Blob | null = null;
+	let artworkPreviewUrl: string | null = null;
 
-async function extractMetadata(file: Blob): Promise<Partial<ITrack>> {
 	try {
 		const metadata = await parseBlob(file);
-		const { title = "Unknown Title", artist = "Unknown Artist", album = "Unknown Album", lyrics = "", picture = [] } = metadata.common;
+		const common = metadata.common;
 
-		return {
-			title,
-			artist,
-			album,
-			coverImage: picture[0] ? toDataUrl(picture[0].data.buffer as ArrayBuffer, picture[0].format) : "",
-			lyrics: Array.isArray(lyrics) ? lyrics.map((tag) => tag.text).join("\n") : lyrics,
-		};
+		title = common.title || title;
+		artist = common.artist || artist;
+		album = common.album || album;
+		lyrics = Array.isArray(common.lyrics) ? common.lyrics.map((tag) => tag.text).join("\n") : (common.lyrics ?? lyrics);
+
+		const picture = common.picture?.[0];
+		if (picture) {
+			artworkBlob = new Blob([picture.data], { type: picture.format });
+			artworkPreviewUrl = URL.createObjectURL(artworkBlob);
+		}
 	} catch (error) {
 		console.error("Metadata extraction failed:", error);
-		return {
-			title: "Unknown Title",
-			artist: "Unknown Artist",
-			album: "Unknown Album",
-			coverImage: "",
-			lyrics: "",
-		};
 	}
-}
 
-export { extractMetadata };
+	return { title, artist, album, lyrics, artworkBlob, artworkPreviewUrl };
+}

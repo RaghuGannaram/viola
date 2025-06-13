@@ -5,7 +5,7 @@ function createProxyService(event: RequestEvent) {
 	const client = createBackendClient(event);
 
 	return {
-		async forward(method: "GET" | "POST" | "PATCH" | "DELETE", path: string, data?: any) {
+		async forward(method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE", path: string, data?: any) {
 			const res = await client.request({
 				method,
 				url: path,
