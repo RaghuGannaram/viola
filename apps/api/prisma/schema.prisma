@@ -35,11 +35,12 @@ model User {
     savedArtists  ArtistBookmark[]
     playbackLog   PlaybackLog[]
     reactions     Reaction[]
+    songs         Song[]           @relation("UserSongs")
 }
 
 model Artist {
     id                String           @id @default(uuid()) @db.Uuid
-    name              String
+    name              String           @unique
     bio               String?
     imageUrl          String?
     externalLinks     Json             @default("{}")
@@ -57,10 +58,14 @@ model Song {
     title       String
     duration    Int?
     trackNumber Int?
+    lyrics      String?
     audioUrl    String
+    coverUrl    String        @default("defaultCover.png")
     albumId     String?       @db.Uuid
+    userId      String        @db.Uuid
     createdAt   DateTime      @default(now()) @db.Timestamptz(6)
     // relationships
+    user        User          @relation("UserSongs", fields: [userId], references: [id], onDelete: Restrict)
     album       Album?        @relation("AlbumSongs", fields: [albumId], references: [id], onDelete: SetNull)
     playlists   Curation[]
     artists     Credit[]
@@ -70,7 +75,8 @@ model Song {
 
 model Album {
     id          String          @id @default(uuid()) @db.Uuid
-    title       String
+    title       String          @unique
+    description String?
     releaseDate DateTime?
     coverUrl    String?
     createdAt   DateTime        @default(now()) @db.Timestamptz(6)
