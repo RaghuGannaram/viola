@@ -15,18 +15,20 @@ const authenticate: RequestHandler = catchAsyncError(async (req: Request, _res: 
 
 	const decoded = await tokenDataService.validateAccessToken(accessToken);
 
+	const { profile } = decoded;
+
 	const user: IAuthUser = {
-		id: decoded.id,
-		email: decoded.email,
-		username: decoded.username,
-		authProvider: decoded.authProvider,
-		avatarUrl: decoded.avatarUrl,
-		verified: decoded.verified,
-		premium: decoded.premium,
-		role: decoded.role,
-		settings: decoded.settings,
-		createdAt: decoded.createdAt,
-		lastLoginAt: decoded.lastLoginAt ?? "",
+		id: profile.id,
+		email: profile.email,
+		username: profile.username,
+		authProvider: profile.authProvider,
+		avatarUrl: profile.avatarUrl,
+		verified: profile.verified,
+		premium: profile.premium,
+		role: profile.role,
+		settings: profile.settings,
+		createdAt: profile.createdAt,
+		lastLoginAt: profile.lastLoginAt ?? "",
 	};
 
 	(req as IVerifiedRequest).user = user;
