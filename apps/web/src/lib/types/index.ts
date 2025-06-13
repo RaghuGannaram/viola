@@ -6,8 +6,17 @@ export interface ITrack {
 	title?: string;
 	artist?: string;
 	album?: string;
-	coverImage?: string;
+	artwork?: Blob;
 	lyrics?: string;
+}
+
+export interface ITrackMetadata {
+	title: string;
+	artist: string;
+	album: string;
+	lyrics: string;
+	artworkBlob: Blob | null;
+	artworkPreviewUrl: string | null;
 }
 
 export * from "./auth.types";
