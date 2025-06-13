@@ -72,3 +72,4 @@ export * from "./error.types";
 export * from "./logger.types";
 export * from "./middleware.types";
 export * from "./token.types";
+export * from "./audio.types";
