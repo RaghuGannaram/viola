@@ -12,8 +12,17 @@ function hideSensitiveInfo<T extends Data>(data: T, ...sensitiveInfo: (keyof T)[
 	return clone;
 }
 
-export default hideSensitiveInfo;
+function sanitizeFilename(filename: string): string {
+	return filename
+		.normalize("NFKD")
+		.replace(/\s+/g, "-")
+		.replace(/[^a-zA-Z0-9\-\.]/g, "")
+		.slice(0, 50)
+		.toLowerCase();
+}
 
-export function generateRandomName(length: number): string {
+function generateRandomName(length: number): string {
 	return crypto.randomBytes(length).toString("hex");
 }
+
+export { hideSensitiveInfo, sanitizeFilename, generateRandomName };
