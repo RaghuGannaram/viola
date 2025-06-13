@@ -10,7 +10,7 @@
 	<div class="w-full max-w-md p-6 rounded-2xl shadow-xl border border-border bg-surface space-y-6">
 		<h2 class="text-3xl font-bold text-center text-primary">Login</h2>
 
-		<form method="POST" class="space-y-4">
+		<form method="POST" action="?/login" class="space-y-4">
 			<div class="space-y-1">
 				<label for="email" class="block text-sm font-medium text-foreground">Email</label>
 				<input

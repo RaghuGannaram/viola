@@ -3,13 +3,13 @@ import { createAuthService } from "$lib/services/http";
 import { setParsedCookieFromBackend } from "$lib/utils";
 
 export const actions: Actions = {
-	default: async (event) => {
+	login: async (event) => {
 		const data = await event.request.formData();
 		const email = data.get("email");
 		const password = data.get("password");
 
 		if (!email || !password) {
-			return fail(400, { error: "Email and password are required." });
+			return fail(400, { error: "email and password are required." });
 		}
 
 		try {
@@ -31,7 +31,7 @@ export const actions: Actions = {
 
 			if (rawRefreshToken) setParsedCookieFromBackend(rawRefreshToken, event.cookies);
 		} catch (err) {
-			return fail(400, { error: "Invalid credentials or server error." });
+			return fail(400, { error: "invalid credentials or server error." });
 		}
 
 		const redirectTo = event.url.searchParams.get("redirect") || "/";
