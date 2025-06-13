@@ -13,7 +13,7 @@ declare module NodeJS {
         AWS_SECRET_ACCESS_KEY: string;
         AWS_BUCKET_NAME: string;
         AWS_BUCKET_REGION: string;
-        AWS_BUCKET_IMAGE_URL_EXPIRATION: string;
+        AWS_SIGNED_URL_EXPIRATION: string;
         ACCESS_TOKEN_SECRET: string;
         REFRESH_TOKEN_SECRET: string;
         ACCESS_TOKEN_VALIDITY: string;

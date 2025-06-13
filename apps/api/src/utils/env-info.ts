@@ -38,14 +38,14 @@ export function getAWSParams(): {
 	secretAccessKey: string;
 	region: string;
 	bucket: string;
-	signedURLValidity: string;
+	signedUrlValidity: string;
 } {
 	return {
 		accessKey: process.env["AWS_ACCESS_KEY"],
 		secretAccessKey: process.env["AWS_SECRET_ACCESS_KEY"],
-		bucket: process.env["AWS_BUCKET_NAME"],
 		region: process.env["AWS_BUCKET_REGION"],
-		signedURLValidity: process.env["AWS_BUCKET_IMAGE_URL_EXPIRATION"],
+		bucket: process.env["AWS_BUCKET_NAME"],
+		signedUrlValidity: process.env["AWS_SIGNED_URL_EXPIRATION"],
 	};
 }
 
