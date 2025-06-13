@@ -3,7 +3,7 @@ import authDataService from "@src/services/auth.data";
 import awsDataService from "@src/services/aws.data";
 import tokenDataService from "@src/services/token.data";
 import type { IRegistration, ILogin, IAuthUser, ISettings } from "@src/types";
-import hideSensitiveInfo from "@src/utils";
+import { hideSensitiveInfo } from "@src/utils";
 import { catchAsyncBusinessError } from "@src/utils/application-errors";
 
 const createUser = catchAsyncBusinessError(async function (registrationData: IRegistration) {
