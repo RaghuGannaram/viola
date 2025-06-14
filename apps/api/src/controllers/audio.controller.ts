@@ -16,9 +16,9 @@ const presign: IController = catchAsyncError(async function (req: Request, res: 
 		processValidationError(error);
 	}
 
-	const { music, artwork } = await audioBusinessService.presign(authUser, presignData);
+	const { title, music, artwork } = await audioBusinessService.presign(authUser, presignData);
 
-	res.status(200).json({ music, artwork });
+	res.status(200).json({ title, music, artwork });
 });
 
 const upload = catchAsyncError(async function (req: Request, res: Response) {
