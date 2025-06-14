@@ -5,9 +5,9 @@ import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
 export const POST: RequestHandler = async (event) => {
 	const proxy = createProxyService(event);
 
-	const { artworkContentType, artworkFileName, musicContentType, musicFileName } = await event.request.json();
+	const { fileName, musicContentType, artworkContentType } = await event.request.json();
 
-	if (!artworkFileName || !artworkContentType || !musicFileName || !musicContentType) {
+	if (!fileName || !musicContentType || !artworkContentType) {
 		return new Response(JSON.stringify({ error: "Missing fileName or contentType" }), {
 			status: 400,
 			headers: { "Content-Type": "application/json" },
@@ -15,10 +15,9 @@ export const POST: RequestHandler = async (event) => {
 	}
 
 	const { status, body, cookies } = await proxy.forward("POST", PROXY_ENDPOINTS.AUDIO.PRESIGN, {
-		artworkFileName,
-		artworkContentType,
-		musicFileName,
+		fileName,
 		musicContentType,
+		artworkContentType,
 	});
 
 	const headers = new Headers();
