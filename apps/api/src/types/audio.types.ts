@@ -17,9 +17,8 @@ export interface IUploadAudio {
 }
 
 export interface IPresign {
-	musicFileName: string;
+	fileName: string;
 	musicContentType: string;
-	artworkFileName: string;
 	artworkContentType: string;
 }
 

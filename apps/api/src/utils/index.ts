@@ -1,5 +1,3 @@
-import crypto from "crypto";
-
 type Data = Record<string, any>;
 
 function hideSensitiveInfo<T extends Data>(data: T, ...sensitiveInfo: (keyof T)[]): Partial<T> {
@@ -12,17 +10,4 @@ function hideSensitiveInfo<T extends Data>(data: T, ...sensitiveInfo: (keyof T)[
 	return clone;
 }
 
-function sanitizeFilename(filename: string): string {
-	return filename
-		.normalize("NFKD")
-		.replace(/\s+/g, "-")
-		.replace(/[^a-zA-Z0-9\-\.]/g, "")
-		.slice(0, 50)
-		.toLowerCase();
-}
-
-function generateRandomName(length: number): string {
-	return crypto.randomBytes(length).toString("hex");
-}
-
-export { hideSensitiveInfo, sanitizeFilename, generateRandomName };
+export { hideSensitiveInfo };
