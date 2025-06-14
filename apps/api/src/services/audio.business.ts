@@ -1,22 +1,27 @@
 import logger from "@src/configs/logger.config";
 import audioDataService from "@src/services/audio.data";
+import audioService from "@src/services/audio.service";
 import awsDataService from "@src/services/aws.data";
 import { type IAuthUser, type IPresign, type IUpload, AssetCategory } from "@src/types";
-import { sanitizeFilename } from "@src/utils";
 import { catchAsyncBusinessError } from "@src/utils/application-errors";
 
 const presign = catchAsyncBusinessError(async function (authUser: IAuthUser, presignData: IPresign) {
-	logger.info(`audio.business: generating dual presign for user: %s, audio: %s, artwork: %s`, authUser.email, presignData.musicFileName, presignData.artworkFileName);
+	logger.info(`audio.business: generating dual presign for user: %s, audio: %s`, authUser.id, presignData.fileName);
 
-	const sanitizedMusicFilename = sanitizeFilename(presignData.musicFileName);
-	const sanitizedArtworkFilename = sanitizeFilename(presignData.artworkFileName);
+	const cleanAudioName = audioService.extractCleanAudioName(presignData.fileName);
+
+	const storageSafeName = audioService.generateStorageSafeKey(cleanAudioName);
+
+	const musicFileName = `${storageSafeName}.${audioService.getExtensionFromMimeType(presignData.musicContentType)}`;
+	const artworkFileName = `${storageSafeName}_cover.${audioService.getExtensionFromMimeType(presignData.artworkContentType)}`;
 
 	const [musicPresign, artworkPresign] = await Promise.all([
-		awsDataService.presignPutUrl(AssetCategory.AUDIO, sanitizedMusicFilename, presignData.musicContentType),
-		awsDataService.presignPutUrl(AssetCategory.IMAGE, sanitizedArtworkFilename, presignData.artworkContentType),
+		awsDataService.presignPutUrl(AssetCategory.AUDIO, musicFileName, presignData.musicContentType),
+		awsDataService.presignPutUrl(AssetCategory.IMAGE, artworkFileName, presignData.artworkContentType),
 	]);
 
 	return {
+		title: cleanAudioName,
 		music: musicPresign,
 		artwork: artworkPresign,
 	};
@@ -26,8 +31,8 @@ const upload = catchAsyncBusinessError(async function (authUser: IAuthUser, uplo
 	logger.info(`audio.business: uploading audio for user: %s, title: %s, artist: %s`, authUser.email, uploadData.title, uploadData.artist);
 
 	const song = await audioDataService.createSongRecord(authUser.id, uploadData);
-	logger.info(`audio.business: successfully uploaded audio for user: %s, song ID: %s`, authUser.email, song.id);
 
+	logger.info(`audio.business: successfully uploaded audio for user: %s, song ID: %s`, authUser.email, song.id);
 	return song;
 });
 
