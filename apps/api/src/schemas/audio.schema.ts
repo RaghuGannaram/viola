@@ -1,23 +1,28 @@
 import type { IPresign, IUpload } from "@src/types";
 import Joi, { type ObjectSchema } from "joi";
 
+const allowedArtworkContentTypes = ["image/jpeg", "image/png", "image/webp"];
 const allowedMusicContentTypes = ["audio/mpeg", "audio/wav", "audio/flac", "audio/alac", "audio/aac", "audio/ogg", "audio/x-aiff", "audio/x-m4a"];
 
-const allowedArtworkContentTypes = ["image/jpeg", "image/png", "image/webp"];
-
-const filenamePattern = /^[^<>:"/\\|?*\x00-\x1F]+$/;
-const artworkUrlPattern = /^artwork\/[a-zA-Z0-9\-]+\.(jpg|jpeg|png|webp)$/;
-const musicUrlPattern = /^music\/[a-f0-9\-]+-[^\/]+\.(mp3|wav|flac|alac|aac|ogg|aiff|m4a)$/i;
+const artworkUrlPattern = /^artwork\/[a-z0-9-_]+\.(jpg|jpeg|png|webp)$/;
+const musicUrlPattern = /^music\/[a-z0-9-_]+\.(mp3|wav|flac|aac|ogg|aiff|m4a)$/;
 
 export const presignSchema: ObjectSchema<IPresign> = Joi.object({
-	musicFileName: Joi.string().pattern(filenamePattern).min(1).max(200).required().messages({
-		"string.base": "musicFileName should be a string",
-		"string.empty": "musicFileName should not be empty",
-		"string.pattern.base": "musicFileName contains invalid characters",
-		"string.min": "musicFileName must be at least {#limit} characters long",
-		"string.max": "musicFileName must be at most {#limit} characters long",
-		"any.required": "musicFileName is required",
+	fileName: Joi.string().min(1).max(200).required().messages({
+		"string.base": "fileName should be a string",
+		"string.empty": "fileName should not be empty",
+		"string.min": "fileName must be at least {#limit} characters long",
+		"string.max": "fileName must be at most {#limit} characters long",
+		"any.required": "fileName is required",
 	}),
+	artworkContentType: Joi.string()
+		.valid(...allowedArtworkContentTypes)
+		.required()
+		.messages({
+			"any.only": "Invalid artwork content type provided",
+			"string.base": "artworkContentType should be a string",
+			"any.required": "artworkContentType is required",
+		}),
 
 	musicContentType: Joi.string()
 		.valid(...allowedMusicContentTypes)
@@ -26,24 +31,6 @@ export const presignSchema: ObjectSchema<IPresign> = Joi.object({
 			"any.only": "Invalid music content type provided",
 			"string.base": "musicContentType should be a string",
 			"any.required": "musicContentType is required",
-		}),
-
-	artworkFileName: Joi.string().pattern(filenamePattern).min(1).max(200).required().messages({
-		"string.base": "artworkFileName should be a string",
-		"string.empty": "artworkFileName should not be empty",
-		"string.pattern.base": "artworkFileName contains invalid characters",
-		"string.min": "artworkFileName must be at least {#limit} characters long",
-		"string.max": "artworkFileName must be at most {#limit} characters long",
-		"any.required": "artworkFileName is required",
-	}),
-
-	artworkContentType: Joi.string()
-		.valid(...allowedArtworkContentTypes)
-		.required()
-		.messages({
-			"any.only": "Invalid artwork content type provided",
-			"string.base": "artworkContentType should be a string",
-			"any.required": "artworkContentType is required",
 		}),
 });
 
