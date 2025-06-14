@@ -2,7 +2,6 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import AWS from "@src/configs/aws.config";
 import logger from "@src/configs/logger.config";
 import { AssetCategory } from "@src/types";
-import { generateRandomName } from "@src/utils";
 import { catchAsyncDataError, processAWSError } from "@src/utils/application-errors";
 import ms from "ms";
 import { v4 as uuid } from "uuid";
@@ -28,7 +27,7 @@ const getFile = catchAsyncDataError(async (key: string): Promise<string> => {
 });
 
 const presignPutUrl = catchAsyncDataError(async (category: AssetCategory, fileName: string, contentType: string): Promise<{ presignedUrl: string; s3Key: string }> => {
-	const s3Key = `${category}/${uuid()}-${fileName}`;
+	const s3Key = `${category}/${uuid()}_${fileName}`;
 
 	logger.debug(`aws.service: generating presigned PUT URL for key: %s`, s3Key);
 
@@ -53,7 +52,7 @@ const presignPutUrl = catchAsyncDataError(async (category: AssetCategory, fileNa
 const uploadFile = catchAsyncDataError(async (imageCategory: string, imageBuffer: Buffer): Promise<string> => {
 	logger.debug(`aws.service: uploading %s file to s3 bucket`, imageCategory);
 
-	const uniqueFileName = imageCategory + "_" + generateRandomName(16);
+	const uniqueFileName = imageCategory + "_" + uuid();
 	const params = {
 		Bucket: AWS.bucket,
 		Key: uniqueFileName,
