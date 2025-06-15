@@ -2,10 +2,33 @@ import logger from "@src/configs/logger.config";
 import { AUDIO_CONSTANTS } from "@src/constants";
 import { v4 as uuid } from "uuid";
 
-function buildNoiseRegex(): RegExp {
-	const parts = AUDIO_CONSTANTS.filenameContaminants.map((keyword) => `${keyword}(\\.\\w{2,5})?`);
+const { FILE_NAME_CONTAMINANTS, ALBUM_NAME_CONTAMINANTS, MIME_TO_EXTENSION } = AUDIO_CONSTANTS;
+
+function buildAudioNoiseRegex(): RegExp {
+	const parts = FILE_NAME_CONTAMINANTS.map((keyword) => `${keyword}(\\.\\w{2,5})?`);
 	const combinedPattern = parts.join("|");
 	return new RegExp(combinedPattern, "ig");
+}
+
+function buildAlbumNoiseRegex(): RegExp {
+	const pattern = `\\b(${ALBUM_NAME_CONTAMINANTS.join("|")})\\b`;
+	return new RegExp(pattern, "gi");
+}
+
+function generateFallbackAudioName(): string {
+	const now = new Date();
+	const formattedDate = now.toISOString().split("T")[0]?.replace(/-/g, "_");
+	const uniqueSuffix = uuid().slice(0, 8);
+
+	return `Viola Untitled Audio ${formattedDate} ${uniqueSuffix}`;
+}
+
+function generateFallbackAlbumName(): string {
+	const now = new Date();
+	const formattedDate = now.toISOString().split("T")[0]?.replace(/-/g, "_");
+	const uniqueSuffix = uuid().slice(0, 8);
+
+	return `Viola Untitled Album ${formattedDate} ${uniqueSuffix}`;
 }
 
 function extractCleanAudioName(rawFileName: string): string {
@@ -19,8 +42,8 @@ function extractCleanAudioName(rawFileName: string): string {
 	// Remove any content inside parentheses ( ... ) inclusive (often year, movie names, etc.)
 	cleaned = cleaned.replace(/\(.*?\)/g, "");
 
-	const filenameNoiseRegex = buildNoiseRegex();
 	// Remove known junk website sources (iSongs, Pagalworld, etc.)
+	const filenameNoiseRegex = buildAudioNoiseRegex();
 	cleaned = cleaned.replace(filenameNoiseRegex, "");
 
 	// Remove patterns like "track 01", "track02", "track-3", "track_4" etc.
@@ -50,6 +73,51 @@ function extractCleanAudioName(rawFileName: string): string {
 	return cleaned;
 }
 
+function extractCleanAlbumName(rawAlbumName: string): string {
+	let cleaned = rawAlbumName;
+
+	// Remove any content inside square brackets [ ... ] inclusive (often years, tags)
+	cleaned = cleaned.replace(/\[.*?\]/g, "");
+
+	// Remove any content inside parentheses ( ... ) inclusive (often editions, years etc.)
+	cleaned = cleaned.replace(/\(.*?\)/g, "");
+
+	// Remove known junk website sources (iTunes, Pagalworld, etc.)
+	const albumNoiseRegex = buildAlbumNoiseRegex();
+	cleaned = cleaned.replace(albumNoiseRegex, "");
+
+	// Remove all remaining non-alphanumeric characters (preserving spaces)
+	cleaned = cleaned.replace(/[^a-zA-Z0-9\s]/g, "");
+
+	// Collapse multiple spaces into one
+	cleaned = cleaned.replace(/\s+/g, " ").trim();
+
+	// Title-casing for UI
+	cleaned = cleaned
+		.split(" ")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+		.join(" ");
+
+	//  Fallback handling
+	if (!cleaned) {
+		logger.warn(`Album name extraction failed for: "${rawAlbumName}". Using fallback name.`);
+		cleaned = generateFallbackAlbumName();
+	}
+
+	return cleaned;
+}
+
+function extractArtistNames(raw: string): string[] {
+	return raw
+		.split(/[,;&/]+/)
+		.map((str) => str.replace(/feat\.?.*/i, "").trim())
+		.filter(Boolean)
+		.map((str) => {
+			const words = str.toLowerCase().split(/\s+/);
+			return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+		});
+}
+
 function generateStorageSafeKey(cleanAudioName: string): string {
 	return cleanAudioName
 		.toLowerCase()
@@ -57,26 +125,14 @@ function generateStorageSafeKey(cleanAudioName: string): string {
 		.replace(/[^a-z0-9_]/g, "");
 }
 
-function generateFallbackAudioName(): string {
-	const now = new Date();
-	const day = String(now.getDate()).padStart(2, "0");
-	const month = String(now.getMonth() + 1).padStart(2, "0");
-	const year = now.getFullYear();
-
-	const formattedDate = `${day}_${month}_${year}`;
-	const uniqueSuffix = uuid().slice(0, 8);
-
-	return `Viola Untitled Audio ${formattedDate} ${uniqueSuffix}`;
-}
-
 function getExtensionFromMimeType(contentType: string): string {
-	return AUDIO_CONSTANTS.mimeToExtension[contentType] ?? "bin";
+	return MIME_TO_EXTENSION[contentType] ?? "bin";
 }
-
-console.log(extractCleanAudioName(" [iSongs] track 01 - (2023).mp3")); // "My Song"
 
 export default {
 	extractCleanAudioName,
+	extractCleanAlbumName,
+	extractArtistNames,
 	generateStorageSafeKey,
 	getExtensionFromMimeType,
 };
