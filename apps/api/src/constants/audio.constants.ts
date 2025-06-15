@@ -1,4 +1,4 @@
-const filenameContaminants: string[] = [
+const FILE_NAME_CONTAMINANTS: string[] = [
 	// Indian / South Asian piracy sources
 	"isongs",
 	"naasongs",
@@ -69,21 +69,39 @@ const filenameContaminants: string[] = [
 	"tamil",
 ];
 
-const mimeToExtension: Record<string, string> = {
+const ALBUM_NAME_CONTAMINANTS = [
+	"deluxe edition",
+	"remastered",
+	"bonus tracks",
+	"expanded edition",
+	"special edition",
+	"anniversary edition",
+	"collector's edition",
+	"limited edition",
+	"deluxe",
+	"remaster",
+	"cd",
+	"disc",
+	"volume",
+	"vol",
+];
+
+const MIME_TO_EXTENSION: Record<string, string> = {
 	"audio/mpeg": "mp3",
 	"audio/wav": "wav",
 	"audio/flac": "flac",
+	"audio/alac": "alac",
 	"audio/aac": "aac",
 	"audio/ogg": "ogg",
 	"audio/x-aiff": "aiff",
 	"audio/x-m4a": "m4a",
-
 	"image/jpeg": "jpg",
 	"image/png": "png",
 	"image/webp": "webp",
 };
 
 export default {
-	filenameContaminants,
-	mimeToExtension,
+	FILE_NAME_CONTAMINANTS,
+	ALBUM_NAME_CONTAMINANTS,
+	MIME_TO_EXTENSION,
 };
