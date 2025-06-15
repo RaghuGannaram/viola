@@ -14,6 +14,7 @@ declare module NodeJS {
         AWS_BUCKET_NAME: string;
         AWS_BUCKET_REGION: string;
         AWS_SIGNED_URL_EXPIRATION: string;
+        AWS_CLOUD_FRONT_URL: string;
         ACCESS_TOKEN_SECRET: string;
         REFRESH_TOKEN_SECRET: string;
         ACCESS_TOKEN_VALIDITY: string;

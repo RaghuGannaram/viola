@@ -2,7 +2,7 @@ import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } fro
 import logger from "@src/configs/logger.config";
 import { getAWSParams } from "@src/utils/env-info";
 
-const { accessKey, secretAccessKey, region, bucket, signedUrlValidity } = getAWSParams();
+const { accessKey, secretAccessKey, region, bucket, signedUrlValidity, cloudFrontUrl } = getAWSParams();
 
 const s3ClientInstance = new S3Client({
 	region: region,
@@ -21,4 +21,5 @@ export default {
 	DeleteObjectCommand,
 	bucket,
 	signedUrlValidity,
+	cloudFrontUrl,
 };

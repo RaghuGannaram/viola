@@ -39,6 +39,7 @@ export function getAWSParams(): {
 	region: string;
 	bucket: string;
 	signedUrlValidity: string;
+	cloudFrontUrl: string;
 } {
 	return {
 		accessKey: process.env["AWS_ACCESS_KEY"],
@@ -46,6 +47,7 @@ export function getAWSParams(): {
 		region: process.env["AWS_BUCKET_REGION"],
 		bucket: process.env["AWS_BUCKET_NAME"],
 		signedUrlValidity: process.env["AWS_SIGNED_URL_EXPIRATION"],
+		cloudFrontUrl: process.env["AWS_CLOUD_FRONT_URL"],
 	};
 }
 
