@@ -8,15 +8,15 @@ router.post("/presign", authenticate, audioController.presign);
 
 router.post("/upload", authenticate, audioController.upload);
 
+router.get("/list", authenticate, audioController.list);
+
+router.get("/info/:audioId", authenticate, audioController.info);
+
+router.get("/stream/:audioId", authenticate, audioController.stream);
+
 // router.get("/download/:audioId", audioController.download);
 
-// router.get("/stream/:audioId", audioController.stream);
-
-// router.get("/list", audioController.list);
-
 // router.delete("/delete/:audioId", audioController.delete);
-
-// router.get("/info/:audioId", audioController.info);
 
 // router.get("/search", audioController.search);
 

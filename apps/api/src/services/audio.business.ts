@@ -30,10 +30,48 @@ const presign = catchAsyncBusinessError(async function (authUser: IAuthUser, pre
 const upload = catchAsyncBusinessError(async function (authUser: IAuthUser, uploadData: IUpload) {
 	logger.info(`audio.business: uploading audio for user: %s, title: %s, artist: %s`, authUser.email, uploadData.title, uploadData.artist);
 
-	const song = await audioDataService.createSongRecord(authUser.id, uploadData);
+	const artistNames = audioService.extractArtistNames(uploadData.artist);
+	const albumName = audioService.extractCleanAlbumName(uploadData.album);
+
+	const song = await audioDataService.createSongRecord(authUser.id, {
+		title: uploadData.title,
+		lyrics: uploadData.lyrics,
+		musicUrl: uploadData.musicUrl,
+		artworkUrl: uploadData.artworkUrl,
+		albumName: albumName,
+		artistNames: artistNames,
+	});
 
 	logger.info(`audio.business: successfully uploaded audio for user: %s, song ID: %s`, authUser.email, song.id);
 	return song;
 });
 
-export default { presign, upload };
+const list = catchAsyncBusinessError(async function () {
+	logger.info(`audio.business: listing all songs`);
+
+	const songs = await audioDataService.listAllSongRecords();
+
+	for (const song of songs) {
+		song.artworkUrl = awsDataService.generateCloudFrontUrl(song.artworkUrl);
+	}
+
+	return songs;
+});
+
+const info = catchAsyncBusinessError(async function (songId: string) {
+	logger.info(`audio.business: retrieving info for song ID: %s`, songId);
+
+	const song = await audioDataService.getSongRecord(songId);
+
+	return song;
+});
+
+const stream = catchAsyncBusinessError(async function (songId: string) {
+	logger.info(`audio.business: streaming song ID: %s`, songId);
+
+	const streamUrl = await audioDataService.getStreamUrl(songId);
+
+	return streamUrl;
+});
+
+export default { presign, upload, list, info, stream };

@@ -6,61 +6,148 @@ import { catchAsyncDataError, processPrismaError } from "@src/utils/application-
 
 const prisma = new PrismaClient();
 
-const createSongRecord = catchAsyncDataError(async function (userId: string, uploadData: IUpload): Promise<Song> {
-	logger.debug(`audio.data: inserting song metadata into database for user: %s`, userId);
+const createSongRecord = catchAsyncDataError(async function (
+	userId: string,
+	uploadData: Omit<IUpload, "album" | "artist"> & { albumName: string; artistNames: string[] },
+): Promise<Song> {
+	logger.debug(`audio.data: creating song record for user: %s, title: %s`, userId, uploadData.title);
 
-	// 1️⃣ Normalize artist names (upsert artists)
-	const artistNames = uploadData.artist.split(",").map((a) => a.trim());
-	const artistIds: string[] = [];
+	let result: Song;
 
-	for (const name of artistNames) {
-		const artist = await prisma.artist.upsert({
-			where: { name },
-			update: {},
-			create: { name },
+	try {
+		result = await prisma.$transaction(async (tx) => {
+			const artists = await Promise.all(
+				uploadData.artistNames.map((name) =>
+					tx.artist.upsert({
+						where: { name },
+						update: {},
+						create: { name },
+					}),
+				),
+			);
+
+			const album = await tx.album.upsert({
+				where: { title: uploadData.albumName },
+				update: {},
+				create: { title: uploadData.albumName },
+			});
+
+			const song = await tx.song.create({
+				data: {
+					userId: userId,
+					title: uploadData.title,
+					lyrics: uploadData.lyrics,
+					musicUrl: uploadData.musicUrl,
+					artworkUrl: uploadData.artworkUrl,
+					albumId: album.id,
+				},
+			});
+
+			await Promise.all(
+				artists.map((artist) =>
+					tx.credit.create({
+						data: { songId: song.id, artistId: artist.id },
+					}),
+				),
+			);
+
+			await Promise.all(
+				artists.map((artist) =>
+					tx.contribution.upsert({
+						where: { albumId_artistId: { albumId: album.id, artistId: artist.id } },
+						update: {},
+						create: { albumId: album.id, artistId: artist.id },
+					}),
+				),
+			);
+
+			return song;
 		});
-		artistIds.push(artist.id);
+	} catch (error) {
+		processPrismaError(error);
 	}
 
-	// 2️⃣ Upsert album directly on title uniqueness
-	const album = await prisma.album.upsert({
-		where: { title: uploadData.album },
-		update: {},
-		create: { title: uploadData.album },
-	});
+	return result;
+});
 
-	// 3️⃣ Insert song record
-	let song;
+const listAllSongRecords = catchAsyncDataError(async function (): Promise<Song[]> {
+	logger.debug(`audio.data: listing all song records`);
+
+	let result: Song[];
+
 	try {
-		song = await prisma.song.create({
-			data: {
-				userId,
-				title: uploadData.title,
-				lyrics: uploadData.lyrics,
-				audioUrl: uploadData.musicUrl,
-				coverUrl: uploadData.artworkUrl,
-				albumId: album.id,
+		result = await prisma.song.findMany({
+			select: {
+				id: true,
+				title: true,
+				duration: true,
+				trackNumber: true,
+				lyrics: true,
+				musicUrl: true,
+				artworkUrl: true,
+				createdAt: true,
+				albumId: true,
+				userId: true,
 			},
 		});
 	} catch (error) {
 		processPrismaError(error);
 	}
 
-	// 4️⃣ Insert artist credits (Song ⇔ Artist mapping)
-	const creditInserts = artistIds.map((artistId) =>
-		prisma.credit.create({
-			data: {
-				songId: song.id,
-				artistId,
+	return result;
+});
+
+const getSongRecord = catchAsyncDataError(async function (songId: string): Promise<Song | null> {
+	logger.debug(`audio.data: retrieving song record for ID: %s`, songId);
+
+	let result: Song | null;
+
+	try {
+		result = await prisma.song.findUnique({
+			where: { id: songId },
+			include: {
+				album: true,
+				artists: {
+					include: {
+						artist: true,
+					},
+				},
+				user: {
+					select: {
+						id: true,
+						username: true,
+						avatarUrl: true,
+					},
+				},
 			},
-		}),
-	);
+		});
+	} catch (error) {
+		processPrismaError(error);
+	}
 
-	await prisma.$transaction(creditInserts);
+	return result;
+});
 
-	return song;
+const getStreamUrl = catchAsyncDataError(async function (songId: string): Promise<string> {
+	logger.debug(`audio.data: retrieving stream URL for song ID: %s`, songId);
+
+	let result: string;
+
+	try {
+		const song = await prisma.song.findUnique({
+			where: { id: songId },
+			select: { musicUrl: true },
+		});
+		result = song?.musicUrl ?? "";
+	} catch (error) {
+		processPrismaError(error);
+	}
+	return result;
 });
 
 export default {
+	listAllSongRecords,
 	createSongRecord,
+	getSongRecord,
+	getStreamUrl,
 };
