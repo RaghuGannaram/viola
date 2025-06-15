@@ -8,6 +8,9 @@ const PROXY_ENDPOINTS = {
 	AUDIO: {
 		PRESIGN: "/audio/presign",
 		UPLOAD: "/audio/upload",
+		LIST: "/audio/list",
+		INFO: "/audio/info",
+		STREAM: "/audio/stream",
 	},
 };
 
@@ -21,6 +24,9 @@ const BACKEND_ENDPOINTS = {
 	AUDIO: {
 		PRESIGN: "/audio/presign",
 		UPLOAD: "/audio/upload",
+		LIST: "/audio/list",
+		INFO: "/audio/info",
+		STREAM: "/audio/stream",
 	},
 };
 
