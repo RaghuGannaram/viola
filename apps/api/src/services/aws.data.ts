@@ -69,6 +69,16 @@ const uploadFile = catchAsyncDataError(async (imageCategory: string, imageBuffer
 	return uniqueFileName;
 });
 
+const generateCloudFrontUrl = (s3Key: string): string => {
+	const cloudFrontUrl = AWS.cloudFrontUrl;
+
+	if (!cloudFrontUrl) {
+		throw new Error("CloudFront URL is not configured in AWS settings.");
+	}
+
+	return `${cloudFrontUrl}/${s3Key}`;
+};
+
 const deleteFile = catchAsyncDataError(async (key: string): Promise<void> => {
 	logger.debug(`aws.service: deleting file: %s from s3 bucket`, key);
 
@@ -88,5 +98,6 @@ export default {
 	getFile,
 	presignPutUrl,
 	uploadFile,
+	generateCloudFrontUrl,
 	deleteFile,
 };
