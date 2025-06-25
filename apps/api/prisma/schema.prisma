@@ -58,7 +58,7 @@ model Song {
     title       String
     duration    Int?
     trackNumber Int?
-    lyrics      String?
+    lyrics      String        @default("")
     musicUrl    String
     artworkUrl  String        @default("defaultCover.png")
     albumId     String?       @db.Uuid
