@@ -89,6 +89,9 @@ const listAllSongRecords = catchAsyncDataError(async function (): Promise<Song[]
 				albumId: true,
 				userId: true,
 			},
+			orderBy: {
+				title: "asc",
+			},
 		});
 	} catch (error) {
 		processPrismaError(error);

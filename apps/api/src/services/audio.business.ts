@@ -69,7 +69,14 @@ const info = catchAsyncBusinessError(async function (songId: string) {
 const stream = catchAsyncBusinessError(async function (songId: string) {
 	logger.info(`audio.business: streaming song ID: %s`, songId);
 
-	const streamUrl = await audioDataService.getStreamUrl(songId);
+	const audioUrl = await audioDataService.getStreamUrl(songId);
+
+	if (!audioUrl) {
+		logger.error(`audio.business: audio URL not found for song ID: %s`, songId);
+		throw new Error("Audio URL not found");
+	}
+
+	const streamUrl = awsDataService.getFile(audioUrl);
 
 	return streamUrl;
 });
