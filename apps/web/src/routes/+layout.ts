@@ -1,1 +1,8 @@
-console.log("+layout.ts loaded");
+import type { LayoutLoad } from "./$types";
+
+export const load: LayoutLoad = async ({ data }) => {
+	return {
+		accessToken: data["accessToken"],
+		profile: data["profile"],
+	};
+};

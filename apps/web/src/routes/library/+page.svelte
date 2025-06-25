@@ -1,9 +1,10 @@
 <!-- src/routes/library/+page.svelte -->
 <script lang="ts">
+	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
 	import { Tabs } from "@skeletonlabs/skeleton-svelte";
-	import { trackList } from "$lib/stores/trackStore";
-	import { currentTrack } from "$lib/stores/playerStore";
+	import { trackMetadataList } from "$lib/stores/trackMetadataStore";
+	import { playback } from "$lib/stores/playbackStore";
 	import defaultAlbumImage from "$lib/assets/album.png";
 	import defaultArtistImage from "$lib/assets/artist.png";
 	import type { ITrack } from "$lib/types";
@@ -12,22 +13,34 @@
 	let tracks: ITrack[] = $state([]);
 	let searchQuery = $state("");
 
+	onMount(() => {
+		trackMetadataList
+			.hydrate()
+			.then(() => {
+				console.log("Track metadata store hydrated:", $trackMetadataList);
+			})
+			.catch((error) => {
+				console.error("Error hydrating track metadata store:", error);
+			});
+		``;
+	});
+
 	$effect(() => {
 		if (!searchQuery.trim()) {
-			tracks = $trackList;
+			tracks = $trackMetadataList;
 		}
 	});
 
 	async function onSearch() {
 		if (searchQuery.trim()) {
-			tracks = await trackList.search(searchQuery);
+			// tracks = await trackMetadataList.search(searchQuery);
 		} else {
-			tracks = $trackList;
+			tracks = $trackMetadataList;
 		}
 	}
 
 	function playTrack(track: ITrack) {
-		currentTrack.set(track);
+		playback.set(track);
 		goto("/player");
 	}
 
@@ -51,7 +64,7 @@
 	<meta name="description" content="Your personal music library" />
 </svelte:head>
 
-<main class="min-h-screen bg-neutral-900 text-neutral-200 p-6 space-y-10">
+<main class="min-h-screen p-6 space-y-10">
 	<!-- Search Bar -->
 	<div>
 		<input type="text" bind:value={searchQuery} placeholder="Search songs, artists, albums..." class="form-input w-full p-3 text-base" oninput={onSearch} />

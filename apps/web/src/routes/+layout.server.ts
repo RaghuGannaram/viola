@@ -1,6 +1,6 @@
-console.log("+layout.server.ts loaded");
+import type { LayoutServerLoad } from "./$types";
 
-export const load = async (event) => {
+export const load: LayoutServerLoad = async (event) => {
 	return {
 		accessToken: event.locals.accessToken,
 		profile: event.locals.profile,

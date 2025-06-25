@@ -15,11 +15,14 @@
 </style>
 
 <script lang="ts">
-	import { get } from "svelte/store";
+	// import { get } from "svelte/store";
+	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
-	import { currentTrack } from "$lib/stores/playerStore";
-	import { trackList } from "$lib/stores/trackStore";
+	import { playback } from "$lib/stores/playbackStore";
+	// import { trackList } from "$lib/stores/trackStore";
 	import Icon from "$lib/components/Icon/index.svelte";
+	import proxyClient from "$lib/services/http/proxy/client";
+	import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
 
 	let audioElement: HTMLAudioElement | null = $state(null);
 	let play = $state(true);
@@ -31,14 +34,14 @@
 	let repeat = $state(false);
 
 	$effect(() => {
-		if (audioElement && $currentTrack) {
-			audioElement.src = $currentTrack.url;
+		if (audioElement && $playback) {
+			audioElement.src = $playback.streamUrl || "";
 			audioElement.load();
 		}
 	});
 
 	$effect(() => {
-		if (audioElement && $currentTrack) {
+		if (audioElement && $playback) {
 			play ? audioElement?.play() : audioElement?.pause();
 		}
 	});
@@ -55,9 +58,24 @@
 		}
 	});
 
+	onMount(() => {
+		async function fetchStreamingUrl() {
+			const response = await proxyClient.get(`${PROXY_ENDPOINTS.AUDIO.STREAM}/${$playback.id}`);
+			console.log("response", response);
+			if (response.data && response.data.streamUrl) {
+				$playback.streamUrl = response.data.streamUrl;
+				console.log("viola-log: Streaming URL fetched successfully:", $playback.streamUrl);
+			} else {
+				console.error("viola-error: Failed to fetch streaming URL for playback.");
+			}
+		}
+
+		fetchStreamingUrl();
+	});
+
 	async function syncCurrentTrack() {
 		console.log("viola-log: Syncing current track...");
-		if (!$currentTrack) return;
+		if (!$playback) return;
 
 		let attempts = 0;
 		const maxAttempts = 10;
@@ -65,13 +83,13 @@
 
 		while (attempts < maxAttempts) {
 			console.log("viola-log: Attempting to sync current track...", attempts);
-			const allTracks = get(trackList);
-			const match = allTracks.find((t) => t.id === $currentTrack.id);
-			if (match) {
-				console.log("viola-log: Track found in trackList:", match);
-				currentTrack.set(match);
-				return;
-			}
+			// const allTracks = get(trackList);
+			// const match = allTracks.find((t) => t.id === $playback.id);
+			// if (match) {
+			// 	console.log("viola-log: Track found in trackList:", match);
+			// 	playback.set(match);
+			// 	return;
+			// }
 
 			await new Promise((res) => setTimeout(res, delay));
 			attempts++;
@@ -115,8 +133,8 @@
 	}
 
 	function navigateToAlbum() {
-		if ($currentTrack) {
-			const albumName = $currentTrack.album ?? "Unknown Album";
+		if ($playback) {
+			const albumName = $playback.album ?? "Unknown Album";
 			goto(`/album/${encodeURIComponent(albumName)}`);
 		}
 	}
@@ -127,12 +145,12 @@
 			audioElement!.play();
 			play = true;
 		} else if (shuffle) {
-			const allTracks = $trackList;
-			if (allTracks.length > 0) {
-				const randomIndex = Math.floor(Math.random() * allTracks.length);
-				const randomTrack = allTracks[randomIndex];
-				currentTrack.set(randomTrack!);
-			}
+			// const allTracks = $trackList;
+			// if (allTracks.length > 0) {
+			// 	const randomIndex = Math.floor(Math.random() * allTracks.length);
+			// 	const randomTrack = allTracks[randomIndex];
+			// 	playback.set(randomTrack!);
+			// }
 		} else {
 			play = false;
 		}
@@ -171,17 +189,17 @@
 	}
 </script>
 
-<main class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-neutral-900 to-black text-neutral-100 p-6 gap-8">
-	{#if $currentTrack}
+<main class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br p-6 gap-8">
+	{#if $playback}
 		<!-- Cover Art -->
 		<div class="relative w-64 h-64 rounded-full overflow-hidden shadow-lg">
-			<img src={$currentTrack.coverImage ?? "/images/default-album.jpg"} alt={$currentTrack.title} class="w-full h-full object-cover {play ? 'animate-spin-slow' : ''}" />
+			<img src={$playback.artworkUrl ?? "/images/default-album.jpg"} alt={$playback.title} class="w-full h-full object-cover {play ? 'animate-spin-slow' : ''}" />
 		</div>
 
 		<!-- Track Info -->
 		<div class="text-center space-y-2 w-full">
-			<h1 class="text-3xl font-bold text-green-400">{$currentTrack.title}</h1>
-			<p class="text-sm text-neutral-400 truncate">{$currentTrack.artist} — {$currentTrack.album}</p>
+			<h1 class="text-3xl font-bold text-green-400">{$playback.title}</h1>
+			<p class="text-sm text-neutral-400 truncate">{$playback.artist} — {$playback.album}</p>
 		</div>
 
 		<!-- Progress Bar -->
@@ -238,7 +256,7 @@
 			</div>
 
 			<!-- Go to Album Button -->
-			{#if $currentTrack?.album}
+			{#if $playback?.album}
 				<button class="btn btn-outline pr-0 ml-8 mb-1 text-sm hover:text-green-400 hover:border-green-400 transition" onclick={navigateToAlbum}>
 					<Icon name="f7:music-albums" size={20} />
 				</button>
