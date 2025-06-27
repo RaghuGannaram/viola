@@ -1,8 +1,8 @@
-import chalk from "chalk";
-import { createClient, type RedisClientType } from "redis";
 import logger from "@src/configs/logger.config";
 import { CacheProvider, type ISessionStore, type IRedisParams } from "@src/types";
 import { getCacheParams } from "@src/utils/env-info";
+import chalk from "chalk";
+import { createClient, type RedisClientType } from "redis";
 
 export class RedisCache implements ISessionStore {
 	private static instance: RedisCache;

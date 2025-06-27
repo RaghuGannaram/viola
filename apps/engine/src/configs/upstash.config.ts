@@ -1,8 +1,8 @@
-import { Redis } from "@upstash/redis";
-import chalk from "chalk";
 import logger from "@src/configs/logger.config";
 import { CacheProvider, type ISessionStore, type IUpstashParams } from "@src/types";
 import { getCacheParams } from "@src/utils/env-info";
+import { Redis } from "@upstash/redis";
+import chalk from "chalk";
 
 export class UpstashCache implements ISessionStore {
 	private static instance: UpstashCache;

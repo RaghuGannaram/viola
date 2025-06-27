@@ -1,9 +1,9 @@
-import chalk from "chalk";
 import logger from "@src/configs/logger.config";
 import { RedisCache } from "@src/configs/redis.config";
 import { UpstashCache } from "@src/configs/upstash.config";
 import { CacheProvider, type ISessionStore } from "@src/types";
 import { getCacheProvider } from "@src/utils/env-info";
+import chalk from "chalk";
 
 const cacheProvider = getCacheProvider();
 let sessionStore: ISessionStore;

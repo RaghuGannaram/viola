@@ -1,8 +1,8 @@
+import logger from "@src/configs/logger.config";
+import { getMongoUrl, getCurrentEnv } from "@src/utils/env-info";
 import chalk from "chalk";
 import mongoose, { type Connection } from "mongoose";
 import { type ConnectOptions } from "mongoose";
-import logger from "@src/configs/logger.config";
-import { getMongoUrl, getCurrentEnv } from "@src/utils/env-info";
 
 type Config = Record<ReturnType<typeof getCurrentEnv>, ConnectOptions>;
 

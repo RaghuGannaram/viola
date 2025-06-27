@@ -1,2 +1,0 @@
-### health check
-GET http://localhost:5000/health-check HTTP/1.1

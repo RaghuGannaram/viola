@@ -1,5 +1,5 @@
 {
-	"name": "api",
+	"name": "engine",
 	"version": "1.0.0",
 	"description": "Viola API server",
 	"private": true,
@@ -18,7 +18,7 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/raghugannaram/viola.git",
-		"directory": "./apps/api"
+		"directory": "./apps/engine"
 	},
 	"bugs": {
 		"url": "https://github.com/raghugannaram/viola.git/issues",
