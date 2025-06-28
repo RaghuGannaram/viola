@@ -77,17 +77,40 @@ const listAllSongRecords = catchAsyncDataError(async function (): Promise<Song[]
 
 	try {
 		result = await prisma.song.findMany({
-			select: {
-				id: true,
-				title: true,
-				duration: true,
-				trackNumber: true,
-				lyrics: true,
-				musicUrl: true,
-				artworkUrl: true,
-				createdAt: true,
-				albumId: true,
-				userId: true,
+			include: {
+				album: {
+					select: {
+						id: true,
+						title: true,
+						coverUrl: true,
+						releaseDate: true,
+					},
+				},
+				artists: {
+					select: {
+						artist: {
+							select: {
+								id: true,
+								name: true,
+								imageUrl: true,
+							},
+						},
+					},
+				},
+				reactions: {
+					select: {
+						emoji: true,
+						userId: true,
+						reactedAt: true,
+						user: {
+							select: {
+								id: true,
+								username: true,
+								avatarUrl: true,
+							},
+						},
+					},
+				},
 			},
 			orderBy: {
 				title: "asc",
