@@ -199,7 +199,7 @@
 		<!-- Track Info -->
 		<div class="text-center space-y-2 w-full">
 			<h1 class="text-3xl font-bold text-green-400">{$playback.title}</h1>
-			<p class="text-sm text-neutral-400 truncate">{$playback.artist} — {$playback.album}</p>
+			<p class="text-sm text-neutral-400 truncate">{$playback.artists.map((a) => a.artist.name).join(", ")} — {$playback.album.title}</p>
 		</div>
 
 		<!-- Progress Bar -->
