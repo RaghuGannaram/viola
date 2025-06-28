@@ -107,8 +107,8 @@
 	},
 	"references": [
 		/* Apps */
-		{ "path": "./apps/web" },
-		{ "path": "./apps/api" },
+		{ "path": "./apps/theater" },
+		{ "path": "./apps/engine" },
 
 		/* Packages */
 		{ "path": "./packages/utils" }
