@@ -21,6 +21,8 @@
 	import { playback } from "$lib/stores/playbackStore";
 	// import { trackList } from "$lib/stores/trackStore";
 	import Icon from "$lib/components/Icon/index.svelte";
+	import SeekBar from "$lib/components/SeekBar.svelte";
+	import VolumeComb from "$lib/components/VolumeComb.svelte";
 	import proxyClient from "$lib/services/http/proxy/client";
 	import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
 
@@ -96,14 +98,6 @@
 		}
 
 		console.warn("syncCurrentTrack: Track not found in trackList after retries.");
-	}
-
-	function formatTime(sec: number) {
-		const m = Math.floor(sec / 60);
-		const s = Math.floor(sec % 60)
-			.toString()
-			.padStart(2, "0");
-		return `${m}:${s}`;
 	}
 
 	function playPauseHandler() {
@@ -198,22 +192,16 @@
 
 		<!-- Track Info -->
 		<div class="text-center space-y-2 w-full">
-			<h1 class="text-3xl font-bold text-green-400">{$playback.title}</h1>
-			<p class="text-sm text-neutral-400 truncate">{$playback.artists.map((a) => a.artist.name).join(", ")} — {$playback.album.title}</p>
+			<h1 class="text-3xl font-bold text-primary-400">{$playback.title}</h1>
+			<p class="text-sm text-surface-400 truncate">{$playback.artists.map((a: any) => a.artist.name).join(", ")} — {$playback.album.title}</p>
 		</div>
 
 		<!-- Progress Bar -->
-		<div class="w-full max-w-2xl space-y-2">
-			<input type="range" min="0" max={trackDuration} step="0.01" bind:value={trackProgress} oninput={seekHandler} class="form-range w-full accent-green-400" />
-			<div class="flex justify-between text-xs text-neutral-500">
-				<span>{formatTime(trackProgress)}</span>
-				<span>{formatTime(trackDuration)}</span>
-			</div>
-		</div>
+		<SeekBar {trackProgress} {trackDuration} {seekHandler} />
 
 		<!-- Playback Controls -->
 		<div class="flex justify-between items-center w-full max-w-md mt-6">
-			<button class="btn btn-circle btn-outline pl-0 {shuffle ? 'text-green-400' : ''}" onclick={shuffleHandler}>
+			<button class="btn btn-circle btn-outline pl-0 {shuffle ? 'text-primary-400' : ''}" onclick={shuffleHandler}>
 				<Icon name="mdi:shuffle" size={24} />
 			</button>
 
@@ -235,29 +223,18 @@
 				<Icon name="mdi:skip-next" size={28} />
 			</button>
 
-			<button class="btn btn-circle btn-outline pr-0 {repeat ? 'text-green-400' : ''}" onclick={repeatHandler}>
+			<button class="btn btn-circle btn-outline pr-0 {repeat ? 'text-primary-400' : ''}" onclick={repeatHandler}>
 				<Icon name="mdi:repeat" size={24} />
 			</button>
 		</div>
 
 		<div class="flex items-center w-full max-w-md justify-between mt-6">
 			<!-- Volume Control -->
-			<!-- Volume control: show slider only on hover -->
-			<div class="  flex items-center w-full gap-2">
-				<!-- Volume Button -->
-				<button onclick={muteHandler} class="group-hover:text-green-400 transition">
-					<div class="w-6 h-6 flex items-center justify-center">
-						<Icon name={mute ? "mdi:volume-mute" : "mdi:volume-high"} size={24} />
-					</div>
-				</button>
-
-				<!-- Slider (only visible on hover) -->
-				<input type="range" min="0" max="1" step="0.01" bind:value={volume} oninput={volumeHandler} class="form-range flex-1 accent-green-400" />
-			</div>
+			<VolumeComb {volume} {mute} {volumeHandler} {muteHandler} />
 
 			<!-- Go to Album Button -->
 			{#if $playback?.album}
-				<button class="btn btn-outline pr-0 ml-8 mb-1 text-sm hover:text-green-400 hover:border-green-400 transition" onclick={navigateToAlbum}>
+				<button class="btn btn-outline pr-0 ml-1 mb-1 text-sm hover:text-primary-400 hover:border-primary-400 transition" onclick={navigateToAlbum}>
 					<Icon name="f7:music-albums" size={20} />
 				</button>
 			{/if}
@@ -276,6 +253,6 @@
 			onerror={trackErrorHandler}
 		></audio>
 	{:else}
-		<p class="text-neutral-400">No track selected. Please pick a track from the Library.</p>
+		<p class="text-surface-400">No track selected. Please pick a track from the Library.</p>
 	{/if}
 </main>
