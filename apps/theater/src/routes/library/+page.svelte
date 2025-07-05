@@ -50,19 +50,18 @@
 </svelte:head>
 
 <main class="min-h-screen p-6 space-y-10">
-	<Tabs value={activeTab} onValueChange={(event: { value: string }) => (activeTab = event.value)}>
+	<Tabs value={activeTab} onValueChange={(event: { value: string }) => (activeTab = event.value)} listClasses="text-primary-400" listBorder="border-b border-primary-400/50">
 		{#snippet list()}
-			<Tabs.Control {...{ value: "songs" } as any}>All Songs</Tabs.Control>
-			<Tabs.Control {...{ value: "albums" } as any}>Albums</Tabs.Control>
-			<Tabs.Control {...{ value: "artists" } as any}>Artists</Tabs.Control>
+			<Tabs.Control {...{ value: "songs" } as any} labelClasses=" hover:bg-surface-800/50 hover:text-primary-400"><span>All Songs</span></Tabs.Control>
+			<Tabs.Control {...{ value: "albums" } as any} labelClasses=" hover:bg-surface-800/50 hover:text-primary-400"><span>Albums</span></Tabs.Control>
+			<Tabs.Control {...{ value: "artists" } as any} labelClasses=" hover:bg-surface-800/50 hover:text-primary-400"><span>Artists</span></Tabs.Control>
 		{/snippet}
 
 		{#snippet content()}
 			<Tabs.Panel {...{ value: "songs" } as any}>
-				<h2 class="text-2xl font-bold mb-6 text-green-400">All Tracks</h2>
 				<ul class="divide-y divide-surface-700">
 					{#each tracks as track}
-						<li class="flex justify-between items-center py-4 hover:bg-surface-800/50 px-3 rounded">
+						<li class="flex justify-between items-center py-4 hover:bg-surface-800/50 px-3">
 							<div class="flex items-center space-x-4">
 								<img
 									src={track.artworkUrl || defaultAlbumImage}
@@ -73,19 +72,20 @@
 										target.src = defaultAlbumImage;
 									}}
 								/>
-								<div class="flex flex-col">
-									<span class="font-medium truncate">{track.title}</span>
-									<span class="text-sm text-surface-400">{track.artists.map(({ artist }: { artist: any }) => artist.name).join(", ")} — {track.album.title}</span>
+								<div class="flex flex-col gap-y-1">
+									<span class="text-surface-200 font-medium truncate">{track.title}</span>
+									<span class="text-surface-400 text-xs italic"
+										>{track.album.title} - {track.artists.map(({ artist }: { artist: any }) => artist.name).join(", ")}</span
+									>
 								</div>
 							</div>
-							<button class="btn btn-primary btn-sm" onclick={() => playTrack(track)}>▶</button>
+							<button class="btn btn-primary text-primary-400 btn-sm" onclick={() => playTrack(track)}>▶</button>
 						</li>
 					{/each}
 				</ul>
 			</Tabs.Panel>
 
 			<Tabs.Panel {...{ value: "albums" } as any}>
-				<h2 class="text-2xl font-bold mb-6 text-green-400">Albums</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each Object.entries(groupBy(tracks, (t) => t.album.title ?? "Unknown Album")).sort((a, b) => a[0].localeCompare(b[0])) as [album, list]}
 						<a href={`/album/${encodeURIComponent(album)}`} class="flex bg-surface-800 rounded-lg overflow-hidden">
@@ -112,7 +112,6 @@
 
 			<!-- Artists -->
 			<Tabs.Panel {...{ value: "artists" } as any}>
-				<h2 class="text-2xl font-bold mb-6 text-green-400">Artists</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each Object.entries(groupBy(tracks, (t) => t.artists
 								.map((a: any) => a.artist?.name || "Unknown Artist")
