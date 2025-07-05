@@ -4,11 +4,11 @@
 </script>
 
 <footer class="m-0 p-0 mt-20">
-	<section class="px-14 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-		<section class="space-y-4">
+	<section class="px-4 sm:px-14 py-8 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
+		<section class="px-6 space-y-4">
 			<h2 class="h2 text-xl font-bold text-surface-200">Viola Music Pvt. Ltd.</h2>
 			<p class="text-sm text-surface-400">A world of music, from indie gems to iconic hits — always with you, wherever you are..</p>
-			<div class="flex space-x-8 mt-8">
+			<div class="flex space-x-8 mt-4">
 				<a href="https://twitter.com" aria-label="Twitter" class="hover:text-surface-100 transition">
 					<Icon name="mdi:twitter" />
 				</a>
@@ -21,8 +21,8 @@
 			</div>
 		</section>
 
-		<section class="flex justify-around">
-			<div>
+		<section class="flex md:flex-col lg:flex-row justify-around px-6 md:gap-y-8">
+			<div class="flex-1">
 				<h3 class="text-lg font-semibold text-surface-200 mb-3">Compliance</h3>
 				<ul class="text-sm space-y-3 text-surface-400">
 					<li class="flex items-center gap-2">
@@ -39,7 +39,7 @@
 					</li>
 				</ul>
 			</div>
-			<div>
+			<div class="flex-1">
 				<h3 class="text-lg font-semibold text-surface-200 mb-3">Support</h3>
 				<ul class="text-sm space-y-3 text-surface-400">
 					<li class="flex items-center gap-2">
@@ -58,14 +58,16 @@
 			</div>
 		</section>
 
-		<section class="bg-surface-900 rounded-xl pl-6 pt-4 pr-4 pb-7">
-			<h3 class=" flex items-center gap-4 text-lg font-semibold text-surface-200">
-				<Icon name="mdi:mail" />
-				<span>Never miss a beat</span>
-			</h3>
-			<p class="text-sm text-surface-400 pt-1">Subscribe to our newsletter for the latest releases and exclusive offers!</p>
+		<section class="bg-surface-900 flex flex-col justify-between rounded-xl pl-6 pt-4 pr-4 pb-7">
+			<div>
+				<h3 class=" flex items-center gap-4 text-lg font-semibold text-surface-200">
+					<Icon name="mdi:mail" />
+					<span>Never miss a beat</span>
+				</h3>
+				<p class="text-sm text-surface-400 pt-1">Subscribe to our newsletter for the latest releases and exclusive offers!</p>
+			</div>
 
-			<form class="flex flex-col sm:flex-row gap-3 mt-6">
+			<form class="flex gap-3 mt-6">
 				<input
 					type="email"
 					required
