@@ -47,8 +47,8 @@
 
 			<h1 class="text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100 tracking-tight drop-shadow-lg">Viola</h1>
 
-			<p class="text-neutral-200 text-xl font-light">Your private music sanctuary</p>
-			<p class="text-neutral-400 text-md italic">Pure control. Pure privacy. Pure music.</p>
+			<p class="text-surface-50 text-xl font-light">Your private music sanctuary</p>
+			<p class="text-surface-50 text-md italic">Pure control. Pure privacy. Pure music.</p>
 		</div>
 	</section>
 
@@ -60,17 +60,14 @@
 						<img src={track.artworkUrl} alt={track.title} class="w-16 h-16 rounded-md object-cover mr-4" />
 
 						<div class="flex flex-col items-start gap-1 overflow-hidden">
-							<span class="font-medium text-neutral-200 truncate">{track.title}</span>
-
-							<span class="text-neutral-400 text-xs">
-								Uploaded {formatDistanceToNow(track.createdAt)}
-							</span>
+							<span class="text-surface-200 font-medium truncate">{track.title}</span>
+							<span class="text-surface-400 text-xs italic"> Uploaded {formatDistanceToNow(track.createdAt)} ago</span>
 						</div>
 					</div>
 				</button>
 			{/each}
 		{:else}
-			<div class="text-center text-neutral-300 col-span-full">No tracks available.</div>
+			<div class="text-center text-surface-300 col-span-full">No tracks available.</div>
 		{/if}
 	</section>
 </main>

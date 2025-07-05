@@ -14,19 +14,19 @@
 </script>
 
 <div
-	class="flex flex-col min-h-screen
+	class="flex flex-col
         bg-gradient-to-br
         from-surface-50/50 to-surface-100/50
 		dark:from-surface-900/50 dark:to-surface-950/50 text-surface-800-200"
 >
 	<Header />
 
-	<div class="flex flex-1 w-full">
-		<SideBar customCalss="w-[80px]" />
+	<div class="flex w-full">
+		<SideBar customClass="w-[80px]" />
 
-		<main class="flex-1 min-h-screen overflow-y-auto">
+		<div class="flex-1 overflow-y-auto">
 			{@render children()}
-		</main>
+		</div>
 	</div>
 
 	<Footer />

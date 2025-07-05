@@ -1,8 +1,8 @@
 import type { LayoutLoad } from "./$types";
 
-export const load: LayoutLoad = async ({ data }) => {
+export const load: LayoutLoad = async (event) => {
 	return {
-		accessToken: data["accessToken"],
-		profile: data["profile"],
+		accessToken: event.data["accessToken"],
+		profile: event.data["profile"],
 	};
 };
