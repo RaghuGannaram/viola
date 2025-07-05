@@ -17,12 +17,11 @@
 			.hydrate()
 			.then(() => {
 				tracks = $trackMetadataList;
-				console.log("Track metadata store hydrated:", $trackMetadataList);
+				console.log("viola-log: Track metadata store hydrated:", $trackMetadataList);
 			})
 			.catch((error) => {
-				console.error("Error hydrating track metadata store:", error);
+				console.error("viola-error: Error hydrating track metadata store:", error);
 			});
-		``;
 	});
 
 	function playTrack(track: ITrack) {
@@ -116,7 +115,7 @@
 				<h2 class="text-2xl font-bold mb-6 text-green-400">Artists</h2>
 				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 					{#each Object.entries(groupBy(tracks, (t) => t.artists
-								.map((a) => a.artist?.name || "Unknown Artist")
+								.map((a: any) => a.artist?.name || "Unknown Artist")
 								.join(", "))).sort((a, b) => a[0].localeCompare(b[0])) as [artistNames, list]}
 						<a href={`/artist/${encodeURIComponent(artistNames)}`} class="flex bg-surface-800 rounded-lg overflow-hidden">
 							<div class="flex bg-surface-800 rounded-lg overflow-hidden p-4">

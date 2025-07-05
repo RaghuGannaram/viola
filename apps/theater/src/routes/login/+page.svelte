@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Icon from "$lib/components/Icon/index.svelte";
 
-	const { form } = $props<{ form?: { error?: string; accessToken?: string; profile?: any } }>();
+	const { form }: { form?: { error?: string; accessToken?: string; profile?: any } } = $props();
 
 	let showPassword = $state(false);
 </script>
