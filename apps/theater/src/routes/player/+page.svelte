@@ -75,31 +75,6 @@
 		fetchStreamingUrl();
 	});
 
-	async function syncCurrentTrack() {
-		console.log("viola-log: Syncing current track...");
-		if (!$playback) return;
-
-		let attempts = 0;
-		const maxAttempts = 10;
-		const delay = 10;
-
-		while (attempts < maxAttempts) {
-			console.log("viola-log: Attempting to sync current track...", attempts);
-			// const allTracks = get(trackList);
-			// const match = allTracks.find((t) => t.id === $playback.id);
-			// if (match) {
-			// 	console.log("viola-log: Track found in trackList:", match);
-			// 	playback.set(match);
-			// 	return;
-			// }
-
-			await new Promise((res) => setTimeout(res, delay));
-			attempts++;
-		}
-
-		console.warn("syncCurrentTrack: Track not found in trackList after retries.");
-	}
-
 	function playPauseHandler() {
 		play = !play;
 	}
@@ -139,12 +114,11 @@
 			audioElement!.play();
 			play = true;
 		} else if (shuffle) {
-			// const allTracks = $trackList;
-			// if (allTracks.length > 0) {
-			// 	const randomIndex = Math.floor(Math.random() * allTracks.length);
-			// 	const randomTrack = allTracks[randomIndex];
-			// 	playback.set(randomTrack!);
-			// }
+			// Logic for shuffling to the next track can be implemented here
+			// For now, we will just reset the play state
+			audioElement!.currentTime = 0;
+			audioElement!.play();
+			play = true;
 		} else {
 			play = false;
 		}
@@ -178,7 +152,6 @@
 					console.error("viola-error: An unknown error occurred. \n error: ", error);
 					break;
 			}
-			syncCurrentTrack();
 		}
 	}
 </script>
