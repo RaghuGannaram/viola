@@ -1,5 +1,6 @@
 import axios from "axios";
 import type { AxiosInstance } from "axios";
+import { get } from "svelte/store";
 import { accessToken } from "$lib/stores/authStore";
 
 let refreshProgress = false;
@@ -15,6 +16,13 @@ function publish(newToken: string) {
 }
 
 export function setupInterceptors(client: AxiosInstance) {
+	client.interceptors.request.use((config) => {
+		const token = get(accessToken);
+		if (token) {
+			config.headers.Authorization = `Bearer ${token}`;
+		}
+		return config;
+	});
 	client.interceptors.response.use(
 		(response) => response,
 		async (error) => {

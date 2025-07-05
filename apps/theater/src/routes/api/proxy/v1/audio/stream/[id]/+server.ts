@@ -1,6 +1,6 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { createProxyService } from "$lib/services/http/proxy.service";
-import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
+import { BACKEND_ENDPOINTS } from "$lib/services/http/shared/endpoints";
 
 export const GET: RequestHandler = async (event) => {
 	const proxy = createProxyService(event);
@@ -11,7 +11,7 @@ export const GET: RequestHandler = async (event) => {
 		return new Response("Missing audio id", { status: 400 });
 	}
 
-	const { status, body, cookies } = await proxy.forward("GET", `${PROXY_ENDPOINTS.AUDIO.STREAM}/${id}`);
+	const { status, body, cookies } = await proxy.forward("GET", `${BACKEND_ENDPOINTS.AUDIO.STREAM}/${id}`);
 
 	const headers = new Headers();
 

@@ -14,13 +14,13 @@ export function cacheStore<K extends CACHE_COLLECTION>(collectionKey: K, fetchCo
 		const cached = await CacheLayer.retrieve(collectionKey);
 		set(cached);
 
-		// if (cached.length === 0) {
-		const backendData = await fetchCollection();
+		if (cached.length === 0) {
+			const backendData = await fetchCollection();
 
-		await CacheLayer.sync(collectionKey, backendData);
+			await CacheLayer.sync(collectionKey, backendData);
 
-		set(backendData);
-		// }
+			set(backendData);
+		}
 	}
 
 	async function refresh() {

@@ -5,7 +5,7 @@
 
 <footer class="m-0 p-0 mt-20">
 	<section class="px-4 sm:px-14 py-8 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
-		<section class="px-6 space-y-4">
+		<section class="px-6 space-y-3">
 			<h2 class="h2 text-xl font-bold text-surface-200">Viola Music Pvt. Ltd.</h2>
 			<p class="text-sm text-surface-400">A world of music, from indie gems to iconic hits — always with you, wherever you are..</p>
 			<div class="flex space-x-8 mt-4">
