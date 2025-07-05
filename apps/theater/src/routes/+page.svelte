@@ -7,14 +7,13 @@
 
 	onMount(() => {
 		trackMetadataList
-			.hydrate()
+			.refresh()
 			.then(() => {
-				console.log("Track metadata store hydrated:", $trackMetadataList);
+				console.log("viola-log: Track metadata store hydrated:", $trackMetadataList);
 			})
 			.catch((error) => {
-				console.error("Error hydrating track metadata store:", error);
+				console.error("viola-error: Error hydrating track metadata store:", error);
 			});
-		``;
 	});
 
 	function playTrack(track: any) {
