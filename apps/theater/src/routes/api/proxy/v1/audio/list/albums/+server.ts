@@ -2,12 +2,10 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { createProxyService } from "$lib/services/http/proxy.service";
 import { BACKEND_ENDPOINTS } from "$lib/services/http/shared/endpoints";
 
-export const POST: RequestHandler = async (event) => {
+export const GET: RequestHandler = async (event) => {
 	const proxy = createProxyService(event);
 
-	const data = await event.request.json();
-
-	const { status, body, cookies } = await proxy.forward("POST", BACKEND_ENDPOINTS.AUDIO.UPLOAD, data);
+	const { status, body, cookies } = await proxy.forward("GET", BACKEND_ENDPOINTS.AUDIO.LIST_ALBUMS);
 
 	const headers = new Headers();
 

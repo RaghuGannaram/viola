@@ -4,13 +4,15 @@
 	import { goto } from "$app/navigation";
 	import { Tabs } from "@skeletonlabs/skeleton-svelte";
 	import { trackMetadataList } from "$lib/stores/trackMetadataStore";
+	import { albumList } from "$lib/stores/albumStore";
 	import { playback } from "$lib/stores/playbackStore";
 	import defaultAlbumImage from "$lib/assets/album.png";
 	import defaultArtistImage from "$lib/assets/artist.png";
-	import type { ITrack } from "$lib/types";
+	import type { ITrack, IAlbum } from "$lib/types";
 
-	let activeTab = $state("songs");
+	let activeTab = $state("albums");
 	let tracks: ITrack[] = $state([]);
+	let albums: IAlbum[] = $state([]);
 
 	onMount(() => {
 		trackMetadataList
@@ -21,6 +23,16 @@
 			})
 			.catch((error) => {
 				console.error("viola-error: Error hydrating track metadata store:", error);
+			});
+
+		albumList
+			.hydrate()
+			.then(() => {
+				albums = $albumList;
+				console.log("viola-log: Album store hydrated:", $albumList);
+			})
+			.catch((error) => {
+				console.error("viola-error: Error hydrating album store:", error);
 			});
 	});
 
@@ -50,11 +62,17 @@
 </svelte:head>
 
 <main class="min-h-screen p-6 space-y-10">
-	<Tabs value={activeTab} onValueChange={(event: { value: string }) => (activeTab = event.value)} listClasses="text-primary-400" listBorder="border-b border-primary-400/50">
+	<Tabs
+		value={activeTab}
+		onValueChange={(event: { value: string }) => (activeTab = event.value)}
+		listClasses="text-primary-200"
+		listBorder="border-b border-primary-400/50"
+		defaultValue="albums"
+	>
 		{#snippet list()}
-			<Tabs.Control {...{ value: "songs" } as any} labelClasses=" hover:bg-surface-800/50 hover:text-primary-400"><span>All Songs</span></Tabs.Control>
-			<Tabs.Control {...{ value: "albums" } as any} labelClasses=" hover:bg-surface-800/50 hover:text-primary-400"><span>Albums</span></Tabs.Control>
-			<Tabs.Control {...{ value: "artists" } as any} labelClasses=" hover:bg-surface-800/50 hover:text-primary-400"><span>Artists</span></Tabs.Control>
+			<Tabs.Control {...{ value: "songs" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">All Songs</Tabs.Control>
+			<Tabs.Control {...{ value: "albums" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">Albums</Tabs.Control>
+			<Tabs.Control {...{ value: "artists" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">Artists</Tabs.Control>
 		{/snippet}
 
 		{#snippet content()}
@@ -86,26 +104,49 @@
 			</Tabs.Panel>
 
 			<Tabs.Panel {...{ value: "albums" } as any}>
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-					{#each Object.entries(groupBy(tracks, (t) => t.album.title ?? "Unknown Album")).sort((a, b) => a[0].localeCompare(b[0])) as [album, list]}
-						<a href={`/album/${encodeURIComponent(album)}`} class="flex bg-surface-800 rounded-lg overflow-hidden">
-							<div class="flex bg-surface-800 rounded-lg overflow-hidden">
-								<img
-									src={list[0]?.artworkUrl || defaultAlbumImage}
-									alt={album}
-									class="h-20 w-20 object-cover"
-									onerror={(event) => {
-										const target = event.currentTarget as HTMLImageElement;
-										target.src = defaultAlbumImage;
-									}}
-								/>
-
-								<div class="p-4 gap-y-2">
-									<h3 class="text-sm font-semibold truncate">{album}</h3>
-									<p class="text-sm text-surface-400">{list.length} {list.length > 1 ? "tracks" : "track"}</p>
+				<div class="flex flex-wrap justify-start gap-8 mt-8">
+					{#if albums.length === 0}
+						<div class="col-span-full text-center text-surface-500">No albums found.</div>
+					{/if}
+					{#each albums as album}
+						<div class=" w-[250px] bg-surface-800/50 rounded-x">
+							<a href={`/album/${album.id}`} class="group bg-surface-800 overflow-hidden shadow-md hover:shadow-lg hover:bg-surface-700/50 transition">
+								<div class="relative">
+									<img
+										src={album.coverUrl || defaultAlbumImage}
+										alt={album.title}
+										class="w-[250px] h-[250px] object-cover rounded-t-xl"
+										onerror={(event) => {
+											const target = event.currentTarget as HTMLImageElement;
+											target.src = defaultAlbumImage;
+										}}
+									/>
+									<div class="absolute inset-0 rounded-t-xl bg-surface-800/50 hover:bg-surface-600/40 transition"></div>
 								</div>
-							</div>
-						</a>
+
+								<!-- Text Info -->
+								<div class="p-4 space-y-1">
+									<h3 class="text-base font-semibold text-surface-200 group-hover:text-primary-200">{album.title}</h3>
+									{#if album.description}
+										<p class="text-sm text-surface-400 line-clamp-2">{album.description}</p>
+									{/if}
+
+									{#if album.artists?.length}
+										<p class="text-xs text-surface-400 italic">
+											{album.artists.map(({ artist }: any) => artist.name).join(", ")}
+										</p>
+									{/if}
+
+									<p class="text-xs text-surface-500">
+										{album.songs.length}
+										{album.songs.length === 1 ? "song" : "songs"}
+										{#if album.releaseDate}
+											• {new Date(album.releaseDate).toLocaleDateString("en-IN", { year: "numeric", month: "short" })}
+										{/if}
+									</p>
+								</div>
+							</a>
+						</div>
 					{/each}
 				</div>
 			</Tabs.Panel>

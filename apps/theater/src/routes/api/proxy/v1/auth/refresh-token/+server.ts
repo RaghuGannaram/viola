@@ -1,11 +1,11 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { createProxyService } from "$lib/services/http/proxy.service";
-import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
+import { BACKEND_ENDPOINTS } from "$lib/services/http/shared/endpoints";
 
 export const POST: RequestHandler = async (event) => {
 	const proxy = createProxyService(event);
 
-	const { body, status, cookies } = await proxy.forward("POST", PROXY_ENDPOINTS.AUTH.REFRESH);
+	const { body, status, cookies } = await proxy.forward("POST", BACKEND_ENDPOINTS.AUTH.REFRESH);
 
 	const headers = new Headers();
 

@@ -11,6 +11,7 @@ const PROXY_ENDPOINTS = {
 		LIST: "/audio/list",
 		INFO: "/audio/info",
 		STREAM: "/audio/stream",
+		LIST_ALBUMS: "/audio/list/albums",
 	},
 };
 
@@ -27,6 +28,7 @@ const BACKEND_ENDPOINTS = {
 		LIST: "/audio/list",
 		INFO: "/audio/info",
 		STREAM: "/audio/stream",
+		LIST_ALBUMS: "/audio/list/albums",
 	},
 };
 
