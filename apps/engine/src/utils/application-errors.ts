@@ -149,6 +149,7 @@ export class BusinessError extends Error {
 }
 
 export class HttpError extends Error {
+	success: boolean = false;
 	status: number;
 	type: HttpErrors;
 	cause: Error | string;
@@ -156,6 +157,7 @@ export class HttpError extends Error {
 	constructor(statusCode: number, type: HttpErrors, cause: Error | string) {
 		super(type);
 		this.name = this.constructor.name;
+		this.success = false;
 		this.status = statusCode;
 		this.type = type;
 		this.cause = cause;
