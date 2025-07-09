@@ -6,8 +6,8 @@ POST http://localhost:5000/api/v1/auth/register HTTP/1.1
 Content-Type: application/json
 
 {   
-    "username": "Test 2",
-    "email": "test2@fakemail.com",
+    "username": "Test One",
+    "email": "test1@fakemail.com",
     "password": "1234"
 }
 
@@ -23,208 +23,38 @@ Content-Type: application/json
 ### refresh token
 POST http://localhost:5000/api/v1/auth/refresh-token HTTP/1.1
 Content-Type: application/json
-Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mzc4NmQ5NTY5OGE5MDFjYTNhMzgwNCIsImZ1bGxuYW1lIjoiVGVzdCAxIiwiaGFuZGxlIjoidGVzdDEiLCJlbWFpbCI6InRlc3QxQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3MTQ5MTg5ODEsImV4cCI6MTcxNDk5ODE4MSwiYXVkIjoiNjYzNzg2ZDk1Njk4YTkwMWNhM2EzODA0IiwiaXNzIjoibmV4dXMucmFnaHVnYW5uYXJhbS5jb20ifQ.XlpPbd71dcKxxNrOKFZqDFtql6vin9GyGIERuoLsSQo
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoicmVmcmVzaCIsInByb2ZpbGUiOnsiaWQiOiJiNzUzYTk4OS1iNmYyLTRiNDQtOGI1MC0wNzU3MTc0NmIwNjQiLCJlbWFpbCI6InRlc3QxQGZha2VtYWlsLmNvbSIsInVzZXJuYW1lIjoiVGVzdCBPbmUiLCJhdXRoUHJvdmlkZXIiOiJ2aW9sYSIsImF2YXRhclVybCI6IiIsInZlcmlmaWVkIjpmYWxzZSwicHJlbWl1bSI6ZmFsc2UsInJvbGUiOiJtZW1iZXIiLCJzZXR0aW5ncyI6e30sImNyZWF0ZWRBdCI6IjIwMjUtMDctMDlUMDI6Mzc6NTYuOTI5WiIsImxhc3RMb2dpbkF0IjoiIn0sImlhdCI6MTc1MjA4MjU4MCwiZXhwIjoxNzUyMTYxNzgwLCJhdWQiOiJiNzUzYTk4OS1iNmYyLTRiNDQtOGI1MC0wNzU3MTc0NmIwNjQiLCJpc3MiOiJ2aW9sYS5yYWdodWdhbm5hcmFtLmNvbSJ9.kqqRnzhE91XYobQ984LJ5-4vVTsrqYkUG_VxNBbv6XE
 
 ### logout
 DELETE http://localhost:5000/api/v1/auth/logout HTTP/1.1
 Content-Type: application/json
-Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mzc4NmQ5NTY5OGE5MDFjYTNhMzgwNCIsImZ1bGxuYW1lIjoiVGVzdCAxIiwiaGFuZGxlIjoidGVzdDEiLCJlbWFpbCI6InRlc3QxQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3MTQ5MTk0MjcsImV4cCI6MTcxNDk5ODYyNywiYXVkIjoiNjYzNzg2ZDk1Njk4YTkwMWNhM2EzODA0IiwiaXNzIjoibmV4dXMucmFnaHVnYW5uYXJhbS5jb20ifQ.MiefcZQvLc4HFJGIOBz3YkwiK10Is6DO1uDJR_8-kxo
+Cookie: refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoicmVmcmVzaCIsInByb2ZpbGUiOnsiaWQiOiJiNzUzYTk4OS1iNmYyLTRiNDQtOGI1MC0wNzU3MTc0NmIwNjQiLCJlbWFpbCI6InRlc3QxQGZha2VtYWlsLmNvbSIsInVzZXJuYW1lIjoiVGVzdCBPbmUiLCJhdXRoUHJvdmlkZXIiOiJ2aW9sYSIsImF2YXRhclVybCI6IiIsInZlcmlmaWVkIjpmYWxzZSwicHJlbWl1bSI6ZmFsc2UsInJvbGUiOiJtZW1iZXIiLCJzZXR0aW5ncyI6e30sImNyZWF0ZWRBdCI6IjIwMjUtMDctMDlUMDI6Mzc6NTYuOTI5WiIsImxhc3RMb2dpbkF0IjoiIn0sImlhdCI6MTc1MjA4MjYwOCwiZXhwIjoxNzUyMTYxODA4LCJhdWQiOiJiNzUzYTk4OS1iNmYyLTRiNDQtOGI1MC0wNzU3MTc0NmIwNjQiLCJpc3MiOiJ2aW9sYS5yYWdodWdhbm5hcmFtLmNvbSJ9.lYSx3_c9I1qq1ViGWCJpdH6GXq24FplovQMTKFiTuYo
 
 
-### all users
-GET http://localhost:5000/api/v1/user/all HTTP/1.1
-
-### user by id
-GET http://localhost:5000/api/v1/user/663786d95698a901ca3a3804 HTTP/1.1
-
-### update user
-PUT http://localhost:5000/api/v1/user HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
+### identify audio
+GET http://localhost:5000/api/v1/audio/identify HTTP/1.1
 Content-Type: application/json
 
-{   
-    "userId": "6637aa71671224934a3cfc78",
-    "fullname": "Omi Baba",
-    "bio": "I'm a developer.",
-    "city": "Bangalore",
-    "from": "India",
-    "role": "admin",
-    "handle": "omi"
-}
-
-### follow user
-PUT http://localhost:5000/api/v1/user/follow HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
+### tracks
+GET http://localhost:5000/api/v1/audio/tracks HTTP/1.1
 Content-Type: application/json
 
-{
-    "followeeId": "6637aa5f671224934a3cfc72"
-}
-
-### delete user
-DELETE http://localhost:5000/api/v1/user/663786f35698a901ca3a380a HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Mzc4NmYzNTY5OGE5MDFjYTNhMzgwYSIsImZ1bGxuYW1lIjoiVGVzdCAxIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyMTQzNywiZXhwIjoxNzE0OTI4NjM3LCJhdWQiOiI2NjM3ODZmMzU2OThhOTAxY2EzYTM4MGEiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.dkYr-cloYZ8_mPIZlW3BY5sb4fMUscFYZnEQUl6SPVo
-
-
-### all posts
-GET http://localhost:5000/api/v1/post/all HTTP/1.1
-
-### get user posts
-GET http://localhost:5000/api/v1/post/user/6637aa71671224934a3cfc78 HTTP/1.1
-
-### post by id
-GET http://localhost:5000/api/v1/post/6637a5815c7c00ad283c4309 HTTP/1.1
-
-### get timeline posts
-GET http://localhost:5000/api/v1/post/timeline HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTVmNjcxMjI0OTM0YTNjZmM3MiIsImZ1bGxuYW1lIjoiVGVzdCAxIiwiaGFuZGxlIjoidGVzdDEiLCJlbWFpbCI6InRlc3QxQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE1MSwiZXhwIjoxNzE0OTMxMzUxLCJhdWQiOiI2NjM3YWE1ZjY3MTIyNDkzNGEzY2ZjNzIiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.cJKqY3JedqhS83YPyv0zd6FRepmcXO86falorhx09Oo
-
-### create post
-POST http://localhost:5000/api/v1/post HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
+### track by id
+GET http://localhost:5000/api/v1/audio/tracks/2f5e1471-d523-4149-8544-9cbb20c38c05 HTTP/1.1
 Content-Type: application/json
 
-{
-    "description": "Hello World Z...!"
-}
-
-### update post
-PUT http://localhost:5000/api/v1/post HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
+### albums
+GET http://localhost:5000/api/v1/audio/albums HTTP/1.1
 Content-Type: application/json
 
-{
-    "postId": "6637ab0b671224934a3cfc88",
-    "description": "I'm not a hero. I'm a high-functioning sociopath."
-}
-
-### like post
-PUT http://localhost:5000/api/v1/post/like HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
+### album by id
+GET http://localhost:5000/api/v1/audio/albums/181b1cb0-d31a-4992-95f0-51247ed3399e HTTP/1.1
 Content-Type: application/json
 
-{
-    "postId": "6637ab0b671224934a3cfc88"
-}
-
-### delete post
-DELETE http://localhost:5000/api/v1/post HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
+### artists
+GET http://localhost:5000/api/v1/audio/artists HTTP/1.1
 Content-Type: application/json
 
-{
-    "postId": "6637ab0e671224934a3cfc8b"
-}
-
-### all comments
-GET http://localhost:5000/api/v1/comment/all HTTP/1.1
-
-### user comments
-GET http://localhost:5000/api/v1/comment/user/6637aa71671224934a3cfc78 HTTP/1.1
-
-### post comments
-GET http://localhost:5000/api/v1/comment/post/6637ab0b671224934a3cfc88 HTTP/1.1
-
-### create comment
-POST http://localhost:5000/api/v1/comment HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
+### artist by id
+GET http://localhost:5000/api/v1/audio/artists/181b1cb0-7da1-40f8-a908-fa8c21e6d59c HTTP/1.1
 Content-Type: application/json
-
-{   
-    "postId": "6637ab0b671224934a3cfc88",
-    "description": "Great"
-}
-
-### update comment
-PUT http://localhost:5000/api/v1/comment HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
-Content-Type: application/json
-
-{
-    "commentId": "6637b1f9cebd36c1ae01eac2",
-    "description": "Rogered that! Over and out!!!"
-}
-
-### like comment
-PUT http://localhost:5000/api/v1/comment/like
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
-Content-Type: application/json
-
-{
-    "commentId": "6637b1f9cebd36c1ae01eac2"
-}
-
-### delete comment
-DELETE http://localhost:5000/api/v1/comment HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdhYTcxNjcxMjI0OTM0YTNjZmM3OCIsImZ1bGxuYW1lIjoiVGVzdCAyIiwiaGFuZGxlIjoidGVzdDIiLCJlbWFpbCI6InRlc3QyQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNDkyNDE0NSwiZXhwIjoxNzE0OTMxMzQ1LCJhdWQiOiI2NjM3YWE3MTY3MTIyNDkzNGEzY2ZjNzgiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.5jB_7eeRi2tuKgFqvY3NL3fiV0ur3p0kH00ZnlyK5fY
-Content-Type: application/json
-
-{
-    "commentId": "6637b4abf5fab1043e04bbf8"
-}
-
-
-### all chats
-GET http://localhost:5000/api/v1/chat/all HTTP/1.1
-
-### user chats
-GET http://localhost:5000/api/v1/chat/private HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdiZjUxOTkzZmU5OWUwZTIwNGIzZCIsImZ1bGxuYW1lIjoiU3RldmUgUm9nZXJzIiwiaGFuZGxlIjoic3RldmUiLCJlbWFpbCI6InN0ZXZlQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNTM2NDE4MSwiZXhwIjoxNzE1MzcxMzgxLCJhdWQiOiI2NjM3YmY1MTk5M2ZlOTllMGUyMDRiM2QiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.CsdPxovXsgulIhfICgFl-2AVgK02dAcroqtquiwLqs4
-
-
-### group chats
-GET http://localhost:5000/api/v1/chat/group HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdiZjUxOTkzZmU5OWUwZTIwNGIzZCIsImZ1bGxuYW1lIjoiU3RldmUgUm9nZXJzIiwiaGFuZGxlIjoic3RldmUiLCJlbWFpbCI6InN0ZXZlQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNTM2NDE4MSwiZXhwIjoxNzE1MzcxMzgxLCJhdWQiOiI2NjM3YmY1MTk5M2ZlOTllMGUyMDRiM2QiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.CsdPxovXsgulIhfICgFl-2AVgK02dAcroqtquiwLqs4
-
-### chat members
-GET http://localhost:5000/api/v1/chat/members/663e61b82dcc44b966bdbb01 HTTP/1.
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdiZjUxOTkzZmU5OWUwZTIwNGIzZCIsImZ1bGxuYW1lIjoiU3RldmUgUm9nZXJzIiwiaGFuZGxlIjoic3RldmUiLCJlbWFpbCI6InN0ZXZlQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNTM2NDE4MSwiZXhwIjoxNzE1MzcxMzgxLCJhdWQiOiI2NjM3YmY1MTk5M2ZlOTllMGUyMDRiM2QiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.CsdPxovXsgulIhfICgFl-2AVgK02dAcroqtquiwLqs4
-
-### creat chat
-POST http://localhost:5000/api/v1/chat HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdiZjUxOTkzZmU5OWUwZTIwNGIzZCIsImZ1bGxuYW1lIjoiU3RldmUgUm9nZXJzIiwiaGFuZGxlIjoic3RldmUiLCJlbWFpbCI6InN0ZXZlQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNTM2NDE4MSwiZXhwIjoxNzE1MzcxMzgxLCJhdWQiOiI2NjM3YmY1MTk5M2ZlOTllMGUyMDRiM2QiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.CsdPxovXsgulIhfICgFl-2AVgK02dAcroqtquiwLqs4
-Content-Type: application/json
-
-{
-    "participantId": "663af9bb8c10a5b9c699f940"
-}
-
-###create group chat
-POST http://localhost:5000/api/v1/chat/group HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdiZjUxOTkzZmU5OWUwZTIwNGIzZCIsImZ1bGxuYW1lIjoiU3RldmUgUm9nZXJzIiwiaGFuZGxlIjoic3RldmUiLCJlbWFpbCI6InN0ZXZlQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNTM2NDE4MSwiZXhwIjoxNzE1MzcxMzgxLCJhdWQiOiI2NjM3YmY1MTk5M2ZlOTllMGUyMDRiM2QiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.CsdPxovXsgulIhfICgFl-2AVgK02dAcroqtquiwLqs4
-Content-Type: application/json
-
-{   
-    "groupName": "Super Heros...!",
-    "participantList": ["663af9bb8c10a5b9c699f940", "663b2227236f30280ab3bd31"]
-}
-
-### get messages
-GET http://localhost:5000/api/v1/message/663e61b82dcc44b966bdbb01 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdiZjUxOTkzZmU5OWUwZTIwNGIzZCIsImZ1bGxuYW1lIjoiU3RldmUgUm9nZXJzIiwiaGFuZGxlIjoic3RldmUiLCJlbWFpbCI6InN0ZXZlQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNTM2NDE4MSwiZXhwIjoxNzE1MzcxMzgxLCJhdWQiOiI2NjM3YmY1MTk5M2ZlOTllMGUyMDRiM2QiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.CsdPxovXsgulIhfICgFl-2AVgK02dAcroqtquiwLqs4
-
-
-### send message
-POST http://localhost:5000/api/v1/message HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MzdiZjUxOTkzZmU5OWUwZTIwNGIzZCIsImZ1bGxuYW1lIjoiU3RldmUgUm9nZXJzIiwiaGFuZGxlIjoic3RldmUiLCJlbWFpbCI6InN0ZXZlQGZha2VtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTcxNTM2NDE4MSwiZXhwIjoxNzE1MzcxMzgxLCJhdWQiOiI2NjM3YmY1MTk5M2ZlOTllMGUyMDRiM2QiLCJpc3MiOiJuZXh1cy5yYWdodWdhbm5hcmFtLmNvbSJ9.CsdPxovXsgulIhfICgFl-2AVgK02dAcroqtquiwLqs4
-Content-Type: application/json
-
-{
-    "chatId": "663e67adf7bbecc66aaa78b8",
-    "content": "Hello boyz..."
-}
-
-### shazam test
-
-POST http://localhost:5000/api/v1/audio/upload HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiYWNjZXNzIiwicHJvZmlsZSI6eyJpZCI6IjdhZTgwOThkLWVkMzgtNDE4Mi04MjQzLTRiN2IzYTA4MjU4NiIsImVtYWlsIjoidGVzdDFAZmFrZW1haWwuY29tIiwidXNlcm5hbWUiOiJUZXN0IDEiLCJhdXRoUHJvdmlkZXIiOiJ2aW9sYSIsImF2YXRhclVybCI6Imh0dHBzOi8vczMudXMtZWFzdC0xLmFtYXpvbmF3cy5jb20vdmlvbGEtYXNzZXRzLnJhZ2h1Z2FubmFyYW0vZGVmYXVsdEF2YXRhci5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ29udGVudC1TaGEyNTY9VU5TSUdORUQtUEFZTE9BRCZYLUFtei1DcmVkZW50aWFsPUFLSUFUR0dRQ1hCWEhRSk9JQVhXJTJGMjAyNTA2MTMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNjEzVDEyNDIwM1omWC1BbXotRXhwaXJlcz04NjQwMCZYLUFtei1TaWduYXR1cmU9N2VmMDAwYzk3M2IyZDc5MTM3ZWVlOTcyYzYyZjdhOGVmNmMyZDEwN2FmYjJlYTgyNDcxOWNjOGVhNTIwNWU3MSZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmeC1hbXotY2hlY2tzdW0tbW9kZT1FTkFCTEVEJngtaWQ9R2V0T2JqZWN0IiwidmVyaWZpZWQiOmZhbHNlLCJwcmVtaXVtIjpmYWxzZSwicm9sZSI6Im1lbWJlciIsInNldHRpbmdzIjp7fSwiY3JlYXRlZEF0IjoiMjAyNS0wNS0xOVQxODowMDozMi42NzdaIiwibGFzdExvZ2luQXQiOiIifSwiaWF0IjoxNzQ5ODI4MTcyLCJleHAiOjE3NDk4MzUzNzIsImF1ZCI6IjdhZTgwOThkLWVkMzgtNDE4Mi04MjQzLTRiN2IzYTA4MjU4NiIsImlzcyI6InZpb2xhLnJhZ2h1Z2FubmFyYW0uY29tIn0.UlHaoqqWSZhi2IqZEr38Zkcp06xQd8bgg_m-_QVJMRg
-Content-Type: application/json
-
-{
-    "title":"[iSongs.info] 01 - Aagi Aagi",
-    "artist":"Anurag Kulkarni, Manisha Eerabathini",
-    "album":"Ee Nagaraniki Emaindi - (2018)",
-    "lyrics":"",
-    "artworkUrl":"artwork/d0cd53b0-d31a-4992-95f0-51247ed3399e-cover.jpg",
-    "musicUrl":"music/2f5e1471-d523-4149-8544-9cbb20c38c05-isongs.info-01---aagi-aagi.mp3"
-}
