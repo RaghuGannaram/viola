@@ -1,25 +1,31 @@
 import type { ITrackMetadata, ITrackDetail, IAlbum, IArtist, IPlaylist } from "$lib/types";
 
-export enum CACHE_COLLECTION {
-	TRACK_METADATA = "trackMetadata",
-	TRACK_DETAIL = "trackDetail",
-	ALBUM = "album",
-	ARTIST = "artist",
+export enum CosmicCache {
+	TRACK_SPARK = "trackSpark",
+	TRACK_NOVA = "trackNova",
+	ALBUM_SPARK = "albumSpark",
+	ALBUM_NOVA = "albumNova",
+	ARTIST_SPARK = "artistSpark",
+	ARTIST_NOVA = "artistNova",
 	PLAYLIST = "playlist",
 }
 
-export interface ICollectionSchema {
-	[CACHE_COLLECTION.TRACK_METADATA]: ITrackMetadata[];
-	[CACHE_COLLECTION.TRACK_DETAIL]: ITrackDetail[];
-	[CACHE_COLLECTION.ALBUM]: IAlbum[];
-	[CACHE_COLLECTION.ARTIST]: IArtist[];
-	[CACHE_COLLECTION.PLAYLIST]: IPlaylist[];
+export interface ICosmicRegistry {
+	[CosmicCache.TRACK_SPARK]: ITrackMetadata[];
+	[CosmicCache.ALBUM_SPARK]: IAlbum[];
+	[CosmicCache.ARTIST_SPARK]: IArtist[];
+	[CosmicCache.TRACK_NOVA]: ITrackDetail[];
+	[CosmicCache.ALBUM_NOVA]: IAlbum[];
+	[CosmicCache.ARTIST_NOVA]: IArtist[];
+	[CosmicCache.PLAYLIST]: IPlaylist[];
 }
 
-export const CACHE_TTL_MAP: Record<CACHE_COLLECTION, number> = {
-	[CACHE_COLLECTION.TRACK_METADATA]: 1000 * 60 * 60 * 72, // 72 hours
-	[CACHE_COLLECTION.TRACK_DETAIL]: 1000 * 60 * 60 * 72, // 72 hours
-	[CACHE_COLLECTION.ALBUM]: 1000 * 60 * 60 * 72, // 72 hours
-	[CACHE_COLLECTION.ARTIST]: 1000 * 60 * 60 * 72, // 72 hours
-	[CACHE_COLLECTION.PLAYLIST]: 1000 * 60 * 60 * 24, // 24 hours
+export const STELLAR_DECAY_MAP: Record<CosmicCache, number> = {
+	[CosmicCache.TRACK_SPARK]: 1000 * 60 * 60 * 72, // 72 hours
+	[CosmicCache.ALBUM_SPARK]: 1000 * 60 * 60 * 72, // 72 hours
+	[CosmicCache.ARTIST_SPARK]: 1000 * 60 * 60 * 72, // 72 hours
+	[CosmicCache.TRACK_NOVA]: 1000 * 60 * 60 * 72, // 72 hours
+	[CosmicCache.ALBUM_NOVA]: 1000 * 60 * 60 * 72, // 72 hours
+	[CosmicCache.ARTIST_NOVA]: 1000 * 60 * 60 * 72, // 72 hours
+	[CosmicCache.PLAYLIST]: 1000 * 60 * 60 * 24, // 24 hours
 };
