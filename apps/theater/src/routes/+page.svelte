@@ -3,16 +3,16 @@
 	import { goto } from "$app/navigation";
 	import { formatDistanceToNow } from "date-fns";
 	import { playback } from "$lib/stores/playbackStore";
-	import { trackMetadataList } from "$lib/stores/trackMetadataStore";
+	import { trackSpark } from "$lib/stores/trackSparkStore";
 
 	onMount(() => {
-		trackMetadataList
+		trackSpark
 			.refresh()
 			.then(() => {
-				console.log("viola-log: Track metadata store hydrated:", $trackMetadataList);
+				console.log("viola-log: trackSpark store hydrated:", $trackSpark);
 			})
 			.catch((error) => {
-				console.error("viola-error: Error hydrating track metadata store:", error);
+				console.error("viola-error: Error hydrating trackSpark store:", error);
 			});
 	});
 
@@ -52,8 +52,8 @@
 	</section>
 
 	<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-		{#if $trackMetadataList.length > 0}
-			{#each $trackMetadataList as track}
+		{#if $trackSpark.length > 0}
+			{#each $trackSpark as track}
 				<button onclick={() => playTrack(track)}>
 					<div class="flex items-center bg-surface-800 rounded-lg p-2 shadow-lg transition">
 						<img src={track.artworkUrl} alt={track.title} class="w-16 h-16 rounded-md object-cover mr-4" />
