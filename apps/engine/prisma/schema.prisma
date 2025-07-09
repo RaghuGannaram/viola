@@ -7,7 +7,7 @@ datasource db {
     url      = env("POSTGRES_URL")
 }
 
-enum ReactionEmoji {
+enum ReactionSymbol {
     LIKE
     FIRE
     HEART
@@ -15,27 +15,27 @@ enum ReactionEmoji {
 }
 
 model User {
-    id            String           @id @default(uuid()) @db.Uuid
-    email         String           @unique
-    username      String           @unique
-    password      String
-    authProvider  String           @default("viola")
-    providerId    String?
-    avatarUrl     String           @default("defaultAvatar.png")
-    verified      Boolean          @default(false)
-    premium       Boolean          @default(false)
-    role          String           @default("member")
-    settings      Json             @default("{}")
-    createdAt     DateTime         @default(now()) @db.Timestamptz(6)
-    lastLoginAt   DateTime?        @db.Timestamptz(6)
+    id             String           @id @default(uuid()) @db.Uuid
+    email          String           @unique
+    username       String           @unique
+    password       String
+    authProvider   String           @default("viola")
+    authProviderId String?
+    avatarUrl      String           @default("")
+    verified       Boolean          @default(false)
+    premium        Boolean          @default(false)
+    role           String           @default("member")
+    settings       Json             @default("{}")
+    createdAt      DateTime         @default(now()) @db.Timestamptz(6)
+    lastLoginAt    DateTime?        @db.Timestamptz(6)
     // relationships
-    artistProfile Artist?          @relation("UserArtistProfile")
-    playlists     Playlist[]       @relation("CreatedPlaylists")
-    savedAlbums   AlbumBookmark[]
-    savedArtists  ArtistBookmark[]
-    playbackLog   PlaybackLog[]
-    reactions     Reaction[]
-    songs         Song[]           @relation("UserSongs")
+    artistProfile  Artist?          @relation("UserArtistProfile")
+    playlists      Playlist[]       @relation("CreatedPlaylists")
+    savedAlbums    AlbumBookmark[]
+    savedArtists   ArtistBookmark[]
+    playbackLog    PlaybackLog[]
+    reactions      Reaction[]
+    tracks         Track[]          @relation("UserTracks")
 }
 
 model Artist {
@@ -48,12 +48,12 @@ model Artist {
     userId            String?          @unique @db.Uuid
     // relationships
     userAccount       User?            @relation("UserArtistProfile", fields: [userId], references: [id], onDelete: SetNull)
-    creditedSongs     Credit[]
+    creditedTracks    Credit[]
     contributedAlbums Contribution[]
     savedBy           ArtistBookmark[]
 }
 
-model Song {
+model Track {
     id          String        @id @default(uuid()) @db.Uuid
     title       String
     duration    Int?
@@ -62,11 +62,11 @@ model Song {
     musicUrl    String
     artworkUrl  String        @default("defaultCover.png")
     albumId     String?       @db.Uuid
-    userId      String        @db.Uuid
+    uploaderId  String        @db.Uuid
     createdAt   DateTime      @default(now()) @db.Timestamptz(6)
     // relationships
-    user        User          @relation("UserSongs", fields: [userId], references: [id], onDelete: Restrict)
-    album       Album?        @relation("AlbumSongs", fields: [albumId], references: [id], onDelete: SetNull)
+    uploader    User          @relation("UserTracks", fields: [uploaderId], references: [id], onDelete: Restrict)
+    album       Album?        @relation("AlbumTracks", fields: [albumId], references: [id], onDelete: SetNull)
     playlists   Curation[]
     artists     Credit[]
     playbackLog PlaybackLog[]
@@ -81,7 +81,7 @@ model Album {
     coverUrl    String?
     createdAt   DateTime        @default(now()) @db.Timestamptz(6)
     // relationships
-    songs       Song[]          @relation("AlbumSongs")
+    tracks      Track[]         @relation("AlbumTracks")
     artists     Contribution[]
     savedBy     AlbumBookmark[]
 }
@@ -94,7 +94,7 @@ model Playlist {
     createdAt DateTime   @default(now()) @db.Timestamptz(6)
     // relationships
     user      User       @relation("CreatedPlaylists", fields: [userId], references: [id], onDelete: Cascade)
-    songs     Curation[]
+    tracks    Curation[]
 }
 
 model Contribution {
@@ -108,46 +108,46 @@ model Contribution {
 }
 
 model Credit {
-    songId   String @db.Uuid
+    trackId  String @db.Uuid
     artistId String @db.Uuid
     // relationships
-    song     Song   @relation(fields: [songId], references: [id], onDelete: Cascade)
+    track    Track  @relation(fields: [trackId], references: [id], onDelete: Cascade)
     artist   Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
 
-    @@id([songId, artistId])
+    @@id([trackId, artistId])
 }
 
 model Curation {
     playlistId String   @db.Uuid
-    songId     String   @db.Uuid
+    trackId    String   @db.Uuid
     position   Int
     // relationships
     playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
-    song       Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+    track      Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
 
-    @@id([playlistId, songId])
+    @@id([playlistId, trackId])
 }
 
 model Reaction {
-    userId    String        @db.Uuid
-    songId    String        @db.Uuid
-    emoji     ReactionEmoji
-    reactedAt DateTime      @default(now()) @db.Timestamptz(6)
+    userId    String         @db.Uuid
+    trackId   String         @db.Uuid
+    emoji     ReactionSymbol
+    reactedAt DateTime       @default(now()) @db.Timestamptz(6)
     // relationships
-    user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-    song      Song          @relation(fields: [songId], references: [id], onDelete: Cascade)
+    user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    track     Track          @relation(fields: [trackId], references: [id], onDelete: Cascade)
 
-    @@id([userId, songId, emoji])
+    @@id([userId, trackId, emoji])
 }
 
 model PlaybackLog {
     id       String   @id @default(uuid()) @db.Uuid
     userId   String   @db.Uuid
-    songId   String   @db.Uuid
+    trackId  String   @db.Uuid
     playedAt DateTime @default(now()) @db.Timestamptz(6)
     // relationships
     user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    song     Song     @relation(fields: [songId], references: [id], onDelete: Cascade)
+    track    Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
 }
 
 model AlbumBookmark {
