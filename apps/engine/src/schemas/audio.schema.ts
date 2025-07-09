@@ -4,7 +4,7 @@ import Joi, { type ObjectSchema } from "joi";
 const allowedArtworkContentTypes = ["image/jpeg", "image/png", "image/webp"];
 const allowedMusicContentTypes = ["audio/mpeg", "audio/wav", "audio/flac", "audio/alac", "audio/aac", "audio/ogg", "audio/x-aiff", "audio/x-m4a"];
 
-const artworkUrlPattern = /^artwork\/[a-z0-9-_]+\.(jpg|jpeg|png|webp)$/;
+const artworkUrlPattern = /^artwork\/[a-z0-9-_]+\.(jpe?g|png|webp)$/;
 const musicUrlPattern = /^music\/[a-z0-9-_]+\.(mp3|wav|flac|aac|ogg|aiff|m4a)$/;
 
 export const presignSchema: ObjectSchema<IPresign> = Joi.object({
