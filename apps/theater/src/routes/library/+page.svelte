@@ -3,36 +3,46 @@
 	import { onMount } from "svelte";
 	import { goto } from "$app/navigation";
 	import { Tabs } from "@skeletonlabs/skeleton-svelte";
-	import { trackMetadataList } from "$lib/stores/trackMetadataStore";
-	import { albumList } from "$lib/stores/albumStore";
+	import { trackSpark } from "$lib/stores/trackSparkStore";
+	import { albumSpark } from "$lib/stores/albumSparkStore";
+	import { artistSpark } from "$lib/stores/artistSparkStore";
 	import { playback } from "$lib/stores/playbackStore";
 	import defaultAlbumImage from "$lib/assets/album.png";
-	import defaultArtistImage from "$lib/assets/artist.png";
-	import type { ITrack, IAlbum } from "$lib/types";
+	import type { ITrack, IAlbum, IArtist } from "$lib/types";
 
-	let activeTab = $state("albums");
+	let activeTab = $state("artists");
 	let tracks: ITrack[] = $state([]);
 	let albums: IAlbum[] = $state([]);
+	let artists: IArtist[] = $state([]);
 
 	onMount(() => {
-		trackMetadataList
+		trackSpark
 			.hydrate()
 			.then(() => {
-				tracks = $trackMetadataList;
-				console.log("viola-log: Track metadata store hydrated:", $trackMetadataList);
+				tracks = $trackSpark;
+				console.log("viola-log: trackSpark store hydrated:", $trackSpark);
 			})
 			.catch((error) => {
-				console.error("viola-error: Error hydrating track metadata store:", error);
+				console.error("viola-error: Error hydrating trackSpark store:", error);
 			});
 
-		albumList
+		albumSpark
 			.hydrate()
 			.then(() => {
-				albums = $albumList;
-				console.log("viola-log: Album store hydrated:", $albumList);
+				albums = $albumSpark;
+				console.log("viola-log: albumSpark store hydrated:", $albumSpark);
 			})
 			.catch((error) => {
-				console.error("viola-error: Error hydrating album store:", error);
+				console.error("viola-error: Error hydrating albumSpark store:", error);
+			});
+		artistSpark
+			.hydrate()
+			.then(() => {
+				artists = $artistSpark;
+				console.log("viola-log: artistSpark store hydrated:", $artistSpark);
+			})
+			.catch((error) => {
+				console.error("viola-error: Error hydrating artistSpark store:", error);
 			});
 	});
 
@@ -41,18 +51,18 @@
 		goto("/player");
 	}
 
-	function groupBy(items: ITrack[], fn: (t: ITrack) => string): Record<string, ITrack[]> {
-		return items.reduce(
-			(acc, t) => {
-				const rawKey = fn(t) || "Unknown";
-				const keys = rawKey.split(",").map((k) => k.trim());
-				for (const key of keys) {
-					(acc[key] ||= []).push(t);
-				}
-				return acc;
-			},
-			{} as Record<string, ITrack[]>,
-		);
+	function getInitials(name: string): string {
+		const words = name.trim().split(" ");
+
+		if (words.length === 1 && words[0] && words[0][0]) {
+			return words[0][0].toUpperCase();
+		}
+
+		if (words.length >= 2 && words[0] && words[1] && words[0][0] && words[1][0]) {
+			return (words[0][0] + words[1][0]).toUpperCase();
+		}
+
+		return "";
 	}
 </script>
 
@@ -104,12 +114,12 @@
 			</Tabs.Panel>
 
 			<Tabs.Panel {...{ value: "albums" } as any}>
-				<div class="flex flex-wrap justify-start gap-8 mt-8">
+				<div class="flex flex-wrap justify-start gap-8 px-3 py-4">
 					{#if albums.length === 0}
-						<div class="col-span-full text-center text-surface-500">No albums found.</div>
+						<div class=" w-full text-center text-surface-500">No albums found.</div>
 					{/if}
 					{#each albums as album}
-						<div class=" w-[250px] bg-surface-800/50 rounded-x">
+						<div class=" w-[250px] bg-surface-800/50 rounded-xl">
 							<a href={`/album/${album.id}`} class="group bg-surface-800 overflow-hidden shadow-md hover:shadow-lg hover:bg-surface-700/50 transition">
 								<div class="relative">
 									<img
@@ -153,25 +163,52 @@
 
 			<!-- Artists -->
 			<Tabs.Panel {...{ value: "artists" } as any}>
-				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-					{#each Object.entries(groupBy(tracks, (t) => t.artists
-								.map((a: any) => a.artist?.name || "Unknown Artist")
-								.join(", "))).sort((a, b) => a[0].localeCompare(b[0])) as [artistNames, list]}
-						<a href={`/artist/${encodeURIComponent(artistNames)}`} class="flex bg-surface-800 rounded-lg overflow-hidden">
-							<div class="flex bg-surface-800 rounded-lg overflow-hidden p-4">
-								<img
-									src={defaultArtistImage}
-									alt={artistNames}
-									class="h-20 w-20 object-cover"
-									onerror={(event) => {
-										const target = event.currentTarget as HTMLImageElement;
-										target.src = defaultArtistImage;
-									}}
-								/>
-								<div class="pl-4">
-									<h3 class="text-sm font-semibold truncate">{artistNames}</h3>
-									<p class="text-sm text-surface-400">{list.length} {list.length > 1 ? "tracks" : "track"}</p>
-								</div>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 px-2 py-4">
+					{#if artists.length === 0}
+						<div class="col-span-full text-center text-surface-500">No artists found.</div>
+					{/if}
+
+					{#each artists as artist}
+						<a
+							href={`/artist/${artist.id}`}
+							class="group flex items-center gap-4 bg-surface-800/50 hover:bg-surface-700/50 rounded-xl px-4 py-3 shadow transition duration-300"
+						>
+							<!-- Avatar -->
+							<div class="relative w-15 h-15 flex-shrink-0">
+								{#if artist.imageUrl}
+									<img
+										src={artist.imageUrl}
+										alt={artist.name}
+										class="w-15 h-15 object-cover rounded-full border-2 border-primary-500"
+										onerror={(event) => {
+											const target = event.currentTarget as HTMLImageElement;
+											target.src = "";
+										}}
+									/>
+								{:else}
+									<!-- Gradient Initials Fallback -->
+									<div class="w-15 h-15 rounded-full bg-surface-700/50 flex items-center justify-center text-primary-400 text-md italic">
+										{getInitials(artist.name)}
+									</div>
+								{/if}
+							</div>
+
+							<!-- Text Info -->
+							<div class="flex-1">
+								<h3 class="text-base font-semibold text-surface-100 group-hover:text-primary-300">{artist.name}</h3>
+
+								{#if artist.bio}
+									<p class="text-xs text-surface-400 line-clamp-2">{artist.bio}</p>
+								{:else}
+									<p class="text-xs text-surface-500 italic">No bio available</p>
+								{/if}
+
+								{#if artist.contributedAlbums?.length}
+									<p class="text-xs text-surface-500 mt-1">
+										🎵 Contributed to <strong>{artist.contributedAlbums.length}</strong>
+										{artist.contributedAlbums.length === 1 ? "album" : "albums"}
+									</p>
+								{/if}
 							</div>
 						</a>
 					{/each}
