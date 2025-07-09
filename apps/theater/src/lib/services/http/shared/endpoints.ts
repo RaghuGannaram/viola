@@ -6,12 +6,15 @@ const PROXY_ENDPOINTS = {
 		LOGOUT: "/auth/logout",
 	},
 	AUDIO: {
+		STREAM: "/audio/stream",
 		PRESIGN: "/audio/presign",
 		UPLOAD: "/audio/upload",
-		LIST: "/audio/list",
-		INFO: "/audio/info",
-		STREAM: "/audio/stream",
-		LIST_ALBUMS: "/audio/list/albums",
+		LIST_TRACKS: "/audio/tracks",
+		SHOW_TRACK: "/audio/tracks/:id",
+		LIST_ALBUMS: "/audio/albums",
+		SHOW_ALBUM: "/audio/albums/:id",
+		LIST_ARTISTS: "/audio/artists",
+		SHOW_ARTIST: "/audio/artists/:id",
 	},
 };
 
@@ -23,12 +26,15 @@ const BACKEND_ENDPOINTS = {
 		LOGOUT: "/auth/logout",
 	},
 	AUDIO: {
+		STREAM: "/audio/stream",
 		PRESIGN: "/audio/presign",
 		UPLOAD: "/audio/upload",
-		LIST: "/audio/list",
-		INFO: "/audio/info",
-		STREAM: "/audio/stream",
-		LIST_ALBUMS: "/audio/list/albums",
+		LIST_TRACKS: "/audio/tracks",
+		SHOW_TRACK: "/audio/tracks/:id",
+		LIST_ALBUMS: "/audio/albums",
+		SHOW_ALBUM: "/audio/albums/:id",
+		LIST_ARTISTS: "/audio/artists",
+		SHOW_ARTIST: "/audio/artists/:id",
 	},
 };
 
