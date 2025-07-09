@@ -46,7 +46,7 @@
 
 			console.log("Presign API response:", response.data);
 
-			const { title, music, artwork } = response.data;
+			const { title, music, artwork } = response.data.data;
 			console.log("S3 presigned URLs:", music, artwork);
 
 			// 3️⃣ Upload music file directly to S3
