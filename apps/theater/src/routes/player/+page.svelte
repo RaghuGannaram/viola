@@ -103,8 +103,7 @@
 
 	function navigateToAlbum() {
 		if ($playback) {
-			const albumName = $playback.album ?? "Unknown Album";
-			goto(`/album/${encodeURIComponent(albumName)}`);
+			goto(`/album/${$playback.album.id}`);
 		}
 	}
 
