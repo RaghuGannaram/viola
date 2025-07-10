@@ -5,14 +5,19 @@
 	import { playback } from "$lib/stores/playbackStore";
 	import { trackSpark } from "$lib/stores/trackSparkStore";
 
+	let loading = $state(true);
+
 	onMount(() => {
 		trackSpark
-			.refresh()
+			.hydrate()
 			.then(() => {
 				console.log("viola-log: trackSpark store hydrated:", $trackSpark);
 			})
 			.catch((error) => {
 				console.error("viola-error: Error hydrating trackSpark store:", error);
+			})
+			.finally(() => {
+				loading = false;
 			});
 	});
 
@@ -51,22 +56,28 @@
 		</div>
 	</section>
 
-	<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-		{#if $trackSpark.length > 0}
-			{#each $trackSpark as track}
-				<button onclick={() => playTrack(track)}>
-					<div class="flex items-center bg-surface-800 rounded-lg p-2 shadow-lg transition">
-						<img src={track.artworkUrl} alt={track.title} class="w-16 h-16 rounded-md object-cover mr-4" />
+	{#if loading}
+		<div class="flex items-center justify-center">
+			<span>Loading tracks...</span>
+		</div>
+	{:else}
+		<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+			{#if $trackSpark.length > 0}
+				{#each $trackSpark as track}
+					<button onclick={() => playTrack(track)}>
+						<div class="flex items-center bg-surface-800 rounded-lg p-2 shadow-lg transition">
+							<img src={track.artworkUrl} alt={track.title} class="w-16 h-16 rounded-md object-cover mr-4" />
 
-						<div class="flex flex-col items-start gap-1 overflow-hidden">
-							<span class="text-surface-200 font-medium truncate">{track.title}</span>
-							<span class="text-surface-400 text-xs italic"> Uploaded {formatDistanceToNow(track.createdAt)} ago</span>
+							<div class="flex flex-col items-start gap-1 overflow-hidden">
+								<span class="text-surface-200 font-medium truncate">{track.title}</span>
+								<span class="text-surface-400 text-xs italic"> Uploaded {formatDistanceToNow(track.createdAt)} ago</span>
+							</div>
 						</div>
-					</div>
-				</button>
-			{/each}
-		{:else}
-			<div class="text-center text-surface-300 col-span-full">No tracks available.</div>
-		{/if}
-	</section>
+					</button>
+				{/each}
+			{:else}
+				<div class="text-center text-surface-300 col-span-full">No tracks available.</div>
+			{/if}
+		</section>
+	{/if}
 </main>

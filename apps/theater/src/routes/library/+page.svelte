@@ -80,13 +80,13 @@
 		defaultValue="albums"
 	>
 		{#snippet list()}
-			<Tabs.Control {...{ value: "songs" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">All Songs</Tabs.Control>
+			<Tabs.Control {...{ value: "tracks" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">All Songs</Tabs.Control>
 			<Tabs.Control {...{ value: "albums" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">Albums</Tabs.Control>
 			<Tabs.Control {...{ value: "artists" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">Artists</Tabs.Control>
 		{/snippet}
 
 		{#snippet content()}
-			<Tabs.Panel {...{ value: "songs" } as any}>
+			<Tabs.Panel {...{ value: "tracks" } as any}>
 				<ul class="divide-y divide-surface-700">
 					{#each tracks as track}
 						<li class="flex justify-between items-center py-4 hover:bg-surface-800/50 px-3">
@@ -148,8 +148,8 @@
 									{/if}
 
 									<p class="text-xs text-surface-500">
-										{album.songs.length}
-										{album.songs.length === 1 ? "song" : "songs"}
+										{album.tracks.length}
+										{album.tracks.length === 1 ? "track" : "tracks"}
 										{#if album.releaseDate}
 											• {new Date(album.releaseDate).toLocaleDateString("en-IN", { year: "numeric", month: "short" })}
 										{/if}
