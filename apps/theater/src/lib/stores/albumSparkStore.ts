@@ -19,7 +19,7 @@ export const albumSpark = stellarStore(CosmicCache.ALBUM_SPARK, async ({ params 
 
 		const { data } = response.data;
 
-		return data.album;
+		return data.albums;
 	} catch (err: any) {
 		logError("viola:error:albumSpark", err);
 
