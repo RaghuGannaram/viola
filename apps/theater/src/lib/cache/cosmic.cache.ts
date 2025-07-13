@@ -1,7 +1,7 @@
 import { CosmicCache, STELLAR_DECAY_MAP, type ICosmicRegistry } from "$lib/types";
 
 const DB_NAME = "viola-cosmic-cache";
-const DB_VERSION = 3;
+const DB_VERSION = 1;
 
 async function openCosmicCache(): Promise<IDBDatabase> {
 	return new Promise((resolve, reject) => {

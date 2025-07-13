@@ -51,3 +51,14 @@ export interface IPlaylist {
 	isPublic: boolean;
 	createdAt: string;
 }
+
+export enum UPLOAD {
+	IDLE = "idle",
+	PREPARING = "preparing",
+	ANALYZING = "analyzing",
+	UPLOADING_MUSIC = "uploading-music",
+	UPLOADING_ARTWORK = "uploading-artwork",
+	SUCCESS = "success",
+	DUPLICATE = "duplicate",
+	ERROR = "error",
+}

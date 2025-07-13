@@ -7,8 +7,9 @@ const PROXY_ENDPOINTS = {
 	},
 	AUDIO: {
 		STREAM: "/audio/stream",
-		PRESIGN: "/audio/presign",
-		UPLOAD: "/audio/upload",
+		IDENTIFY: "/audio/identify",
+		INTAKE: "/audio/tracks/intake",
+		DISCARD: "/audio/tracks/:id/discard",
 		LIST_TRACKS: "/audio/tracks",
 		SHOW_TRACK: "/audio/tracks/:id",
 		LIST_ALBUMS: "/audio/albums",
@@ -27,8 +28,9 @@ const BACKEND_ENDPOINTS = {
 	},
 	AUDIO: {
 		STREAM: "/audio/stream",
-		PRESIGN: "/audio/presign",
-		UPLOAD: "/audio/upload",
+		IDENTIFY: "/audio/identify",
+		INTAKE: "/audio/tracks/intake",
+		DISCARD: "/audio/tracks/:id/discard",
 		LIST_TRACKS: "/audio/tracks",
 		SHOW_TRACK: "/audio/tracks/:id",
 		LIST_ALBUMS: "/audio/albums",
