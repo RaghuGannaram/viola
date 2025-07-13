@@ -4,109 +4,124 @@
 	import Icon from "$lib/components/Icon/index.svelte";
 	import proxyClient from "$lib/services/http/proxy/client";
 	import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
-	import { extractMetadata } from "$lib/utils";
+	import { extractMetadata, extractAudioSample } from "$lib/utils";
+	import { UPLOAD } from "$lib/types";
 
 	const toaster = createToaster();
 
-	let uploading = $state(false);
 	let draft: File | null = $state(null);
-	let publication = $state("");
+	let uploadStatus: UPLOAD = $state(UPLOAD.IDLE);
+
+	let message: string | null = $state(null);
+	let uploadId: string = "";
 
 	function handleFileSelected(event: { acceptedFiles: File[]; rejectedFiles: File[] }) {
 		const file = event.acceptedFiles[0];
-
 		if (!file) {
-			toaster.error({
-				title: "No file selected",
-			});
-
+			toaster.error({ title: "No file selected" });
 			return;
 		}
-
 		draft = file;
+		message = null;
+		uploadStatus = UPLOAD.IDLE;
 	}
 
-	async function getPresignedUrls(file: File, artworkType: string | null) {
-		const response = await proxyClient.post(PROXY_ENDPOINTS.AUDIO.PRESIGN, {
-			fileName: file.name,
-			musicContentType: file.type,
-			artworkContentType: artworkType ?? "image/jpeg",
-		});
+	async function initiateUpload(file: File, metadata: any) {
+		const formData = new FormData();
+		formData.append("file", file, file.name);
+		formData.append("title", metadata.title);
+		formData.append("album", metadata.album);
+		formData.append("artists", metadata.artists);
+		formData.append("musicContentType", draft?.type ?? "audio/mpeg");
+		formData.append("artworkContentType", metadata.artworkBlob?.type ?? "image/jpeg");
 
+		const response = await proxyClient.post(PROXY_ENDPOINTS.AUDIO.INTAKE, formData, {
+			headers: { "Content-Type": "multipart/form-data" },
+		});
 		const { data } = response.data;
 
 		return data;
 	}
 
 	async function uploadToPresignedUrl(url: string, blob: Blob, contentType: string) {
-		return fetch(url, {
+		const res = await fetch(url, {
 			method: "PUT",
 			headers: { "Content-Type": contentType },
 			body: blob,
 		});
+		if (!res.ok) throw new Error("S3 upload failed");
 	}
 
-	async function registerTrackUpload(metadata: any, keys: { music: string; artwork: string }) {
-		return proxyClient.post(PROXY_ENDPOINTS.AUDIO.UPLOAD, {
-			title: metadata.title,
-			artist: metadata.artist,
-			album: metadata.album,
-			lyrics: metadata.lyrics,
-			artworkUrl: keys.artwork,
-			musicUrl: keys.music,
-		});
+	async function discardUpload(trackId: string) {
+		try {
+			await proxyClient.delete(PROXY_ENDPOINTS.AUDIO.DISCARD.replace(":id", trackId));
+
+			console.log(`viola-log: upload discarded for track ID: ${trackId}`);
+		} catch (err) {
+			console.error("viola-error: failed to discard upload", err);
+		}
 	}
 
 	async function handleFileSubmit() {
 		if (!draft) {
-			toaster.error({
-				title: "No file selected",
-			});
-
+			toaster.error({ title: "No file selected" });
 			return;
 		}
 
-		uploading = true;
+		uploadStatus = UPLOAD.PREPARING;
+		message = null;
 
 		try {
 			const metadata = await extractMetadata(draft);
-			const { title, artwork, music } = await getPresignedUrls(draft, metadata.artworkBlob?.type ?? null);
+			const sampleBlob = await extractAudioSample(draft);
+			const sampleFile = new File([sampleBlob], draft.name, {
+				type: sampleBlob.type,
+				lastModified: Date.now(),
+			});
 
-			await uploadToPresignedUrl(music.presignedUrl, draft, draft.type);
+			uploadStatus = UPLOAD.ANALYZING;
+			const result = await initiateUpload(sampleFile, metadata);
 
-			if (metadata.artworkBlob) {
-				await uploadToPresignedUrl(artwork.presignedUrl, metadata.artworkBlob, metadata.artworkBlob.type);
+			if (result.duplicate) {
+				uploadStatus = UPLOAD.DUPLICATE;
+				message = "Track already exists in our system.";
+				toaster.info({ title: "Duplicate track", description: message });
+				return;
 			}
 
-			await registerTrackUpload(
-				{ ...metadata, title },
-				{
-					music: music.s3Key,
-					artwork: artwork.s3Key,
-				},
-			);
+			uploadId = result.trackId;
+			uploadStatus = UPLOAD.UPLOADING_MUSIC;
 
-			publication = draft.name;
+			await uploadToPresignedUrl(result.presignedMusicUrl, draft, draft.type);
 
-			toaster.success({
-				title: "Upload successful",
-			});
-		} catch (err: any) {
-			console.error("viola-error: Upload failed", err);
+			uploadStatus = UPLOAD.UPLOADING_ARTWORK;
+			if (metadata.artworkBlob) {
+				await uploadToPresignedUrl(result.presignedArtworkUrl, metadata.artworkBlob, metadata.artworkBlob.type);
+			}
 
-			toaster.error({
-				title: "Upload failed",
-			});
+			uploadStatus = UPLOAD.SUCCESS;
+			message = `Successfully uploaded "${draft.name}"`;
+
+			toaster.success({ title: "Upload successful" });
+			console.log("viola-log: upload successful", { draft, uploadId });
+		} catch (err) {
+			uploadStatus = UPLOAD.ERROR;
+			message = "Upload failed. Please try again.";
+
+			if (uploadId) await discardUpload(uploadId);
+
+			toaster.error({ title: "Upload failed", description: message });
+			console.error("viola-error: failed to upload the assets", err);
 		} finally {
 			draft = null;
-			uploading = false;
+			uploadId = "";
 		}
 	}
 </script>
 
-<Toaster {toaster}></Toaster>
+<Toaster {toaster} />
 
-<main class="max-w-2xl mx-auto my-12">
+<main class="max-w-2xl min-h-screen mx-auto my-12">
 	<section class="bg-surface-800/50 rounded-2xl shadow-md p-6 space-y-6 backdrop-blur-sm">
 		<h1 class="text-xl font-semibold text-primary-400">Upload music</h1>
 
@@ -115,26 +130,56 @@
 			accept="audio/*"
 			maxFiles={1}
 			classes="w-full text-primary-200"
-			onFileChange={(event: { acceptedFiles: File[]; rejectedFiles: File[] }) => handleFileSelected(event)}
-			subtext="Supported formats:  MP3, WAV, FLAC, ALAC, AAC, OGG, AIFF"
+			onFileChange={handleFileSelected}
+			subtext="Supported formats: MP3, WAV, FLAC, ALAC, AAC, OGG, AIFF"
 		/>
 
 		<button
 			onclick={handleFileSubmit}
 			class="flex items-center justify-center gap-2 bg-gradient-to-r from-surface-800 to-surface-600 text-primary-400 mt-10 px-4 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-			disabled={uploading}
+			disabled={uploadStatus !== "idle"}
 		>
-			{#if uploading}
+			{#if uploadStatus === "preparing"}
 				<Icon name="eos-icons:loading" size={20} />
-				<span>Uploading...</span>
+				<span>Preparing upload…</span>
+			{:else if uploadStatus === "analyzing"}
+				<Icon name="eos-icons:loading" size={20} />
+				<span>Analyzing track…</span>
+			{:else if uploadStatus === "uploading-music"}
+				<Icon name="eos-icons:loading" size={20} />
+				<span>Uploading music…</span>
+			{:else if uploadStatus === "uploading-artwork"}
+				<Icon name="eos-icons:loading" size={20} />
+				<span>Uploading artwork…</span>
+			{:else if uploadStatus === "success"}
+				<Icon name="mdi:success" size={20} />
+				<span>Upload Complete</span>
+			{:else if uploadStatus === "duplicate"}
+				<Icon name="mdi:alert-circle-outline" size={20} />
+				<span>Duplicate Track</span>
+			{:else if uploadStatus === "error"}
+				<Icon name="mdi:close-circle-outline" size={20} />
+				<span>Upload Failed</span>
 			{:else}
 				<Icon name="line-md:upload-loop" size={20} />
 				<span>Upload Track</span>
 			{/if}
 		</button>
 
-		{#if publication}
-			<p class="flex gap-2 items-center text-primary-400 text-sm mt-2"><Icon name="mdi:success" size={20} /> <span>Successfully uploaded : {publication}</span></p>
+		{#if message}
+			<p class="text-sm text-primary-300 mt-4 flex items-center gap-2">
+				<Icon
+					name={uploadStatus === "success"
+						? "mdi:check-circle"
+						: uploadStatus === "duplicate"
+							? "mdi:alert-circle-outline"
+							: uploadStatus === "error"
+								? "mdi:close-circle-outline"
+								: "mdi:information-outline"}
+					size={18}
+				/>
+				{message}
+			</p>
 		{/if}
 	</section>
 </main>
