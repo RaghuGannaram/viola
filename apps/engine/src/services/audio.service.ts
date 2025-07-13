@@ -1,5 +1,6 @@
 import logger from "@src/configs/logger.config";
 import { AUDIO_CONSTANTS } from "@src/constants";
+import type { Imetadata } from "@src/types";
 import { v4 as uuid } from "uuid";
 
 const { FILE_NAME_CONTAMINANTS, ALBUM_NAME_CONTAMINANTS, MIME_TO_EXTENSION } = AUDIO_CONSTANTS;
@@ -30,11 +31,8 @@ function generateFallbackAlbumName(): string {
 
 	return `Viola Untitled Album ${formattedDate} ${uniqueSuffix}`;
 }
-
-function extractCleanAudioName(rawFileName: string): string {
-	const fileNameWithoutExt = rawFileName.replace(/\.[^/.]+$/, "");
-
-	let cleaned = fileNameWithoutExt;
+function sanitizeTitle(rawTitle: string): string {
+	let cleaned = rawTitle;
 
 	// Remove any content inside square brackets [ ... ] inclusive (often site names, tags)
 	cleaned = cleaned.replace(/\[.*?\]/g, "");
@@ -66,14 +64,14 @@ function extractCleanAudioName(rawFileName: string): string {
 		.join(" ");
 
 	if (!cleaned) {
-		logger.warn(`Audio name extraction failed for: "${rawFileName}". Using fallback name.`);
+		logger.warn(`Audio name extraction failed for: "${rawTitle}". Using fallback name.`);
 		cleaned = generateFallbackAudioName();
 	}
 
 	return cleaned;
 }
 
-function extractCleanAlbumName(rawAlbumName: string): string {
+function sanitizeAlbum(rawAlbumName: string): string {
 	let cleaned = rawAlbumName;
 
 	// Remove any content inside square brackets [ ... ] inclusive (often years, tags)
@@ -107,7 +105,7 @@ function extractCleanAlbumName(rawAlbumName: string): string {
 	return cleaned;
 }
 
-function extractArtistNames(raw: string): string[] {
+function sanitizeArtists(raw: string): string[] {
 	return raw
 		.split(/[,;&/]+/)
 		.map((str) => str.replace(/feat\.?.*/i, "").trim())
@@ -125,14 +123,24 @@ function generateStorageSafeKey(cleanAudioName: string): string {
 		.replace(/[^a-z0-9_]/g, "");
 }
 
-function getExtensionFromMimeType(contentType: string): string {
+function mimeToExt(contentType: string): string {
 	return MIME_TO_EXTENSION[contentType] ?? "bin";
 }
 
+function buildFileNames(metadata: Imetadata): [string, string] {
+	const storageSafeName = generateStorageSafeKey(sanitizeTitle(metadata.title));
+
+	const artworkFileName = `${storageSafeName}_cover.${mimeToExt(metadata.artworkContentType)}`;
+	const musicFileName = `${storageSafeName}.${mimeToExt(metadata.musicContentType)}`;
+
+	return [artworkFileName, musicFileName];
+}
+
 export default {
-	extractCleanAudioName,
-	extractCleanAlbumName,
-	extractArtistNames,
+	buildFileNames,
+	sanitizeTitle,
+	sanitizeAlbum,
+	sanitizeArtists,
 	generateStorageSafeKey,
-	getExtensionFromMimeType,
+	mimeToExt,
 };
