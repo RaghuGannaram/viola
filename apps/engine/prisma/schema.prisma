@@ -59,11 +59,15 @@ model Track {
     duration    Int?
     trackNumber Int?
     lyrics      String        @default("")
+    label       String        @default("")
     musicUrl    String
     artworkUrl  String        @default("defaultCover.png")
+    genres      String[]      @default([])
     albumId     String?       @db.Uuid
     uploaderId  String        @db.Uuid
+    releaseDate DateTime?
     createdAt   DateTime      @default(now()) @db.Timestamptz(6)
+    acrid       String?
     // relationships
     uploader    User          @relation("UserTracks", fields: [uploaderId], references: [id], onDelete: Restrict)
     album       Album?        @relation("AlbumTracks", fields: [albumId], references: [id], onDelete: SetNull)
