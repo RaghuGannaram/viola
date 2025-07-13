@@ -20,6 +20,9 @@ declare module NodeJS {
         ACCESS_TOKEN_VALIDITY: string;
         REFRESH_TOKEN_VALIDITY: string;
         REFRESH_TOKEN_MAX_AGE: string;
+        ACR_HOST: string;
+        ACR_ACCESS_KEY: string;
+        ACR_ACCESS_SECRET: string;
         API_GATEWAY_DEV_URL: string;
         API_GATEWAY_PROD_URL: string;
         NODE_ENV: "development" | "production";
