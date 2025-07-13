@@ -1,14 +1,14 @@
+import envAccess from "@src/configs/env.config";
 import catchAsyncError from "@src/middlewares/catch-async-error.middleware";
 import { registrationSchema, loginSchema } from "@src/schemas/auth.schema";
 import authBusinessService from "@src/services/auth.business";
 import type { IRegistration, ILogin, IController } from "@src/types";
 import { HttpError, HttpErrors, processValidationError } from "@src/utils/application-errors";
-import { getCurrentEnv, getJWTInfo } from "@src/utils/env-info";
 import type { Request, Response } from "express";
 import ms from "ms";
 
-const currentEnv = getCurrentEnv();
-const { refreshTokenValidity } = getJWTInfo();
+const currentEnv = envAccess.app.env();
+const { refreshTokenValidity } = envAccess.jwt.credentials();
 
 const register: IController = catchAsyncError(async function (req: Request, res: Response) {
 	let registrationData: IRegistration | null = null;

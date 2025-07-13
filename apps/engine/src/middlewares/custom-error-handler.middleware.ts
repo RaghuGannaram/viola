@@ -1,10 +1,10 @@
+import envAccess from "@src/configs/env.config";
 import logger from "@src/configs/logger.config";
 import { errorExposureDepthCode, type ApplicationError } from "@src/types/index";
-import { getCurrentEnv, getErrorExposureDepth } from "@src/utils/env-info";
 import type { Request, Response, NextFunction } from "express";
 
-const currentEnv = getCurrentEnv();
-const errorExposureDepth = errorExposureDepthCode[getErrorExposureDepth()];
+const currentEnv = envAccess.app.env();
+const errorExposureDepth = errorExposureDepthCode[envAccess.error.exposureDepth()];
 
 function customErrorHandler(error: ApplicationError, req: Request, res: Response, _next: NextFunction) {
 	logger.error(`${req.method} ${req.originalUrl}: ${error.status} - ${error.message} - ${req.ip} \n%o`, error);

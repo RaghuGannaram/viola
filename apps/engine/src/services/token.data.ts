@@ -1,12 +1,12 @@
+import envAccess from "@src/configs/env.config";
 import logger from "@src/configs/logger.config";
 import sessionStore from "@src/configs/session.config";
 import type { ITokenPayload, IAuthUser } from "@src/types";
 import { DataError, DataErrors, catchAsyncDataError, processTokenError, processCacheError } from "@src/utils/application-errors";
-import { getJWTInfo } from "@src/utils/env-info";
 import JWT from "jsonwebtoken";
 import ms from "ms";
 
-const { accessTokenSecret, refreshTokenSecret, accessTokenValidity, refreshTokenValidity, refreshTokenMaxAge } = getJWTInfo();
+const { accessTokenSecret, refreshTokenSecret, accessTokenValidity, refreshTokenValidity, refreshTokenMaxAge } = envAccess.jwt.credentials();
 
 const issueAccessToken = catchAsyncDataError(async (profile: IAuthUser) => {
 	logger.debug(`token.service: issuing access token for user: %o`, profile);
