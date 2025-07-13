@@ -1,12 +1,12 @@
 import "dotenv/config";
 import http from "http";
 import app from "@src/app";
+import envAccess from "@src/configs/env.config";
 import logger from "@src/configs/logger.config";
-import { getCurrentPort } from "@src/utils/env-info";
 import chalk from "chalk";
 
 const server = http.createServer(app);
-const port = getCurrentPort();
+const port = envAccess.app.port();
 
 server.listen(port);
 

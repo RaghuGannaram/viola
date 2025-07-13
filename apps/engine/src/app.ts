@@ -1,8 +1,8 @@
 import api_v1 from "@src/api/v1";
+import envAccess from "@src/configs/env.config";
 import customErrorHandler from "@src/middlewares/custom-error-handler.middleware";
 import defaultMiddleware from "@src/middlewares/default.middleware";
 import morganMiddleware from "@src/middlewares/morgan.middleware";
-import { getAPIGatewayURL } from "@src/utils/env-info";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { type Request, type Response } from "express";
@@ -16,7 +16,7 @@ import "@src/configs/prisma.config";
 
 const app: express.Application = express();
 
-const apiGatewayURL = getAPIGatewayURL();
+const apiGatewayURL = envAccess.api.gatewayUrl();
 const corsOptions = {
 	origin: apiGatewayURL,
 	credentials: true,

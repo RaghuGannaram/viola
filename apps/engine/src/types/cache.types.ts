@@ -3,19 +3,19 @@ export enum CacheProvider {
 	UPSTASH = "upstash",
 }
 
-export interface IRedisParams {
+export interface IRedisCredentials {
 	host: string;
 	port: number;
 	username: string;
 	password: string;
 }
 
-export interface IUpstashParams {
+export interface IUpstashCredentials {
 	rest_url: string;
 	token: string;
 }
 
-export type CacheParams = IRedisParams | IUpstashParams;
+export type ICacheCredentials = IRedisCredentials | IUpstashCredentials;
 
 export interface ISessionStore {
 	set(key: string, value: string, ttl?: number): Promise<void>;

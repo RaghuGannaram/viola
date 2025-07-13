@@ -16,17 +16,33 @@ export interface IUploadAudio {
 	file: Express.Multer.File;
 }
 
-export interface IPresign {
-	fileName: string;
+export interface Imetadata {
+	title: string;
+	album: string;
+	artists: string;
 	artworkContentType: string;
 	musicContentType: string;
 }
 
-export interface IUpload {
+interface AcrTrack {
 	title: string;
-	artist: string;
-	album: string;
-	lyrics: string;
-	artworkUrl: string;
-	musicUrl: string;
+	duration_ms: number;
+	album: { name: string };
+	artists: { name: string }[];
+	label: string;
+	release_date?: string;
+	genres: { name: string }[];
+	lyrics?: {
+		copyrights?: string[];
+	};
+	score: number;
+	acrid: string;
+}
+
+interface AcrMetadata {
+	music?: AcrTrack[];
+}
+
+export interface AcrResponse {
+	metadata?: AcrMetadata;
 }
