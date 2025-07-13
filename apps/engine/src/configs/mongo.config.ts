@@ -1,13 +1,13 @@
+import envAccess from "@src/configs/env.config";
 import logger from "@src/configs/logger.config";
-import { getMongoUrl, getCurrentEnv } from "@src/utils/env-info";
 import chalk from "chalk";
 import mongoose, { type Connection } from "mongoose";
 import { type ConnectOptions } from "mongoose";
 
-type Config = Record<ReturnType<typeof getCurrentEnv>, ConnectOptions>;
+type Config = Record<ReturnType<typeof envAccess.database.mongoUrl>, ConnectOptions>;
 
-const mongoURL = getMongoUrl();
-const currentEnv = getCurrentEnv();
+const mongoURL = envAccess.database.mongoUrl();
+const currentEnv = envAccess.app.env();
 
 const dbConfig: Config = {
 	development: {

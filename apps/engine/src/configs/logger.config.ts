@@ -1,6 +1,6 @@
 import util from "util";
+import envAccess from "@src/configs/env.config";
 import { colorCode } from "@src/types/index";
-import { getLogLevel } from "@src/utils/env-info";
 import chalk from "chalk";
 import winston from "winston";
 
@@ -8,7 +8,7 @@ const { addColors, createLogger, format, transports } = winston;
 
 addColors(colorCode);
 
-const level = getLogLevel();
+const level = envAccess.log.level();
 
 const consoleLogFormat = format.printf(({ level, message, timestamp, stack }) => {
 	const colorizedTimestamp = chalk.gray(timestamp);
@@ -25,7 +25,8 @@ const consoleLogFormat = format.printf(({ level, message, timestamp, stack }) =>
 });
 
 const fileLogFormat = format.printf(({ level, message, timestamp }) => {
-	const unColoredMessage = message.replace(/\x1B\[\d+m/g, "");
+	const msgStr = typeof message === "string" ? message : util.inspect(message);
+	const unColoredMessage = msgStr.replace(/\x1B\[\d+m/g, "");
 	const formattedMessage = typeof unColoredMessage === "object" ? util.inspect(unColoredMessage) : unColoredMessage;
 
 	return `${timestamp} ${level}: ${formattedMessage}`;

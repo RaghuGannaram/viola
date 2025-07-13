@@ -1,6 +1,6 @@
+import envAccess from "@src/configs/env.config";
 import logger from "@src/configs/logger.config";
-import { CacheProvider, type ISessionStore, type IRedisParams } from "@src/types";
-import { getCacheParams } from "@src/utils/env-info";
+import { CacheProvider, type ISessionStore, type IRedisCredentials } from "@src/types";
 import chalk from "chalk";
 import { createClient, type RedisClientType } from "redis";
 
@@ -23,7 +23,7 @@ export class RedisCache implements ISessionStore {
 
 	public static getInstance(): RedisCache {
 		if (!RedisCache.instance) {
-			const { host, port, username, password } = getCacheParams(CacheProvider.REDIS) as IRedisParams;
+			const { host, port, username, password } = envAccess.cache.credentials(CacheProvider.REDIS) as IRedisCredentials;
 			RedisCache.instance = new RedisCache(host, port, username, password);
 		}
 		return RedisCache.instance;

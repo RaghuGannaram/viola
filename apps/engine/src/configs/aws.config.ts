@@ -1,8 +1,8 @@
 import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import envAccess from "@src/configs/env.config";
 import logger from "@src/configs/logger.config";
-import { getAWSParams } from "@src/utils/env-info";
 
-const { accessKey, secretAccessKey, region, bucket, signedUrlValidity, cloudFrontUrl } = getAWSParams();
+const { accessKey, secretAccessKey, region, bucket, signedUrlValidity, cloudFrontUrl } = envAccess.aws.credentials();
 
 const s3ClientInstance = new S3Client({
 	region: region,

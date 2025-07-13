@@ -1,6 +1,6 @@
+import envAccess from "@src/configs/env.config";
 import logger from "@src/configs/logger.config";
-import { CacheProvider, type ISessionStore, type IUpstashParams } from "@src/types";
-import { getCacheParams } from "@src/utils/env-info";
+import { CacheProvider, type ISessionStore, type IUpstashCredentials } from "@src/types";
 import { Redis } from "@upstash/redis";
 import chalk from "chalk";
 
@@ -18,7 +18,7 @@ export class UpstashCache implements ISessionStore {
 
 	public static getInstance(): UpstashCache {
 		if (!UpstashCache.instance) {
-			const { rest_url, token } = getCacheParams(CacheProvider.UPSTASH) as IUpstashParams;
+			const { rest_url, token } = envAccess.cache.credentials(CacheProvider.UPSTASH) as IUpstashCredentials;
 			UpstashCache.instance = new UpstashCache(rest_url, token);
 		}
 		return UpstashCache.instance;

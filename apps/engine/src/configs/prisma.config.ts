@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
+import envAccess from "@src/configs/env.config";
 import logger from "@src/configs/logger.config";
-import { getCurrentEnv } from "@src/utils/env-info";
 import chalk from "chalk";
 
-const currentEnv = getCurrentEnv();
+const currentEnv = envAccess.app.env();
 
 const prisma = new PrismaClient({
 	log: [
