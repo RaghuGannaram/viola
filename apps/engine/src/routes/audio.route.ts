@@ -1,18 +1,31 @@
 import audioController from "@src/controllers/audio.controller";
 import authenticate from "@src/middlewares/auth.middleware";
 import express, { type Router } from "express";
+import multer from "multer";
 
 const router: Router = express.Router();
 
-router.post("/presign", authenticate, audioController.presign);
+const upload = multer({ storage: multer.memoryStorage() });
 
-router.post("/upload", authenticate, audioController.upload);
+router.get("/stream/:id", audioController.stream);
 
-router.get("/list", audioController.list);
+router.post("/identify", authenticate, upload.single("file"), audioController.identify);
 
-router.get("/info/:audioId", audioController.info);
+router.post("/tracks/intake", authenticate, upload.single("file"), audioController.intake);
 
-router.get("/stream/:audioId", audioController.stream);
+router.get("/tracks", audioController.listTracks);
+
+router.get("/tracks/:id", audioController.showTrack);
+
+// router.delete("/tracks/:id/discard", audioController.discard);
+
+router.get("/albums", audioController.listAlbums);
+
+router.get("/albums/:id", audioController.showAlbum);
+
+router.get("/artists", audioController.listArtists);
+
+router.get("/artists/:id", audioController.showArtist);
 
 // router.get("/download/:audioId", audioController.download);
 

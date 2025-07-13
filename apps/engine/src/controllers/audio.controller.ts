@@ -1,79 +1,165 @@
 import catchAsyncError from "@src/middlewares/catch-async-error.middleware";
-import { presignSchema, uploadSchema } from "@src/schemas/audio.schema";
+import { metadataSchema } from "@src/schemas/audio.schema";
 import audioBusinessService from "@src/services/audio.business";
-import type { IVerifiedRequest, IController, IPresign, IUpload } from "@src/types";
+import type { IVerifiedRequest, IController, Imetadata } from "@src/types";
 import { HttpError, HttpErrors, processValidationError } from "@src/utils/application-errors";
 import type { Request, Response } from "express";
 
-const presign: IController = catchAsyncError(async function (req: Request, res: Response) {
+const stream: IController = catchAsyncError(async function (req: Request, res: Response) {
+	const trackId = req.params["id"];
+
+	if (!trackId) throw new HttpError(400, HttpErrors.BAD_REQUEST, "Track ID is required");
+
+	if (!trackId.match(/^[a-zA-Z0-9-]+$/)) throw new HttpError(400, HttpErrors.BAD_REQUEST, "Invalid track ID format");
+
+	const streamUrl = await audioBusinessService.stream(trackId);
+
+	res.json({
+		success: true,
+		message: "Track stream URL retrieved successfully",
+		data: {
+			streamUrl,
+		},
+	});
+});
+
+const identify: IController = catchAsyncError(async function (req: Request, res: Response) {
 	const authUser = (req as IVerifiedRequest).user;
 
-	let presignData: IPresign | null = null;
+	if (!req.file) {
+		throw new HttpError(400, HttpErrors.BAD_REQUEST, "Audio file is required for identification");
+	}
+
+	const fileBuffer = req.file.buffer;
+	const fileName = req.file.originalname;
+
+	const result = await audioBusinessService.identify(authUser, fileName, fileBuffer);
+
+	res.status(200).json({
+		success: true,
+		message: "Audio identified successfully",
+		data: {
+			result,
+		},
+	});
+});
+
+const intake: IController = catchAsyncError(async function (req: Request, res: Response) {
+	const authUser = (req as IVerifiedRequest).user;
+
+	if (!req.file) {
+		throw new HttpError(400, HttpErrors.BAD_REQUEST, "Audio file is required for identification");
+	}
+
+	const fileBuffer = req.file.buffer;
+
+	let metadata: Imetadata | null = null;
 
 	try {
-		presignData = await presignSchema.validateAsync(req.body);
+		metadata = await metadataSchema.validateAsync(req.body);
 	} catch (error) {
 		processValidationError(error);
 	}
 
-	const { title, music, artwork } = await audioBusinessService.presign(authUser, presignData);
+	const response = await audioBusinessService.intake(authUser, metadata, fileBuffer);
 
-	res.status(200).json({ title, music, artwork });
+	res.status(201).json({
+		success: true,
+		message: "Track uploaded successfully",
+		data: {
+			...response,
+		},
+	});
 });
 
-const upload = catchAsyncError(async function (req: Request, res: Response) {
-	const authUser = (req as IVerifiedRequest).user;
+const listTracks = catchAsyncError(async function (_req: Request, res: Response) {
+	const tracks = await audioBusinessService.listTracks();
 
-	let musicData: IUpload | null = null;
-
-	try {
-		musicData = await uploadSchema.validateAsync(req.body);
-	} catch (error) {
-		processValidationError(error);
-	}
-
-	console.log("zetex-musicData", musicData);
-
-	const song = await audioBusinessService.upload(authUser, musicData);
-
-	res.status(201).json({ message: "audio uploaded successfully", song });
+	res.status(200).json({
+		success: true,
+		message: "Tracks retrieved successfully",
+		data: {
+			tracks,
+		},
+	});
 });
 
-const list = catchAsyncError(async function (_req: Request, res: Response) {
-	const songs = await audioBusinessService.list();
+const showTrack = catchAsyncError(async (req, res) => {
+	const trackId = req.params["id"];
 
-	res.status(200).json(songs);
+	if (!trackId) throw new HttpError(400, HttpErrors.BAD_REQUEST, "Track ID is required");
+
+	if (!trackId.match(/^[a-zA-Z0-9-]+$/)) throw new HttpError(400, HttpErrors.BAD_REQUEST, "Invalid track ID format");
+
+	const track = await audioBusinessService.showTrack(trackId);
+
+	res.json({
+		success: true,
+		message: "Track details retrieved successfully",
+		data: {
+			track,
+		},
+	});
 });
 
-const info = catchAsyncError(async (req, res) => {
-	const songId = req.params["audioId"];
+const listAlbums = catchAsyncError(async function (_req: Request, res: Response) {
+	const albums = await audioBusinessService.listAlbums();
 
-	if (!songId) {
-		throw new HttpError(400, HttpErrors.BAD_REQUEST, "Song ID is required");
-	}
-
-	if (!songId.match(/^[a-zA-Z0-9-]+$/)) {
-		throw new HttpError(400, HttpErrors.BAD_REQUEST, "Invalid song ID format");
-	}
-
-	const song = await audioBusinessService.info(songId);
-
-	res.json({ message: "song retrieved successfully", song });
+	res.status(200).json({
+		success: true,
+		message: "Albums retrieved successfully",
+		data: {
+			albums,
+		},
+	});
 });
 
-const stream = catchAsyncError(async (req, res) => {
-	const songId = req.params["audioId"];
+const showAlbum = catchAsyncError(async (req: Request, res: Response) => {
+	const albumId = req.params["id"];
 
-	if (!songId) {
-		throw new HttpError(400, HttpErrors.BAD_REQUEST, "Song ID is required");
-	}
-	if (!songId.match(/^[a-zA-Z0-9-]+$/)) {
-		throw new HttpError(400, HttpErrors.BAD_REQUEST, "Invalid song ID format");
-	}
+	if (!albumId) throw new HttpError(400, HttpErrors.BAD_REQUEST, "Album ID is required");
 
-	const url = await audioBusinessService.stream(songId);
+	if (!albumId.match(/^[a-zA-Z0-9-]+$/)) throw new HttpError(400, HttpErrors.BAD_REQUEST, "Invalid album ID format");
 
-	res.json({ message: "stream URL retrieved successfully", streamUrl: url });
+	const album = await audioBusinessService.showAlbum(albumId);
+
+	res.status(200).json({
+		success: true,
+		message: "Album details retrieved successfully",
+		data: {
+			album,
+		},
+	});
 });
 
-export default { presign, upload, list, info, stream };
+const listArtists = catchAsyncError(async function (_req: Request, res: Response) {
+	const artists = await audioBusinessService.listArtists();
+
+	res.status(200).json({
+		success: true,
+		message: "Artists retrieved successfully",
+		data: {
+			artists,
+		},
+	});
+});
+
+const showArtist = catchAsyncError(async (req: Request, res: Response) => {
+	const artistId = req.params["id"];
+
+	if (!artistId) throw new HttpError(400, HttpErrors.BAD_REQUEST, "Artist ID is required");
+
+	if (!artistId.match(/^[a-zA-Z0-9-]+$/)) throw new HttpError(400, HttpErrors.BAD_REQUEST, "Invalid artist ID format");
+
+	const artist = await audioBusinessService.showArtist(artistId);
+
+	res.status(200).json({
+		success: true,
+		message: "Artist details retrieved successfully",
+		data: {
+			artist,
+		},
+	});
+});
+
+export default { stream, identify, intake, listTracks, showTrack, listAlbums, showAlbum, listArtists, showArtist };
