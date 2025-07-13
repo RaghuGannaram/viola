@@ -10,7 +10,7 @@
 	import defaultAlbumImage from "$lib/assets/album.png";
 	import type { ITrack, IAlbum, IArtist } from "$lib/types";
 
-	let activeTab = $state("artists");
+	let activeTab = $state("albums");
 	let tracks: ITrack[] = $state([]);
 	let albums: IAlbum[] = $state([]);
 	let artists: IArtist[] = $state([]);
@@ -119,8 +119,8 @@
 						<div class=" w-full text-center text-surface-500">No albums found.</div>
 					{/if}
 					{#each albums as album}
-						<div class=" w-[250px] bg-surface-800/50 rounded-xl">
-							<a href={`/album/${album.id}`} class="group bg-surface-800 overflow-hidden shadow-md hover:shadow-lg hover:bg-surface-700/50 transition">
+						<div class=" w-[250px] overflow-hidden group bg-surface-800/50 hover:bg-surface-700/30 shadow-md hover:shadow-lg rounded-xl transition">
+							<a href={`/album/${album.id}`}>
 								<div class="relative">
 									<img
 										src={album.coverUrl || defaultAlbumImage}
@@ -131,18 +131,18 @@
 											target.src = defaultAlbumImage;
 										}}
 									/>
-									<div class="absolute inset-0 rounded-t-xl bg-surface-800/50 hover:bg-surface-600/40 transition"></div>
+									<div class="absolute inset-0 rounded-t-xl bg-surface-800/50 group-hover:bg-surface-800/40 transition"></div>
 								</div>
 
 								<!-- Text Info -->
 								<div class="p-4 space-y-1">
-									<h3 class="text-base font-semibold text-surface-200 group-hover:text-primary-200">{album.title}</h3>
+									<h3 class="text-base font-semibold text-surface-200 group-hover:text-primary-200/80">{album.title}</h3>
 									{#if album.description}
 										<p class="text-sm text-surface-400 line-clamp-2">{album.description}</p>
 									{/if}
 
 									{#if album.artists?.length}
-										<p class="text-xs text-surface-400 italic">
+										<p class="text-xs text-surface-400 italic line-clamp-1 overflow-hidden">
 											{album.artists.map(({ artist }: any) => artist.name).join(", ")}
 										</p>
 									{/if}

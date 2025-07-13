@@ -63,9 +63,10 @@
 	onMount(() => {
 		async function fetchStreamingUrl() {
 			const response = await proxyClient.get(`${PROXY_ENDPOINTS.AUDIO.STREAM}/${$playback.id}`);
+			const { data } = response.data;
 
-			if (response.data && response.data.streamUrl) {
-				$playback.streamUrl = response.data.streamUrl;
+			if (data && data.streamUrl) {
+				$playback.streamUrl = data.streamUrl;
 				console.log("viola-log: Streaming URL fetched successfully:", $playback.streamUrl);
 			} else {
 				console.error("viola-error: Failed to fetch streaming URL for playback.");
