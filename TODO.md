@@ -1,4 +1,3 @@
-
 # 🎵 Viola Feature Roadmap
 
 A **phase-by-phase development plan** for **Viola**, your personal and intelligent music companion. Viola is designed to be a self-hosted, elegant alternative to commercial platforms — giving **you full control over your music**, playlists, storage, and listening experience.
@@ -11,22 +10,25 @@ A **phase-by-phase development plan** for **Viola**, your personal and intellige
 
 ### 🔹 Essential Features
 
-- [ ] **Local Audio Playback**
-    - [ ] Play, pause, seek, and stop songs
-    - [ ] Support MP3, WAV, OGG, FLAC formats
-    - [ ] Volume and mute control
+- [✓] **Local Audio Playback**
 
-- [ ] **Playlist Management**
-    - [ ] Create, edit, and delete playlists
-    - [ ] Add/remove songs from playlists
+    - [✓] Play, pause, seek, and stop songs
+    - [✓] Support MP3, WAV, OGG, FLAC formats
+    - [✓] Volume and mute control
 
-- [ ] **Song Metadata Display**
-    - [ ] Show song title, artist, album, and cover image
+- [✓] **Playlist Management**
 
-- [ ] **User Interface**
-    - [ ] Responsive design for mobile and desktop
-    - [ ] Dark and light mode toggle
-    - [ ] Animated visual seek bar
+    - [✓] Create, edit, and delete playlists
+    - [✓] Add/remove songs from playlists
+
+- [✓] **Song Metadata Display**
+
+    - [✓] Show song title, artist, album, and cover image
+
+- [✓] **User Interface**
+    - [✓] Responsive design for mobile and desktop
+    - [✓] Dark and light mode toggle
+    - [✓] Animated visual seek bar
 
 ✅ **Users can load and play songs from local sources with an elegant UI and manage basic playlists.**
 
@@ -38,18 +40,21 @@ A **phase-by-phase development plan** for **Viola**, your personal and intellige
 
 ### 🔹 Cloud & Auth
 
-- [ ] **User Accounts**
-    - [ ] Signup, login, password reset
-    - [ ] User-specific playlist storage
-    - [ ] OAuth integration (Google, GitHub)
+- [✓] **User Accounts**
 
-- [ ] **S3 Bucket Integration**
-    - [ ] Upload and stream from user-specific S3 paths
-    - [ ] Support authenticated, private music collections
+    - [✓] Signup, login, password reset
+    - [✓] User-specific playlist storage
+    - [✓] OAuth integration (Google, GitHub)
 
-- [ ] **Streaming Capabilities**
-    - [ ] Range header support for large file streaming
-    - [ ] Playback resume and caching
+- [✓] **S3 Bucket Integration**
+
+    - [✓] Upload and stream from user-specific S3 paths
+    - [✓] Support authenticated, private music collections
+
+- [✓] **Streaming Capabilities**
+
+    - [✓] Range header support for large file streaming
+    - [✓] Playback resume and caching
 
 - [ ] **Search & Filter**
     - [ ] Search by song, artist, album
@@ -165,25 +170,26 @@ A **phase-by-phase development plan** for **Viola**, your personal and intellige
 
 ## 📦 **Deliverables by Phase**
 
-| Phase | Key Deliverables |
-|-------|------------------|
+| Phase | Key Deliverables                                |
+| ----- | ----------------------------------------------- |
 | 1     | Local playback, playlist creation, beautiful UI |
-| 2     | Cloud streaming, user accounts, S3 integration |
-| 3     | Lyrics, EQ, waveform, immersive controls |
-| 4     | Offline-first PWA, mobile control |
-| 5     | Social sharing, discovery, friend sync |
-| 6     | AI-curated music, smart dashboard |
-| 7     | Intuitive, playful, never-seen-before features |
+| 2     | Cloud streaming, user accounts, S3 integration  |
+| 3     | Lyrics, EQ, waveform, immersive controls        |
+| 4     | Offline-first PWA, mobile control               |
+| 5     | Social sharing, discovery, friend sync          |
+| 6     | AI-curated music, smart dashboard               |
+| 7     | Intuitive, playful, never-seen-before features  |
 
 ---
 
 ## 🎯 **Final Vision: Viola — The Soulful Sound Companion**
 
 Viola is not just a player. It is:
+
 - Your **playlist keeper**
 - Your **mood reader**
 - Your **offline vault**
 - Your **music diary**
 - Your **personal sound sanctuary**
 
-✅ **No algorithms. No ads. Just pure music — the way *you* want it.**
+✅ **No algorithms. No ads. Just pure music — the way _you_ want it.**
