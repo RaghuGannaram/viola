@@ -152,7 +152,7 @@ A phase-by-phase breakdown of what Viola offers and will evolve into:
 ```bash
 viola/
 ├── apps/
-│   ├── theater/      # SvelteKit frontend app
+│   ├── theater/         # SvelteKit frontend app
 │   └── engine/          # ExpressJS backend
 ├── packages/
 │   ├── utils/           # Shared utility functions
