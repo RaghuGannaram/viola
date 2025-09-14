@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+
 import envAccess from "@src/configs/env.config";
 import logger from "@src/configs/logger.config";
 import chalk from "chalk";

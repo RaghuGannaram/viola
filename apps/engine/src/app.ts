@@ -1,5 +1,6 @@
 import api_v1 from "@src/api/v1";
 import envAccess from "@src/configs/env.config";
+import logger from "@src/configs/logger.config";
 import customErrorHandler from "@src/middlewares/custom-error-handler.middleware";
 import defaultMiddleware from "@src/middlewares/default.middleware";
 import morganMiddleware from "@src/middlewares/morgan.middleware";
@@ -7,8 +8,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { type Request, type Response } from "express";
 import helmet from "helmet";
-
-import logger from "./configs/logger.config";
 
 import "@src/configs/session.config";
 import "@src/configs/mongo.config";
