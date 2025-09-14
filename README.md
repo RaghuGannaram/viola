@@ -93,7 +93,7 @@ A phase-by-phase breakdown of what Viola offers and will evolve into:
 | UI Framework | SvelteKit                 |
 | Styling      | Tailwind CSS              |
 | Audio API    | HTML5 + Howler.js         |
-| State Mgmt   | Svelte Store / Zustand    |
+| State Mgmt   | Svelte Store              |
 | PWA          | Vite Plugin PWA / Workbox |
 | Animations   | Framer Motion / CSS       |
 | Visuals      | Canvas-based waveform     |
@@ -120,8 +120,8 @@ A phase-by-phase breakdown of what Viola offers and will evolve into:
 | CI/CD         | GitHub Actions            |
 | Hosting (FE)  | Vercel / Netlify          |
 | Hosting (API) | Render / Railway / Fly.io |
-| DB Hosting    | Supabase / Neon           |
-| SSL/DNS       | Cloudflare                |
+| DB Hosting    | Upstash / Neon            |
+| SSL/DNS       | AWS Cloudfront            |
 
 ---
 
