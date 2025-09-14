@@ -11,16 +11,16 @@
 			"outputs": ["dist/**", ".svelte-kit/**", "build/**"]
 		},
 		"lint": {
-			"outputs": ["eslint-results/**", "eslint-stats/**"],
-			"dependsOn": ["^lint"]
+			"dependsOn": ["^lint"],
+			"outputs": ["eslint-stats/**", "eslint-results/**"]
 		},
 		"test": {
-			"outputs": ["coverage/**", "test-results/**"],
-			"dependsOn": ["^test"]
+			"dependsOn": ["^test"],
+			"outputs": ["coverage/**", "test-results/**"]
 		},
 		"typecheck": {
-			"outputs": [],
-			"dependsOn": ["^typecheck"]
+			"dependsOn": ["^typecheck"],
+			"outputs": []
 		}
 	},
 	"globalDependencies": [".env", "tsconfig.base.json"]

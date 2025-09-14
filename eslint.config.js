@@ -2,11 +2,11 @@
 import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
-import svelteParser from "svelte-eslint-parser";
-import svelte from "eslint-plugin-svelte";
 import nodePlugin from "eslint-plugin-node";
 import promisePlugin from "eslint-plugin-promise";
 import importPlugin from "eslint-plugin-import";
+import svelte from "eslint-plugin-svelte";
+import svelteParser from "svelte-eslint-parser";
 import prettier from "eslint-config-prettier";
 import globals from "globals";
 
@@ -20,11 +20,11 @@ export default defineConfig([
 	{
 		files: ["**/*.{js,cjs,mjs,jsx}"],
 		ignores: IGNORE,
-		plugins: { js },
-		extends: ["js/recommended"],
 		languageOptions: {
 			globals: { ...globals.browser, ...globals.node },
 		},
+		plugins: { js },
+		extends: ["js/recommended"],
 		rules: {
 			"no-console": "warn",
 		},
@@ -92,11 +92,11 @@ export default defineConfig([
 	{
 		files: ["apps/api/**", "apps/express/**"],
 		ignores: IGNORE,
-		plugins: { node: nodePlugin },
 		languageOptions: {
 			globals: { ...globals.node },
 			sourceType: "module",
 		},
+		plugins: { node: nodePlugin },
 		rules: {
 			"node/no-unsupported-features/es-syntax": "off", // we transpile
 			"node/no-missing-import": "off",
