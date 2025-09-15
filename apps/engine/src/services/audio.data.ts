@@ -1,4 +1,5 @@
 import { PrismaClient, type Track, type Album, type Artist } from "@prisma/client";
+
 import logger from "@src/configs/logger.config";
 import { catchAsyncDataError, processPrismaError } from "@src/utils/application-errors";
 

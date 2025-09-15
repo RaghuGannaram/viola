@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import { setupInterceptors } from "./interceptors";
 import { PUBLIC_API_PROXY_BASE } from "$env/static/public";
 

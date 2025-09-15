@@ -2,6 +2,7 @@ import logger from "@src/configs/logger.config";
 import axios, { type AxiosInstance } from "axios";
 import axiosRetry from "axios-retry";
 
+
 const createHttpClient = (baseURL: string, timeout = 10000): AxiosInstance => {
 	const instance = axios.create({
 		baseURL,
