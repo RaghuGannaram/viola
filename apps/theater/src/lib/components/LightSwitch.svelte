@@ -21,7 +21,7 @@
 	</script>
 </svelte:head>
 
-<Switch name="mode" controlActive="bg-surface-200" {checked} onCheckedChange={(event: { checked: boolean }) => handleModeChange(event)}>
+<Switch name="mode" controlActive="bg-primary-700" {checked} onCheckedChange={(event: { checked: boolean }) => handleModeChange(event)}>
 	{#snippet inactiveChild()}<Icon name="line-md:sunny-filled-loop-to-moon-filled-alt-loop-transition" size={14} />{/snippet}
 	{#snippet activeChild()}<Icon name="line-md:moon-alt-to-sunny-outline-loop-transition" size={14} />{/snippet}
 </Switch>

@@ -52,37 +52,37 @@
 			placeholder="Search tracks…"
 			onfocus={() => (activeSearch = true)}
 			onblur={() => (activeSearch = false)}
-			class="w-full pl-4 py-2 rounded-4xl border border-neutral-600/50 text-neutral-200 placeholder-neutral-300/50 focus:placeholder-neutral-200 focus:outline-none transition"
+			class="w-full pl-4 py-2 rounded-4xl border border-surface-500/50 text-surface-800-200 placeholder-surface-800-200 focus:placeholder-surface-500/50 focus:outline-none transition"
 		/>
-		<span class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-neutral-500">
-			<Icon name="mdi:search" size={25} className={activeSearch ? "text-primary-200 transition" : "text-primary-300/50 transition"} />
+		<span class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+			<Icon name="mdi:search" size={25} className={activeSearch ? "text-primary-500/50 transition" : "text-primary-500 transition"} />
 		</span>
 	</div>
 
 	<div class="flex justify-center items-center pr-4">
-		<div class="flex justify-between items-center bg-surface-200-800/50 rounded-full px-4 py-1.5 gap-4">
+		<div class="flex justify-between items-center rounded-full px-4 py-1.5 gap-4">
 			<button class="flex justify-center items-center" aria-label="Toggle light/dark mode">
 				<LightSwitch />
 			</button>
 			<button class="flex justify-center items-center" aria-label="Settings">
-				<Icon name="mdi:cog" size={22} className="text-primary-300/50 hover:text-primary-200" />
+				<Icon name="mdi:cog" size={22} className="text-primary-700-300 hover:text-primary-600-400" />
 			</button>
 			<button class="flex justify-center items-center" aria-label="Notifications">
-				<Icon name="mdi:bell-notification" size={22} className="text-primary-300/50 hover:text-primary-200" />
+				<Icon name="mdi:bell-notification" size={22} className="text-primary-700-300 hover:text-primary-600-400" />
 			</button>
 		</div>
 		<div bind:this={menuRef} class="relative ml-4">
 			<button class="w-12 h-12 rounded-full flex justify-center items-center" aria-label="User menu" onclick={toggleMenu}>
-				<Icon name="mdi:account-circle" size={35} className="text-primary-300/70 hover:text-primary-200" />
+				<Icon name="mdi:account-circle" size={35} className="text-primary-700-300 hover:text-primary-600-400" />
 			</button>
 			{#if showMenu}
-				<div class=" absolute right-0 mt-2 w-48 bg-neutral-800/50 rounded-lg shadow-2xl">
+				<div class="absolute right-0 mt-2 w-48 rounded-lg shadow-2xl z-50 bg-surface-100-900">
 					<ul class="py-2">
 						<li>
-							<a href="/profile" class="block px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700/50">Profile</a>
+							<a href="/profile" class="block px-4 py-2 text-sm text-surface-800-200 hover:bg-surface-200-800">Profile</a>
 						</li>
 						<li>
-							<button onclick={logoutHandler} class="block w-full text-left px-4 py-2 text-sm text-neutral-300 hover:bg-neutral-700/50">Logout</button>
+							<button onclick={logoutHandler} class="block w-full text-left px-4 py-2 text-sm text-surface-800-200 hover:bg-surface-200-800">Logout</button>
 						</li>
 					</ul>
 				</div>

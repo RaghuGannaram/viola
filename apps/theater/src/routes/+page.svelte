@@ -35,7 +35,7 @@
 <main class="min-h-screen p-8 flex flex-col gap-10">
 	<section class="min-h-[70vh] flex flex-col justify-center text-center relative overflow-hidden">
 		<!-- Background Gradient Layer -->
-		<div class="absolute inset-0 bg-gradient-to-br from-[#3a82f7] via-[#62a8ff] to-[#c6dcff]"></div>
+		<div class="absolute inset-0 bg-gradient-to-br dark:from-[#3a82f7] dark:via-[#62a8ff] dark:to-[#c6dcff] from-[#62a8ff] via-[#62a8ff] to-[#c6dcff]"></div>
 
 		<!-- Abstract Shape Overlay -->
 		<div class="absolute -top-32 -right-32 w-[600px] h-[600px] bg-gradient-to-tr from-white/20 to-transparent rounded-[30%] rotate-12 blur-2xl opacity-30"></div>
@@ -57,7 +57,7 @@
 	</section>
 
 	{#if loading}
-		<div class="flex items-center justify-center">
+		<div class="flex items-center justify-center text-surface-600-400">
 			<span>Loading tracks...</span>
 		</div>
 	{:else}
@@ -65,18 +65,18 @@
 			{#if $trackSpark.length > 0}
 				{#each $trackSpark as track}
 					<button onclick={() => playTrack(track)}>
-						<div class="flex items-center bg-surface-800 rounded-lg p-2 shadow-lg transition">
+						<div class="flex items-center bg-surface-200-800 rounded-lg p-2 shadow-lg transition">
 							<img src={track.artworkUrl} alt={track.title} class="w-16 h-16 rounded-md object-cover mr-4" />
 
 							<div class="flex flex-col items-start gap-1 overflow-hidden">
-								<span class="text-surface-200 font-medium truncate">{track.title}</span>
-								<span class="text-surface-400 text-xs italic"> Uploaded {formatDistanceToNow(track.createdAt)} ago</span>
+								<span class="text-surface-800-200 font-medium truncate">{track.title}</span>
+								<span class="text-surface-600-400 text-xs italic"> Uploaded {formatDistanceToNow(track.createdAt)} ago</span>
 							</div>
 						</div>
 					</button>
 				{/each}
 			{:else}
-				<div class="text-center text-surface-300 col-span-full">No tracks available.</div>
+				<div class="text-center text-surface-600-400 col-span-full">No tracks available.</div>
 			{/if}
 		</section>
 	{/if}
