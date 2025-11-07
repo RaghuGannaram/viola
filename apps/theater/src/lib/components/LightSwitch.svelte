@@ -1,22 +1,22 @@
 <script lang="ts">
 	import { Switch } from "@skeletonlabs/skeleton-svelte";
 	import Icon from "$lib/components/Icon/index.svelte";
-	import { localStore } from "$lib/stores/localStore";
+	import { theme } from "$lib/stores/themeStore";
 
-	let mode = localStore<string | null>("data-mode", "dark");
-	let checked = $state($mode === "light");
+	let checked = $state($theme === "light");
 
 	const handleModeChange = (event: { checked: boolean }) => {
 		checked = event.checked;
 
 		document.documentElement.setAttribute("data-mode", event.checked ? "light" : "dark");
-		mode.set(event.checked ? "light" : "dark");
+		theme.set(event.checked ? "light" : "dark");
 	};
 </script>
 
 <svelte:head>
 	<script>
-		const dataMode = $mode || "dark";
+		const dataMode = localStorage.getItem("data-mode") || "dark";
+
 		document.documentElement.setAttribute("data-mode", dataMode);
 	</script>
 </svelte:head>
