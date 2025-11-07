@@ -75,21 +75,27 @@
 	<Tabs
 		value={activeTab}
 		onValueChange={(event: { value: string }) => (activeTab = event.value)}
-		listClasses="text-primary-200"
-		listBorder="border-b border-primary-400/50"
+		listClasses="text-primary-800-200"
+		listBorder="border-b border-primary-600/50 dark:border-primary-400/50"
 		defaultValue="albums"
 	>
 		{#snippet list()}
-			<Tabs.Control {...{ value: "tracks" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">All Songs</Tabs.Control>
-			<Tabs.Control {...{ value: "albums" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">Albums</Tabs.Control>
-			<Tabs.Control {...{ value: "artists" } as any} labelClasses="hover:bg-surface-600 hover:text-primary-300">Artists</Tabs.Control>
+			<Tabs.Control {...{ value: "tracks" } as any} labelClasses="hover:bg-surface-400 dark:hover:bg-surface-600 hover:text-primary-700 dark:hover:text-primary-300"
+				>All Songs</Tabs.Control
+			>
+			<Tabs.Control {...{ value: "albums" } as any} labelClasses="hover:bg-surface-400 dark:hover:bg-surface-600 hover:text-primary-700 dark:hover:text-primary-300"
+				>Albums</Tabs.Control
+			>
+			<Tabs.Control {...{ value: "artists" } as any} labelClasses="hover:bg-surface-400 dark:hover:bg-surface-600 hover:text-primary-700 dark:hover:text-primary-300"
+				>Artists</Tabs.Control
+			>
 		{/snippet}
 
 		{#snippet content()}
 			<Tabs.Panel {...{ value: "tracks" } as any}>
-				<ul class="divide-y divide-surface-700">
+				<ul class="divide-y divide-surface-300-700">
 					{#each tracks as track}
-						<li class="flex justify-between items-center py-4 hover:bg-surface-800/50 px-3">
+						<li class="flex justify-between items-center py-4 hover:bg-surface-200-800 px-3">
 							<div class="flex items-center space-x-4">
 								<img
 									src={track.artworkUrl || defaultAlbumImage}
@@ -101,13 +107,13 @@
 									}}
 								/>
 								<div class="flex flex-col gap-y-1">
-									<span class="text-surface-200 font-medium truncate">{track.title}</span>
-									<span class="text-surface-400 text-xs italic"
+									<span class="text-surface-800-200 font-medium truncate">{track.title}</span>
+									<span class="text-surface-600-400 text-xs italic"
 										>{track.album.title} - {track.artists.map(({ artist }: { artist: any }) => artist.name).join(", ")}</span
 									>
 								</div>
 							</div>
-							<button class="btn btn-primary text-primary-400 btn-sm" onclick={() => playTrack(track)}>▶</button>
+							<button class="btn btn-primary text-primary-600-400 btn-sm" onclick={() => playTrack(track)}>▶</button>
 						</li>
 					{/each}
 				</ul>
@@ -119,7 +125,9 @@
 						<div class=" w-full text-center text-surface-500">No albums found.</div>
 					{/if}
 					{#each albums as album}
-						<div class=" w-[250px] overflow-hidden group bg-surface-800/50 hover:bg-surface-700/30 shadow-md hover:shadow-lg rounded-xl transition">
+						<div
+							class=" w-[250px] overflow-hidden group bg-surface-200/50 dark:bg-surface-800/50 hover:bg-surface-700/30 dark:hover:bg-surface-300/20 shadow-md hover:shadow-lg rounded-xl transition"
+						>
 							<a href={`/album/${album.id}`}>
 								<div class="relative">
 									<img
@@ -131,18 +139,18 @@
 											target.src = defaultAlbumImage;
 										}}
 									/>
-									<div class="absolute inset-0 rounded-t-xl bg-surface-800/50 group-hover:bg-surface-800/40 transition"></div>
+									<div class="absolute inset-0 rounded-t-xl bg-surface-800/50 group-hover:bg-surface-800/60 transition"></div>
 								</div>
 
 								<!-- Text Info -->
 								<div class="p-4 space-y-1">
-									<h3 class="text-base font-semibold text-surface-200 group-hover:text-primary-200/80">{album.title}</h3>
+									<h3 class="text-base font-semibold text-surface-800-200">{album.title}</h3>
 									{#if album.description}
-										<p class="text-sm text-surface-400 line-clamp-2">{album.description}</p>
+										<p class="text-sm text-surface-600-400 line-clamp-2">{album.description}</p>
 									{/if}
 
 									{#if album.artists?.length}
-										<p class="text-xs text-surface-400 italic line-clamp-1 overflow-hidden">
+										<p class="text-xs text-surface-600-400 italic line-clamp-1 overflow-hidden">
 											{album.artists.map(({ artist }: any) => artist.name).join(", ")}
 										</p>
 									{/if}
@@ -171,7 +179,7 @@
 					{#each artists as artist}
 						<a
 							href={`/artist/${artist.id}`}
-							class="group flex items-center gap-4 bg-surface-800/50 hover:bg-surface-700/50 rounded-xl px-4 py-3 shadow transition duration-300"
+							class="group flex items-center gap-4 bg-surface-200/50 dark:bg-surface-800/50 hover:bg-surface-300/50 dark:hover:bg-surface-700/50 rounded-xl px-4 py-3 shadow transition duration-300"
 						>
 							<!-- Avatar -->
 							<div class="relative w-15 h-15 flex-shrink-0">
@@ -187,7 +195,9 @@
 									/>
 								{:else}
 									<!-- Gradient Initials Fallback -->
-									<div class="w-15 h-15 rounded-full bg-surface-700/50 flex items-center justify-center text-primary-400 text-md italic">
+									<div
+										class="w-15 h-15 rounded-full bg-surface-300/50 dark:bg-surface-700/50 flex items-center justify-center text-primary-600-400 text-md italic"
+									>
 										{getInitials(artist.name)}
 									</div>
 								{/if}
@@ -195,10 +205,10 @@
 
 							<!-- Text Info -->
 							<div class="flex-1">
-								<h3 class="text-base font-semibold text-surface-100 group-hover:text-primary-300">{artist.name}</h3>
+								<h3 class="text-base font-semibold text-surface-800-200 group-hover:text-surface-900-100">{artist.name}</h3>
 
 								{#if artist.bio}
-									<p class="text-xs text-surface-400 line-clamp-2">{artist.bio}</p>
+									<p class="text-xs text-surface-600-400 line-clamp-2">{artist.bio}</p>
 								{:else}
 									<p class="text-xs text-surface-500 italic">No bio available</p>
 								{/if}

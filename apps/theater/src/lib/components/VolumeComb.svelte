@@ -56,7 +56,7 @@
 
 <div class="flex items-center w-full gap-2 group">
 	<!-- Mute/Unmute Icon -->
-	<button onclick={muteHandler} class="text-primary-400 hover:text-primary-400/50 transition" aria-label="Toggle Mute">
+	<button onclick={muteHandler} class="text-primary-600-400 hover:text-primary-600/80 dark:hover:text-primary-400/80 transition" aria-label="Toggle Mute">
 		<div class="w-6 h-6 flex items-center justify-center">
 			<Icon name={mute ? "mdi:volume-mute" : "mdi:volume-high"} size={20} />
 		</div>

@@ -6,21 +6,14 @@
 	let showPassword = $state(false);
 </script>
 
-<div class="flex items-center justify-center min-h-screen px-4 bg-background">
-	<div class="w-full max-w-md p-6 rounded-2xl shadow-xl border border-border bg-surface space-y-6">
+<div class="min-h-screen flex items-center justify-center">
+	<div class="w-full max-w-md px-10 py-6 rounded-2xl shadow-xl bg-surface-200/50 dark:bg-surface-800/50 space-y-10">
 		<h2 class="text-3xl font-bold text-center text-primary">Login</h2>
 
-		<form method="POST" action="?/login" class="space-y-4">
+		<form method="POST" action="?/login" class="space-y-8">
 			<div class="space-y-1">
 				<label for="email" class="block text-sm font-medium text-foreground">Email</label>
-				<input
-					id="email"
-					name="email"
-					type="email"
-					required
-					placeholder="you@example.com"
-					class="w-full rounded-lg border border-border bg-muted p-2 focus:outline-none focus:ring-2 focus:ring-primary"
-				/>
+				<input id="email" name="email" type="email" required placeholder="you@example.com" class="w-full p-2 border-b focus:outline-none focus:border-b-surface-600-400" />
 			</div>
 
 			<div class="space-y-1 relative">
@@ -31,7 +24,7 @@
 					type={showPassword ? "text" : "password"}
 					required
 					placeholder="••••••••"
-					class="w-full rounded-lg border border-border bg-muted p-2 focus:outline-none focus:ring-2 focus:ring-primary pr-10"
+					class="w-full p-2 border-b focus:outline-none focus:border-b-surface-600-400"
 				/>
 				<button type="button" class="absolute top-8 right-3 text-muted-foreground hover:text-foreground" onclick={() => (showPassword = !showPassword)} tabindex="-1">
 					{#if showPassword}

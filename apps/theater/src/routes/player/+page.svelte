@@ -165,8 +165,8 @@
 
 		<!-- Track Info -->
 		<div class="text-center space-y-2 w-full">
-			<h1 class="text-3xl font-bold text-primary-400">{$playback.title}</h1>
-			<p class="text-sm text-surface-400 truncate">{$playback.artists.map((a: any) => a.artist.name).join(", ")} — {$playback.album.title}</p>
+			<h1 class="text-3xl font-bold text-primary-600/80 dark:text-primary-400/80">{$playback.title}</h1>
+			<p class="text-sm text-surface-600-400 truncate">{$playback.artists.map((a: any) => a.artist.name).join(", ")} — {$playback.album.title}</p>
 		</div>
 
 		<!-- Progress Bar -->
@@ -174,7 +174,7 @@
 
 		<!-- Playback Controls -->
 		<div class="flex justify-between items-center w-full max-w-md mt-6">
-			<button class="btn btn-circle btn-outline pl-0 {shuffle ? 'text-primary-400' : ''}" onclick={shuffleHandler}>
+			<button class="btn btn-circle btn-outline pl-0 {shuffle ? 'text-primary-600-400' : ''}" onclick={shuffleHandler}>
 				<Icon name="mdi:shuffle" size={24} />
 			</button>
 
@@ -196,7 +196,7 @@
 				<Icon name="mdi:skip-next" size={28} />
 			</button>
 
-			<button class="btn btn-circle btn-outline pr-0 {repeat ? 'text-primary-400' : ''}" onclick={repeatHandler}>
+			<button class="btn btn-circle btn-outline pr-0 {repeat ? 'text-primary-600-400' : ''}" onclick={repeatHandler}>
 				<Icon name="mdi:repeat" size={24} />
 			</button>
 		</div>
@@ -207,7 +207,7 @@
 
 			<!-- Go to Album Button -->
 			{#if $playback?.album}
-				<button class="btn btn-outline pr-0 ml-1 mb-1 text-sm hover:text-primary-400 hover:border-primary-400 transition" onclick={navigateToAlbum}>
+				<button class="btn btn-outline pr-0 ml-1 mb-1 text-sm hover:text-primary-600-400 hover:border-primary-600-400 transition" onclick={navigateToAlbum}>
 					<Icon name="f7:music-albums" size={20} />
 				</button>
 			{/if}
@@ -226,6 +226,6 @@
 			onerror={trackErrorHandler}
 		></audio>
 	{:else}
-		<p class="text-surface-400">No track selected. Please pick a track from the Library.</p>
+		<p class="text-surface-600-400">No track selected. Please pick a track from the Library.</p>
 	{/if}
 </main>
