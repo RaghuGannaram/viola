@@ -9,10 +9,6 @@
 	let menuRef: HTMLDivElement | null = $state(null);
 	let activeSearch = $state(false);
 
-	function toggleMenu() {
-		showMenu = !showMenu;
-	}
-
 	function handleClickOutside(event: MouseEvent) {
 		if (menuRef && !menuRef.contains(event.target as Node)) {
 			showMenu = false;
@@ -23,13 +19,19 @@
 		try {
 			const response = await proxyClient.delete(PROXY_ENDPOINTS.AUTH.LOGOUT);
 			if (response.status !== 200) {
-				throw new Error("Logout failed");
+				throw new Error(response.data);
 			}
 
-			console.log("Logout successful", response.data);
 			profile.set(null);
+
+			console.log("viola-log: logout successful", response.data);
 		} catch (error) {
-			console.error("Logout failed", error);
+			document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+			document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+			profile.set(null);
+
+			console.error("viola-error: logout failed", error);
 		}
 	}
 
@@ -73,26 +75,38 @@
 		</div>
 
 		<div bind:this={menuRef} class="relative md:ml-4 mr-1 md:mr-4">
-			<button class="w-12 h-12 flex justify-center items-center" aria-label="User menu" onclick={toggleMenu}>
+			<button class="w-12 h-12 flex justify-center items-center" aria-label="User menu" onclick={() => (showMenu = !showMenu)}>
 				<Icon name="mdi:menu" size={32} className="text-primary-700-300 hover:text-primary-600-400" />
 			</button>
 			{#if showMenu}
 				<div class="absolute right-0 mt-2 w-48 rounded-lg shadow-2xl z-50 bg-surface-100-900">
 					<ul class="py-2">
 						<li class="group">
-							<a href="/profile" class="flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800">
+							<a
+								href="/profile"
+								onclick={() => (showMenu = false)}
+								class="flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800"
+							>
 								<Icon name="mdi:account-circle" size={20} className="text-primary-700-300 group-hover:text-primary-600-400" />
 								<span>Profile</span>
 							</a>
 						</li>
 						<li class="block md:hidden group">
-							<a href="/settings" class="flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800">
+							<a
+								href="/settings"
+								onclick={() => (showMenu = false)}
+								class="flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800"
+							>
 								<Icon name="mdi:cog" size={20} className="text-primary-700-300 group-hover:text-primary-600-400" />
 								<span>Settings</span>
 							</a>
 						</li>
 						<li class="block md:hidden group">
-							<a href="/notifications" class=" flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800">
+							<a
+								href="/notifications"
+								onclick={() => (showMenu = false)}
+								class=" flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800"
+							>
 								<Icon name="mdi:bell-notification" size={20} className="text-primary-700-300 group-hover:text-primary-600-400" />
 								<span>Notifications</span>
 							</a>
@@ -100,7 +114,10 @@
 						<li class="group">
 							{#if $profile?.role}
 								<button
-									onclick={logoutHandler}
+									onclick={() => {
+										showMenu = false;
+										logoutHandler();
+									}}
 									class="w-full flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800"
 									aria-label="Logout"
 								>
@@ -108,7 +125,11 @@
 									<span>Logout</span>
 								</button>
 							{:else}
-								<a href="/login" class="flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800">
+								<a
+									href="/login"
+									onclick={() => (showMenu = false)}
+									class="flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800"
+								>
 									<Icon name="mdi:login" size={20} className="text-primary-700-300 group-hover:text-primary-600-400" />
 									<span>Login</span>
 								</a>
