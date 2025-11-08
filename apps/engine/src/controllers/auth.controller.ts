@@ -5,7 +5,7 @@ import authBusinessService from "@src/services/auth.business";
 import type { IRegistration, ILogin, IController } from "@src/types";
 import { HttpError, HttpErrors, processValidationError } from "@src/utils/application-errors";
 import type { Request, Response } from "express";
-import ms from "ms";
+import ms, { type StringValue } from "ms";
 
 const currentEnv = envAccess.app.env();
 const { refreshTokenValidity } = envAccess.jwt.credentials();
@@ -20,7 +20,7 @@ const register: IController = catchAsyncError(async function (req: Request, res:
 
 	const { data, accessToken, refreshToken } = await authBusinessService.createUser(registrationData);
 
-	const expires = new Date(Date.now() + ms(refreshTokenValidity));
+	const expires = new Date(Date.now() + ms(refreshTokenValidity as StringValue));
 
 	res.cookie("refreshToken", refreshToken, {
 		httpOnly: true,
@@ -47,7 +47,7 @@ const login: IController = catchAsyncError(async function (req: Request, res: Re
 
 	const { data, accessToken, refreshToken } = await authBusinessService.validateUser(userCredentials);
 
-	const expires = new Date(Date.now() + ms(refreshTokenValidity));
+	const expires = new Date(Date.now() + ms(refreshTokenValidity as StringValue));
 
 	res.cookie("refreshToken", refreshToken, {
 		httpOnly: true,
@@ -70,7 +70,7 @@ const refresh: IController = catchAsyncError(async function (req: Request, res: 
 
 	const { newAccessToken, newRefreshToken } = await authBusinessService.refreshUserTokens(refreshToken);
 
-	const expires = new Date(Date.now() + ms(refreshTokenValidity));
+	const expires = new Date(Date.now() + ms(refreshTokenValidity as StringValue));
 
 	res.cookie("refreshToken", newRefreshToken, {
 		httpOnly: true,

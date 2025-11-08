@@ -29,7 +29,7 @@
 	"scripts": {
 		"start": "cross-env NODE_ENV=production tsx src/server.ts",
 		"dev": "cross-env NODE_ENV=development FORCE_COLOR=1 tsx watch src/server.ts",
-		"build": "tsc && npm run copy-static-assets",
+		"build": "tsc && pnpm copy-static-assets",
 		"copy-static-assets": "cp -r src/public dist"
 	},
 	"dependencies": {

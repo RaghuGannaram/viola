@@ -4,7 +4,7 @@ import AWS from "@src/configs/aws.config";
 import logger from "@src/configs/logger.config";
 import { AssetCategory } from "@src/types";
 import { catchAsyncDataError, processAWSError } from "@src/utils/application-errors";
-import ms from "ms";
+import ms, { type StringValue } from "ms";
 import { v4 as uuid } from "uuid";
 
 const presignPutUrl = catchAsyncDataError(async (category: AssetCategory, fileName: string, contentType: string): Promise<{ presignedUrl: string; s3Key: string }> => {
@@ -21,7 +21,7 @@ const presignPutUrl = catchAsyncDataError(async (category: AssetCategory, fileNa
 	let presignedUrl = "";
 	try {
 		presignedUrl = await getSignedUrl(AWS.s3ClientInstance, new AWS.PutObjectCommand(params), {
-			expiresIn: ms(AWS.signedUrlValidity) / 1000,
+			expiresIn: ms(AWS.signedUrlValidity as StringValue) / 1000,
 		});
 	} catch (error) {
 		processAWSError(error);
@@ -51,7 +51,7 @@ const getFile = catchAsyncDataError(async (key: string): Promise<string> => {
 
 	try {
 		fileURL = await getSignedUrl(AWS.s3ClientInstance, new AWS.GetObjectCommand(params), {
-			expiresIn: ms(AWS.signedUrlValidity) / 1000,
+			expiresIn: ms(AWS.signedUrlValidity as StringValue) / 1000,
 		});
 	} catch (error) {
 		processAWSError(error);

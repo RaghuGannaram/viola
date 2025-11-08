@@ -4,7 +4,7 @@ import sessionStore from "@src/configs/session.config";
 import type { ITokenPayload, IAuthUser } from "@src/types";
 import { DataError, DataErrors, catchAsyncDataError, processTokenError, processCacheError } from "@src/utils/application-errors";
 import JWT from "jsonwebtoken";
-import ms from "ms";
+import ms, { type StringValue } from "ms";
 
 const { accessTokenSecret, refreshTokenSecret, accessTokenValidity, refreshTokenValidity, refreshTokenMaxAge } = envAccess.jwt.credentials();
 
@@ -17,7 +17,7 @@ const issueAccessToken = catchAsyncDataError(async (profile: IAuthUser) => {
 	};
 
 	const options = {
-		expiresIn: ms(accessTokenValidity) / 1000,
+		expiresIn: ms(accessTokenValidity as StringValue) / 1000,
 		issuer: "viola.raghugannaram.com",
 		audience: profile.id,
 	};
@@ -25,7 +25,7 @@ const issueAccessToken = catchAsyncDataError(async (profile: IAuthUser) => {
 	const token = JWT.sign(payload, accessTokenSecret, options);
 
 	try {
-		await sessionStore.set(`access:${profile.id}`, token, ms(accessTokenValidity) / 1000);
+		await sessionStore.set(`access:${profile.id}`, token, ms(accessTokenValidity as StringValue) / 1000);
 	} catch (error) {
 		processCacheError(error);
 	}
@@ -42,7 +42,7 @@ const issueRefreshToken = catchAsyncDataError(async (profile: IAuthUser) => {
 	};
 
 	const options = {
-		expiresIn: ms(refreshTokenValidity) / 1000,
+		expiresIn: ms(refreshTokenValidity as StringValue) / 1000,
 		issuer: "viola.raghugannaram.com",
 		audience: profile.id,
 	};
@@ -50,7 +50,7 @@ const issueRefreshToken = catchAsyncDataError(async (profile: IAuthUser) => {
 	const token = JWT.sign(payload, refreshTokenSecret, options);
 
 	try {
-		await sessionStore.set(`refresh:${profile.id}`, token, ms(refreshTokenValidity) / 1000);
+		await sessionStore.set(`refresh:${profile.id}`, token, ms(refreshTokenValidity as StringValue) / 1000);
 	} catch (error) {
 		processCacheError(error);
 	}
@@ -105,7 +105,7 @@ const validateRefreshToken = catchAsyncDataError(async (refreshToken: string) =>
 		throw new DataError(DataErrors.DATA_INVALID_TOKEN, "incorrect refresh token.");
 	}
 
-	if (Date.now() - (decoded.iat ?? 0) * 1000 > ms(refreshTokenMaxAge)) {
+	if (Date.now() - (decoded.iat ?? 0) * 1000 > ms(refreshTokenMaxAge as StringValue)) {
 		throw new DataError(DataErrors.TOKEN_EXCEEDED_MAX_AGE, "refresh token has exceeded maximum lifetime.");
 	}
 
