@@ -1,36 +1,37 @@
 {
-    "name": "@viola/utils",
-    "version": "1.0.0",
-    "description": "Utility functions used across the Viola monorepo",
-    "private": true,
-    "license": "MIT",
-    "author": {
-        "name": "Raghu Gannaram",
-        "email": "mail@raghugannaram.com",
-        "url": "https://raghugannaram.com"
-    },
-    "keywords": [
-        "utility",
-        "typescript",
-        "viola",
-        "shared"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/raghugannaram/viola.git",
-        "directory": "./packages/utils"
-    },
-    "bugs": {
-        "url": "https://github.com/raghugannaram/viola.git/issues",
-        "email": "mail@raghugannaram.com"
-    },
-    "type": "module",
-    "main": "src/index.ts",
-    "exports": {
-        ".": "./src/index.ts"
-    },
-    "engines": {
-        "node": ">=20.10.0",
-        "npm": ">=10.2.3"
-    }
+	"name": "@viola/utils",
+	"version": "1.0.0",
+	"description": "Utility functions used across the Viola monorepo",
+	"private": true,
+	"license": "MIT",
+	"author": {
+		"name": "Raghu Gannaram",
+		"email": "mail@raghugannaram.com",
+		"url": "https://raghugannaram.com"
+	},
+	"keywords": [
+		"utility",
+		"typescript",
+		"viola",
+		"shared"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/raghugannaram/viola.git",
+		"directory": "./packages/utils"
+	},
+	"bugs": {
+		"url": "https://github.com/raghugannaram/viola.git/issues",
+		"email": "mail@raghugannaram.com"
+	},
+	"type": "module",
+	"main": "src/index.ts",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"engines": {
+		"node": ">=24.11.0",
+		"npm": ">=11.6.1"
+	},
+	"packageManager": "pnpm@10.20.0"
 }
