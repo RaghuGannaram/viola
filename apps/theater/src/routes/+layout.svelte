@@ -15,7 +15,7 @@
 
 <div
 	class="flex flex-col
-        bg-gradient-to-br
+        bg-linear-to-br
         from-surface-200/50 to-surface-400/50
 		dark:from-surface-900/50 dark:to-surface-950/50 text-surface-800-200"
 >

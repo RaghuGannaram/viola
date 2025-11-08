@@ -42,7 +42,7 @@
 </script>
 
 <header class="flex justify-between items-center py-2 pt-4 gap-4 md:gap-16 lg:gap-48">
-	<div class="w-[80px] flex items-center justify-center">
+	<div class="w-20 flex items-center justify-center">
 		<a href="/" class="text-3xl font-bold text-primary-500">V</a>
 	</div>
 

@@ -9,7 +9,7 @@
 
 	onMount(() => {
 		trackSpark
-			.refresh()
+			.hydrate()
 			.then(() => {
 				console.log("viola-log: trackSpark store hydrated:", $trackSpark);
 			})
@@ -35,11 +35,11 @@
 <main class="min-h-screen p-8 flex flex-col gap-10">
 	<section class="min-h-[70vh] flex flex-col justify-center text-center relative overflow-hidden">
 		<!-- Background Gradient Layer -->
-		<div class="absolute inset-0 bg-gradient-to-br dark:from-[#3a82f7] dark:via-[#62a8ff] dark:to-[#c6dcff] from-[#62a8ff] via-[#62a8ff] to-[#c6dcff]"></div>
+		<div class="absolute inset-0 bg-linear-to-br dark:from-[#3a82f7] dark:via-[#62a8ff] dark:to-[#c6dcff] from-[#62a8ff] via-[#62a8ff] to-[#c6dcff]"></div>
 
 		<!-- Abstract Shape Overlay -->
-		<div class="absolute -top-32 -right-32 w-[600px] h-[600px] bg-gradient-to-tr from-white/20 to-transparent rounded-[30%] rotate-12 blur-2xl opacity-30"></div>
-		<div class="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-gradient-to-bl from-[#1b4dda]/40 to-transparent rounded-[40%] rotate-45 blur-3xl opacity-20"></div>
+		<div class="absolute -top-32 -right-32 w-[600px] h-[600px] bg-linear-to-tr from-white/20 to-transparent rounded-[30%] rotate-12 blur-2xl opacity-30"></div>
+		<div class="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-linear-to-bl from-[#1b4dda]/40 to-transparent rounded-[40%] rotate-45 blur-3xl opacity-20"></div>
 
 		<!-- Hero Content -->
 		<div class="relative z-10 space-y-6">
@@ -49,7 +49,7 @@
 				</svg>
 			</div>
 
-			<h1 class="text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100 tracking-tight drop-shadow-lg">Viola</h1>
+			<h1 class="text-6xl font-extrabold bg-clip-text text-transparent bg-linear-to-r from-white to-blue-100 tracking-tight drop-shadow-lg">Viola</h1>
 
 			<p class="text-surface-50 text-xl font-light">Your private music sanctuary</p>
 			<p class="text-surface-50 text-md italic">Pure control. Pure privacy. Pure music.</p>

@@ -58,7 +58,7 @@
 				{#if artist.imageUrl}
 					<img src={artist.imageUrl} alt={artist.name} class="w-full h-full object-cover" />
 				{:else}
-					<div class="w-full h-full bg-gradient-to-br from-primary to-secondary text-primary-400/60 flex items-center justify-center text-4xl font-bold">
+					<div class="w-full h-full bg-linear-to-br from-primary to-secondary text-primary-400/60 flex items-center justify-center text-4xl font-bold">
 						{getInitials(artist.name)}
 					</div>
 				{/if}
@@ -90,7 +90,7 @@
 						<a href={`/album/${album.id}`} class="group bg-muted rounded-xl overflow-hidden shadow hover:shadow-xl transition transform hover:-translate-y-1">
 							<div class="relative aspect-square">
 								<img src={album.coverUrl} alt={album.title} class="w-full h-full object-cover" loading="lazy" />
-								<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent group-hover:from-black/30 transition"></div>
+								<div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent group-hover:from-black/30 transition"></div>
 							</div>
 							<div class="p-3">
 								<h3 class="text-base text-foreground font-semibold truncate">{album.title}</h3>
