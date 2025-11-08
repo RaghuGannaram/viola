@@ -156,7 +156,7 @@
 	}
 </script>
 
-<main class="flex flex-col items-center justify-center min-h-screen bg-linear-to-br p-6 gap-8">
+<main class="flex flex-col items-center justify-center min-h-screen bg-linear-to-br p-6 gap-8 select-none">
 	{#if $playback}
 		<!-- Cover Art -->
 		<div class="relative w-64 h-64 rounded-full overflow-hidden shadow-lg">

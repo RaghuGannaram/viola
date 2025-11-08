@@ -4,7 +4,7 @@
 </script>
 
 <footer class="m-0 p-0 mt-20">
-	<section class="px-4 sm:px-14 py-8 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
+	<section class="px-4 sm:px-14 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
 		<section class="px-6 space-y-3">
 			<h2 class="h2 text-xl font-bold text-surface-800-200">Viola Music Pvt. Ltd.</h2>
 			<p class="text-sm text-surface-600-400">A world of music, from indie gems to iconic hits — always with you, wherever you are..</p>
@@ -21,7 +21,7 @@
 			</div>
 		</section>
 
-		<section class="flex md:flex-col lg:flex-row justify-around px-6 md:gap-y-8">
+		<section class="flex lg:flex-row justify-around px-6 md:gap-y-8">
 			<div class="flex-1">
 				<h3 class="text-lg font-semibold text-surface-800-200 mb-3">Compliance</h3>
 				<ul class="text-sm space-y-3 text-surface-600-400">
@@ -58,7 +58,7 @@
 			</div>
 		</section>
 
-		<section class="bg-surface-100-900 flex flex-col justify-between rounded-xl pl-6 pt-4 pr-4 pb-7">
+		<section class="md:col-start-1 lg:col-start-3 md:col-end-3 lg:col-end-4 bg-surface-100-900 flex flex-col justify-between rounded-xl pl-6 pt-4 pr-4 pb-7">
 			<div>
 				<h3 class=" flex items-center gap-4 text-lg font-semibold text-surface-800-200">
 					<Icon name="mdi:mail" />

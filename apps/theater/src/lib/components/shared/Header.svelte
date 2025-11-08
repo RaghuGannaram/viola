@@ -41,7 +41,7 @@
 	});
 </script>
 
-<header class="flex justify-between items-center py-2 pt-4 gap-4 md:gap-16 lg:gap-48">
+<header class="flex justify-between items-center py-2 pt-4 gap-4 md:gap-16 xl:gap-48">
 	<div class="w-20 flex items-center justify-center">
 		<a href="/" class="text-3xl font-bold text-primary-500">V</a>
 	</div>
@@ -52,37 +52,67 @@
 			placeholder="Search tracks…"
 			onfocus={() => (activeSearch = true)}
 			onblur={() => (activeSearch = false)}
-			class="w-full pl-4 py-2 rounded-4xl border border-surface-500/50 text-surface-800-200 placeholder-surface-800-200 focus:placeholder-surface-500/50 focus:outline-none transition"
+			class="w-full pl-4 py-2 rounded-4xl outline-none border border-surface-500/50 text-surface-800-200 placeholder-surface-800-200 focus:placeholder-surface-500/50 transition"
 		/>
 		<span class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-			<Icon name="mdi:search" size={25} className={activeSearch ? "text-primary-500/50 transition" : "text-primary-500 transition"} />
+			<Icon name="mdi:search" size={24} className={activeSearch ? "text-primary-500/50 transition" : "text-primary-500 transition"} />
 		</span>
 	</div>
 
-	<div class="flex justify-center items-center pr-4">
-		<div class="flex justify-between items-center rounded-full px-4 py-1.5 gap-4">
+	<div class="flex justify-center items-center pl-2">
+		<div class="flex justify-between items-center rounded-full px-0 md:px-4 py-1.5 gap-4">
 			<button class="flex justify-center items-center" aria-label="Toggle light/dark mode">
 				<LightSwitch />
 			</button>
-			<button class="flex justify-center items-center" aria-label="Settings">
-				<Icon name="mdi:cog" size={22} className="text-primary-700-300 hover:text-primary-600-400" />
+			<button class="hidden md:flex justify-center items-center" aria-label="Settings">
+				<Icon name="mdi:cog" size={20} className="text-primary-700-300 hover:text-primary-600-400" />
 			</button>
-			<button class="flex justify-center items-center" aria-label="Notifications">
-				<Icon name="mdi:bell-notification" size={22} className="text-primary-700-300 hover:text-primary-600-400" />
+			<button class="hidden md:flex justify-center items-center" aria-label="Notifications">
+				<Icon name="mdi:bell-notification" size={20} className="text-primary-700-300 hover:text-primary-600-400" />
 			</button>
 		</div>
-		<div bind:this={menuRef} class="relative ml-4">
-			<button class="w-12 h-12 rounded-full flex justify-center items-center" aria-label="User menu" onclick={toggleMenu}>
-				<Icon name="mdi:account-circle" size={35} className="text-primary-700-300 hover:text-primary-600-400" />
+
+		<div bind:this={menuRef} class="relative md:ml-4 mr-1 md:mr-4">
+			<button class="w-12 h-12 flex justify-center items-center" aria-label="User menu" onclick={toggleMenu}>
+				<Icon name="mdi:menu" size={32} className="text-primary-700-300 hover:text-primary-600-400" />
 			</button>
 			{#if showMenu}
 				<div class="absolute right-0 mt-2 w-48 rounded-lg shadow-2xl z-50 bg-surface-100-900">
 					<ul class="py-2">
-						<li>
-							<a href="/profile" class="block px-4 py-2 text-sm text-surface-800-200 hover:bg-surface-200-800">Profile</a>
+						<li class="group">
+							<a href="/profile" class="flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800">
+								<Icon name="mdi:account-circle" size={20} className="text-primary-700-300 group-hover:text-primary-600-400" />
+								<span>Profile</span>
+							</a>
 						</li>
-						<li>
-							<button onclick={logoutHandler} class="block w-full text-left px-4 py-2 text-sm text-surface-800-200 hover:bg-surface-200-800">Logout</button>
+						<li class="block md:hidden group">
+							<a href="/settings" class="flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800">
+								<Icon name="mdi:cog" size={20} className="text-primary-700-300 group-hover:text-primary-600-400" />
+								<span>Settings</span>
+							</a>
+						</li>
+						<li class="block md:hidden group">
+							<a href="/notifications" class=" flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800">
+								<Icon name="mdi:bell-notification" size={20} className="text-primary-700-300 group-hover:text-primary-600-400" />
+								<span>Notifications</span>
+							</a>
+						</li>
+						<li class="group">
+							{#if $profile?.role}
+								<button
+									onclick={logoutHandler}
+									class="w-full flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800"
+									aria-label="Logout"
+								>
+									<Icon name="mdi:logout" size={20} className="text-primary-700-300 group-hover:text-primary-600-400" />
+									<span>Logout</span>
+								</button>
+							{:else}
+								<a href="/login" class="flex flex-start items-center gap-2 px-4 py-2 text-sm text-surface-800-200 group-hover:bg-surface-200-800">
+									<Icon name="mdi:login" size={20} className="text-primary-700-300 group-hover:text-primary-600-400" />
+									<span>Login</span>
+								</a>
+							{/if}
 						</li>
 					</ul>
 				</div>
