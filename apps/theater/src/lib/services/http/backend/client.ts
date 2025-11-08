@@ -1,7 +1,7 @@
 import type { RequestEvent } from "@sveltejs/kit";
 import axios from "axios";
 
-import { BACKEND_API_URL } from "$env/static/private";
+import { PUBLIC_BACKEND_API_URL } from "$env/static/public";
 
 function createBackendClient(event: RequestEvent) {
 	const bearerToken = event.request.headers.get("authorization");
@@ -17,7 +17,7 @@ function createBackendClient(event: RequestEvent) {
 	}
 
 	const client = axios.create({
-		baseURL: BACKEND_API_URL,
+		baseURL: PUBLIC_BACKEND_API_URL,
 		withCredentials: true,
 		headers,
 		validateStatus: () => true,
