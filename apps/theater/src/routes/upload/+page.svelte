@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { FileUpload } from "@skeletonlabs/skeleton-svelte";
-	import { Toaster, createToaster } from "@skeletonlabs/skeleton-svelte";
+	import { Toast, createToaster } from "@skeletonlabs/skeleton-svelte";
 	import Icon from "$lib/components/Icon/index.svelte";
 	import proxyClient from "$lib/services/http/proxy/client";
 	import { PROXY_ENDPOINTS } from "$lib/services/http/shared/endpoints";
@@ -119,24 +119,47 @@
 	}
 </script>
 
-<Toaster {toaster} />
+<Toast.Group {toaster}>
+	{#snippet children(toast)}
+		<Toast {toast}>
+			<Toast.Message>
+				<Toast.Title>{toast.title}</Toast.Title>
+				<Toast.Description>{toast.description}</Toast.Description>
+			</Toast.Message>
+			<Toast.CloseTrigger />
+		</Toast>
+	{/snippet}
+</Toast.Group>
 
 <main class="max-w-2xl min-h-screen mx-auto my-12">
-	<section class="bg-surface-800/50 rounded-2xl shadow-md p-6 space-y-6 backdrop-blur-sm">
-		<h1 class="text-xl font-semibold text-primary-400">Upload music</h1>
+	<section class="bg-surface-200/50 dark:bg-surface-800/50 rounded-2xl shadow-md p-6 space-y-8 backdrop-blur-sm">
+		<h1 class="text-xl font-semibold text-primary-600-400">Upload music</h1>
 
-		<FileUpload
-			name="musicFile"
-			accept="audio/*"
-			maxFiles={1}
-			classes="w-full text-primary-200"
-			onFileChange={handleFileSelected}
-			subtext="Supported formats: MP3, WAV, FLAC, ALAC, AAC, OGG, AIFF"
-		/>
+		<FileUpload name="musicFile" accept="audio/*" maxFiles={1} onFileChange={handleFileSelected} subtext="Supported formats: MP3, WAV, FLAC, ALAC, AAC, OGG, AIFF">
+			<FileUpload.Dropzone
+				class="h-32 border border-dashed border-surface-600/50 dark:border-surface-400/50 rounded-lg p-6 cursor-pointer hover:border-primary-600-400 transition-colors"
+			>
+				<p class="text-sm text-surface-600-400 text-center pointer-events-none">Supported formats: MP3, WAV, FLAC, ALAC, AAC, OGG, AIFF</p>
+				<FileUpload.HiddenInput />
+			</FileUpload.Dropzone>
+			<FileUpload.ItemGroup>
+				<FileUpload.Context>
+					{#snippet children(fileUpload)}
+						{#each fileUpload().acceptedFiles as file (file.name)}
+							<FileUpload.Item {...{ file }}>
+								<FileUpload.ItemName>{file.name}</FileUpload.ItemName>
+								<FileUpload.ItemSizeText>{file.size} bytes</FileUpload.ItemSizeText>
+								<FileUpload.ItemDeleteTrigger />
+							</FileUpload.Item>
+						{/each}
+					{/snippet}
+				</FileUpload.Context>
+			</FileUpload.ItemGroup>
+		</FileUpload>
 
 		<button
 			onclick={handleFileSubmit}
-			class="flex items-center justify-center gap-2 bg-gradient-to-r from-surface-800 to-surface-600 text-primary-400 mt-10 px-4 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+			class="flex items-center justify-center gap-2 bg-linear-to-br from-surface-200-800 to-surface-400-600 text-primary-600-400 px-4 py-2 rounded-lg font-medium disabled:opacity-80 disabled:cursor-not-allowed"
 			disabled={uploadStatus !== "idle"}
 		>
 			{#if uploadStatus === "preparing"}
@@ -167,7 +190,7 @@
 		</button>
 
 		{#if message}
-			<p class="text-sm text-primary-300 mt-4 flex items-center gap-2">
+			<p class="text-sm text-primary-700-300 mt-4 flex items-center gap-2">
 				<Icon
 					name={uploadStatus === "success"
 						? "mdi:check-circle"
