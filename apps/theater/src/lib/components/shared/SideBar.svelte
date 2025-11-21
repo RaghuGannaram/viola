@@ -7,7 +7,7 @@
 	let currentPath = $derived(page.url.pathname);
 </script>
 
-<aside class={`hidden md:flex h-auto p-4 border-r border-surface-600/50 ${customClass}`}>
+<aside class={`flex h-auto p-4 border-r border-surface-600/50 ${customClass}`}>
 	<nav class="flex flex-col space-y-4">
 		{#each navigationItems as item}
 			<a href={item.href} class="flex gap-1 py-1 {currentPath === item.href ? 'text-primary-500' : 'text-primary-700-300'} hover:text-primary-500">

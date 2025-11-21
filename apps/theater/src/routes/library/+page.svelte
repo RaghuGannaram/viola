@@ -17,7 +17,7 @@
 
 	onMount(() => {
 		trackSpark
-			.refresh()
+			.hydrate()
 			.then(() => {
 				tracks = $trackSpark;
 				console.log("viola-log: trackSpark store hydrated:", $trackSpark);
@@ -27,7 +27,7 @@
 			});
 
 		albumSpark
-			.refresh()
+			.hydrate()
 			.then(() => {
 				albums = $albumSpark;
 				console.log("viola-log: albumSpark store hydrated:", $albumSpark);
@@ -37,7 +37,7 @@
 			});
 
 		artistSpark
-			.refresh()
+			.hydrate()
 			.then(() => {
 				artists = $artistSpark;
 				console.log("viola-log: artistSpark store hydrated:", $artistSpark);

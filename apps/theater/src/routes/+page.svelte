@@ -9,7 +9,7 @@
 
 	onMount(() => {
 		trackSpark
-			.refresh()
+			.hydrate()
 			.then(() => {
 				console.log("viola-log: trackSpark store hydrated:", $trackSpark);
 			})
